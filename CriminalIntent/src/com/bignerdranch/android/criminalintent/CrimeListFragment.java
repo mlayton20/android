@@ -21,6 +21,8 @@ import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -125,7 +127,7 @@ public class CrimeListFragment extends ListFragment {
 			if (mSubtitleVisible) {
 				getActivity().getActionBar().setSubtitle(R.string.subtitle);
 			}
-		}
+		}		
 		
 		ListView listView = (ListView)v.findViewById(android.R.id.list);
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
