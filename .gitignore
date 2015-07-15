@@ -1,5 +1,2 @@
-*.class
-CriminalIntent/gen/com/bignerdranch/android/criminalintent/R.java
-CriminalIntent/bin/classes.dex
-CriminalIntent/bin/CriminalIntent.apk
-CriminalIntent/bin/resources.ap_
+CriminalIntent/gen/*
+CriminalIntent/bin/*
