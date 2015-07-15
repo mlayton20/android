@@ -1,2 +1,3 @@
-CriminalIntent/gen/*
-CriminalIntent/bin/*
+*.class
+CriminalIntent/gen/
+CriminalIntent/bin/
