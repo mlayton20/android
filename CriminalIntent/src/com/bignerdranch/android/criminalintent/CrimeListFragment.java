@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -17,12 +16,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -135,7 +133,7 @@ public class CrimeListFragment extends ListFragment {
 			registerForContextMenu(listView);
 		} else {
 			//Use contextual action bar on Honeycomb and higher
-			listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+			listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
 			listView.setMultiChoiceModeListener(new MultiChoiceModeListener() {
 				
 				@Override

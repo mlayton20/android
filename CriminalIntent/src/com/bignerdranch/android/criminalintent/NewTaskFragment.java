@@ -1,7 +1,5 @@
 package com.bignerdranch.android.criminalintent;
 
-import com.bignerdranch.android.criminalintent.CrimeFragment.Callbacks;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
