@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
@@ -133,7 +132,7 @@ public class CrimeListFragment extends ListFragment {
 			registerForContextMenu(listView);
 		} else {
 			//Use contextual action bar on Honeycomb and higher
-			listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+			listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 			listView.setMultiChoiceModeListener(new MultiChoiceModeListener() {
 				
 				@Override
