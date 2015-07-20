@@ -215,8 +215,6 @@ public class TaskListFragment extends ListFragment {
 			
 			TextView titleTextView = (TextView)convertView.findViewById(R.id.task_list_item_titleTextView);
 			titleTextView.setText(t.getmTitle());
-			TextView dateTextView = (TextView)convertView.findViewById(R.id.task_list_item_dateTextView);
-			dateTextView.setText(t.getmDate().toString());
 			CheckBox solvedCheckBox = (CheckBox)convertView.findViewById(R.id.task_list_item_completedCheckBox);
 			solvedCheckBox.setChecked(t.isCompleted());
 			
