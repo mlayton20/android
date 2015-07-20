@@ -66,5 +66,11 @@ public class TaskLab {
 		}
 		return null;
 	}
+	
+	public void moveToLast(Task t) {
+		Task tempTask = getTask(t.getmId());
+		this.deleteTask(t);
+		this.addTask(tempTask);
+	}
 
 }

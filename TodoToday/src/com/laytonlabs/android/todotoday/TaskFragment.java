@@ -124,6 +124,7 @@ public class TaskFragment extends Fragment {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				//Set the crime's solved property
 				mTask.setCompleted(isChecked);
+				TaskLab.get(getActivity()).moveToLast(mTask);
 				mCallbacks.onTaskUpdated(mTask);
 			}
 		});
