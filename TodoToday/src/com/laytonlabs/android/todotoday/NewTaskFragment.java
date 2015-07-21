@@ -44,9 +44,9 @@ public class NewTaskFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				if (mTaskField.getText().toString() != "") {
-					Task crime = new Task();
-					crime.setmTitle(mTaskField.getText().toString());
-					TaskLab.get(getActivity()).getTasks().add(crime);
+					Task task = new Task();
+					task.setmTitle(mTaskField.getText().toString());
+					TaskLab.get(getActivity()).addTaskToFirst(task);
 					mTaskField.setText("");
 					mCallbacks.onNewTask();
 				}

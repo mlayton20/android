@@ -40,6 +40,10 @@ public class TaskLab {
 		mTasks.add(t);
 	}
 	
+	public void addTaskToFirst(Task t) {
+		mTasks.add(0, t);
+	}
+	
 	public void deleteTask(Task t) {
 		mTasks.remove(t);
 	}
@@ -67,10 +71,32 @@ public class TaskLab {
 		return null;
 	}
 	
-	public void moveToLast(Task t) {
+	private void moveToLast(Task t) {
 		Task tempTask = getTask(t.getmId());
 		this.deleteTask(t);
 		this.addTask(tempTask);
+	}
+
+	public void move(Task t) {
+		//No need to move. Only 1 item in list 
+		if (mTasks.size() == 1) 
+			return;
+		
+		if (t.isCompleted()) 
+			this.moveToLast(t);
+		else 
+			this.moveToActive(t);
+	}
+
+	private void moveToActive(Task t) {
+		this.deleteTask(t);
+		for (int i = 0; i < mTasks.size(); i++) {
+			if (mTasks.get(i).isCompleted()) {
+				mTasks.add(i, t);
+				return;
+			}
+		}
+		this.addTask(t);
 	}
 
 }

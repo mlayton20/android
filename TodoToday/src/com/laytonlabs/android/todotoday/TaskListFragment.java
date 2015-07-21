@@ -73,10 +73,10 @@ public class TaskListFragment extends ListFragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_item_new_crime:
-				Task crime = new Task();
-				TaskLab.get(getActivity()).addTask(crime);
+				Task task = new Task();
+				TaskLab.get(getActivity()).addTaskToFirst(task);
 				((TaskAdapter)getListAdapter()).notifyDataSetChanged();
-				mCallbacks.onTaskSelected(crime);
+				mCallbacks.onTaskSelected(task);
 				return true;
 			case R.id.menu_item_show_subtitle:
 				if (getActivity().getActionBar().getSubtitle() == null) {
