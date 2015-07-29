@@ -9,13 +9,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:enabled="false"
-        android:focusable="false"
+        android:focusable="false"  
+		android:focusableInTouchMode="false"  
         android:padding="4dp" />
     
     <TextView 
         android:id="@+id/task_list_item_titleTextView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:paddingLeft="4dp"

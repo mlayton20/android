@@ -4,22 +4,20 @@ import java.util.ArrayList;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
@@ -207,20 +205,43 @@ public class TaskListFragment extends ListFragment {
 			super(getActivity(), 0, tasks);
 		}
 		
+		private class ViewHolder {
+			TextView titleTextView;
+			CheckBox completedCheckBox;
+		}
+		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			ViewHolder holder = null;
 			//If we wern't given a view, inflate one
 			if (convertView == null) {
 				convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_task,  null);
+				
+				holder = new ViewHolder();
+				holder.titleTextView = (TextView)convertView.findViewById(R.id.task_list_item_titleTextView);
+				holder.completedCheckBox = (CheckBox)convertView.findViewById(R.id.task_list_item_completedCheckBox);
+				convertView.setTag(holder);
+				
+				holder.completedCheckBox.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						CheckBox cb = (CheckBox) v;
+						Task task = (Task) cb.getTag();
+						task.setCompleted(cb.isChecked());
+						TaskLab.get(getActivity()).move(task);
+						updateUI();
+					}
+				});
+			} else {
+				holder = (ViewHolder) convertView.getTag();
 			}
 			
 			//Configure the view for this Task
 			Task t = getItem(position);
-			
-			TextView titleTextView = (TextView)convertView.findViewById(R.id.task_list_item_titleTextView);
-			titleTextView.setText(t.getmTitle());
-			CheckBox solvedCheckBox = (CheckBox)convertView.findViewById(R.id.task_list_item_completedCheckBox);
-			solvedCheckBox.setChecked(t.isCompleted());
+			holder.titleTextView.setText(t.getmTitle());
+			holder.completedCheckBox.setChecked(t.isCompleted());
+			holder.completedCheckBox.setTag(t);
 			
 			return convertView;
 		}
