@@ -61,6 +61,14 @@ public class TaskListFragment extends ListFragment {
 	}
 	
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		View  emptyView = getActivity().getLayoutInflater().inflate(R.layout.fragment_empty_list, null);
+		((ViewGroup)getListView().getParent()).addView(emptyView);
+		getListView().setEmptyView(emptyView);
+	}
+	
+	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.fragment_crime_list, menu);
@@ -183,7 +191,6 @@ public class TaskListFragment extends ListFragment {
 				}
 			});
 		}
-		
 		
 		return v;
 	}
