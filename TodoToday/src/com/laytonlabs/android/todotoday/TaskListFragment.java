@@ -202,6 +202,12 @@ public class TaskListFragment extends ListFragment {
 	}
 	
 	@Override
+	public void onPause() {
+		super.onPause();
+		TaskLab.get(getActivity()).saveTasks();
+	}
+	
+	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Task t = ((TaskAdapter)getListAdapter()).getItem(position);
 		mCallbacks.onTaskSelected(t);
