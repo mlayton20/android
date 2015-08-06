@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.ActionMode;
@@ -30,6 +31,8 @@ public class TaskListFragment extends ListFragment {
 	private boolean mSubtitleVisible;
 	private Callbacks mCallbacks;
 	private static final String TAG = "TaskListFragment";
+	private static final String DIALOG_SHARE = "share";
+	private static final int REQUEST_SHARE = 0;
 	
 	public interface Callbacks {
 		void onTaskSelected(Task task);
@@ -262,6 +265,16 @@ public class TaskListFragment extends ListFragment {
 	
 	public void updateUI() {
 		((TaskAdapter)getListAdapter()).notifyDataSetChanged();
+		if (TaskLab.get(getActivity()).allTasksCompleted()) {
+			showTasksCompletedDialog();
+		}
+	}
+	
+	public void showTasksCompletedDialog() {
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		TasksCompleteDFragment dialog = new TasksCompleteDFragment();
+		dialog.setTargetFragment(TaskListFragment.this, REQUEST_SHARE);
+		dialog.show(fm, DIALOG_SHARE);
 	}
 
 }

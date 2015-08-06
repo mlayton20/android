@@ -99,4 +99,13 @@ public class TaskLab {
 		this.addTask(t);
 	}
 
+	public boolean allTasksCompleted() {
+		for (Task t : mTasks) {
+			if (!t.isCompleted()) { 
+				return false;
+			}
+		}
+		return true;
+	}
+
 }
