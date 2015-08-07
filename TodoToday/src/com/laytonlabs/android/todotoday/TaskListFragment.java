@@ -28,7 +28,6 @@ import android.widget.TextView;
 
 public class TaskListFragment extends ListFragment {
 	ArrayList<Task> mTasks;
-	private boolean mSubtitleVisible;
 	private Callbacks mCallbacks;
 	private static final String TAG = "TaskListFragment";
 	private static final String DIALOG_SHARE = "share";
@@ -53,14 +52,12 @@ public class TaskListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
 		getActivity().setTitle(R.string.crimes_title);
 		mTasks = TaskLab.get(getActivity()).getTasks();
 		
 		TaskAdapter adapter = new TaskAdapter(mTasks);
 		setListAdapter(adapter);
 		setRetainInstance(true);
-		mSubtitleVisible = false;
 	}
 	
 	@Override
@@ -71,73 +68,10 @@ public class TaskListFragment extends ListFragment {
 		getListView().setEmptyView(emptyView);
 	}
 	
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.fragment_crime_list, menu);
-		MenuItem showSubtitle = menu.findItem(R.id.menu_item_show_subtitle);
-		if (mSubtitleVisible && showSubtitle != null) {
-			showSubtitle.setTitle(R.string.hide_subtitle);
-		}
-	}
-	
-	@TargetApi(11)
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.menu_item_new_crime:
-				Task task = new Task();
-				TaskLab.get(getActivity()).addTaskToFirst(task);
-				((TaskAdapter)getListAdapter()).notifyDataSetChanged();
-				mCallbacks.onTaskSelected(task);
-				return true;
-			case R.id.menu_item_show_subtitle:
-				if (getActivity().getActionBar().getSubtitle() == null) {
-					getActivity().getActionBar().setSubtitle(R.string.subtitle);
-					mSubtitleVisible = true;
-					item.setTitle(R.string.hide_subtitle);
-				} else {
-					getActivity().getActionBar().setSubtitle(null);
-					mSubtitleVisible = false;
-					item.setTitle(R.string.show_subtitle);
-				}
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
-	
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		getActivity().getMenuInflater().inflate(R.menu.crime_list_item_context, menu);
-	}
-	
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
-		int position = info.position;
-		TaskAdapter adapter = (TaskAdapter)getListAdapter();
-		Task task = adapter.getItem(position);
-		
-		switch (item.getItemId()) {
-		case R.id.menu_item_delete_crime:
-			TaskLab.get(getActivity()).deleteTask(task);
-			adapter.notifyDataSetChanged();
-			return true;
-		}
-		return super.onContextItemSelected(item);
-	}
-	
 	@TargetApi(11)
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-		View v = super.onCreateView(inflater, parent, savedInstanceState);
-		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			if (mSubtitleVisible) {
-				getActivity().getActionBar().setSubtitle(R.string.subtitle);
-			}
-		}		
+		View v = super.onCreateView(inflater, parent, savedInstanceState);	
 		
 		ListView listView = (ListView)v.findViewById(android.R.id.list);
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
@@ -265,6 +199,7 @@ public class TaskListFragment extends ListFragment {
 	
 	public void updateUI() {
 		((TaskAdapter)getListAdapter()).notifyDataSetChanged();
+		
 		if (TaskLab.get(getActivity()).allTasksCompleted()) {
 			showTasksCompletedDialog();
 		}

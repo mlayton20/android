@@ -38,15 +38,7 @@ public class TasksCompleteDFragment extends DialogFragment {
 							
 						}
 					})
-			.setNegativeButton(android.R.string.cancel, 
-					new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
-							
-						}
-					})
+			.setNegativeButton(android.R.string.cancel,null)
 			.create();
 	}
 }
