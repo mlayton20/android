@@ -135,7 +135,7 @@ public class TaskListFragment extends ListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		((TaskAdapter)getListAdapter()).notifyDataSetChanged();
+		updateUI();
 	}
 	
 	@Override
