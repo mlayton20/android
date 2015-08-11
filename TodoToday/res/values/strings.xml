@@ -29,4 +29,6 @@
 	<string name="task_new_task_input">Input a task...</string>
 	<string name="task_note_label">Notes</string>
 	<string name="task_note_hint">Enter notes to help you with this task.</string>
+	<string name="task_share_url">http://www.bbc.co.uk</string>
+	<string name="task_share_subject">All tasks completed for today!</string>
 </resources>

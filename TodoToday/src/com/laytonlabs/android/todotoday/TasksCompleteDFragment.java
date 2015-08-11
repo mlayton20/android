@@ -33,6 +33,13 @@ public class TasksCompleteDFragment extends DialogFragment {
 						
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
+							Intent i = new Intent(Intent.ACTION_SEND);
+							i.setType("text/plain");
+							//TODO change the below to point to my play store app when its created
+							i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.task_share_subject));
+							i.putExtra(Intent.EXTRA_TEXT, getString(R.string.task_share_url));
+							startActivity(i);
+							
 							mShareProgress = true;
 							sendResult(Activity.RESULT_OK);
 							
