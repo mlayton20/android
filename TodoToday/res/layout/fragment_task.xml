@@ -17,14 +17,6 @@
         android:layout_height="wrap_content"
         android:hint="@string/task_title_hint" />
     
-    <CheckBox 
-        android:id="@+id/task_completed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:text="@string/task_completed_label" />
-    
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

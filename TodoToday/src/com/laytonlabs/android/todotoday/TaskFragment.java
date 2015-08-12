@@ -11,14 +11,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class TaskFragment extends Fragment {
 	
@@ -26,7 +28,6 @@ public class TaskFragment extends Fragment {
 			"com.laytonlabs.android.todotoday.task_id";
 	private Task mTask;
 	private EditText mTitleField;
-	private CheckBox mSolvedCheckBox;
 	private Callbacks mCallbacks;
 	private EditText mNoteField;
 	
@@ -65,15 +66,33 @@ public class TaskFragment extends Fragment {
 	}
 	
 	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	   inflater.inflate(R.menu.fragment_task, menu);
+	}
+	
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				if (NavUtils.getParentActivityName(getActivity()) != null) {
-					NavUtils.navigateUpFromSameTask(getActivity());
+				navigateToParent();
+				return true;
+			case R.id.menu_item_complete_task:
+				if (!mTask.isCompleted()) {
+					mTask.setCompleted(true);
+					TaskLab.get(getActivity()).move(mTask);
+					Toast.makeText(getActivity(), R.string.task_marked_as_complete, Toast.LENGTH_SHORT).show();
+					mCallbacks.onTaskUpdated(mTask);
 				}
+				navigateToParent();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private void navigateToParent() {
+		if (NavUtils.getParentActivityName(getActivity()) != null) {
+			NavUtils.navigateUpFromSameTask(getActivity());
 		}
 	}
 	
@@ -114,18 +133,6 @@ public class TaskFragment extends Fragment {
 			@Override
 			public void afterTextChanged(Editable c) {
 				//This one too
-			}
-		});
-		
-		mSolvedCheckBox = (CheckBox)v.findViewById(R.id.task_completed);
-		mSolvedCheckBox.setChecked(mTask.isCompleted());
-		mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				//Set the crime's solved property
-				mTask.setCompleted(isChecked);
-				TaskLab.get(getActivity()).move(mTask);
-				mCallbacks.onTaskUpdated(mTask);
 			}
 		});
 		

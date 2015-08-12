@@ -31,4 +31,6 @@
 	<string name="task_note_hint">Enter notes to help you with this task.</string>
 	<string name="task_share_url">http://www.bbc.co.uk</string>
 	<string name="task_share_subject">All tasks completed for today!</string>
+	<string name="complete_task">Complete</string>
+	<string name="task_marked_as_complete">Task Completed</string>
 </resources>
