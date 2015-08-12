@@ -2,35 +2,18 @@
 <resources>
 
     <string name="app_name">TodoToday</string>
-	<string name="title_activity_crime">CrimeActivity</string>
-    <string name="task_title_hint">Enter a title for the crime.</string>
+	<string name="title_activity_task">TaskActivity</string>
 	<string name="task_title_label">Title</string>
-	<string name="crime_details_label">Details</string>
-	<string name="task_completed_label">Solved?</string>
-	<string name="crimes_title">Crimes</string>
-	<string name="date_picker_title">Date of crime:</string>
-	<string name="time_picker_title">Time of crime:</string>
-	<string name="new_crime">New Crime</string>
-	<string name="show_subtitle">Show Subtitle</string>
-	<string name="hide_subtitle">Hide Subtitle</string>
-	<string name="subtitle">If you see something, say something.</string>
-	<string name="delete_crime">Delete</string>
+	<string name="tasks_title">My Tasks</string>
+	<string name="share_label">Nice work! Tell the world your triumph!</string>
+	<string name="delete_task">Delete</string>
 	<string name="empty_list">There are no crimes.</string>
-	<string name="take">Take!</string>
-	<string name="crime_suspect_text">Choose Suspect</string>
-	<string name="crime_report_text">Send Crime Report</string>
-	<string name="crime_report">%1$s! The crime was discovered on %2$s. %3$s, and %4$s</string>
-	<string name="crime_report_solved">The case is solved</string>
-	<string name="crime_report_unsolved">The case is not solved</string>
-	<string name="crime_report_no_suspect">There is no suspect.</string>
-	<string name="crime_report_suspect">The suspect is %s.</string>
-	<string name="crime_report_subject">CriminalIntent Crime Report</string>
-	<string name="send_report">Send crime report via</string>
-	<string name="task_new_task_input">Input a task...</string>
+	<string name="task_new_task_input">Input a task</string>
 	<string name="task_note_label">Notes</string>
 	<string name="task_note_hint">Enter notes to help you with this task.</string>
 	<string name="task_share_url">http://www.bbc.co.uk</string>
 	<string name="task_share_subject">All tasks completed for today!</string>
 	<string name="complete_task">Complete</string>
 	<string name="task_marked_as_complete">Task Completed</string>
+	<string name="share_button">Share</string>
 </resources>

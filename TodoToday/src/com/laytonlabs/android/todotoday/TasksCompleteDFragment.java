@@ -27,8 +27,8 @@ public class TasksCompleteDFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		return new AlertDialog.Builder(getActivity())
-			.setMessage(R.string.date_picker_title)
-			.setPositiveButton(android.R.string.ok, 
+			.setMessage(R.string.share_label)
+			.setPositiveButton(R.string.share_button, 
 					new DialogInterface.OnClickListener() {
 						
 						@Override

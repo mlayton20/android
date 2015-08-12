@@ -52,7 +52,7 @@ public class TaskListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActivity().setTitle(R.string.crimes_title);
+		getActivity().setTitle(R.string.tasks_title);
 		mTasks = TaskLab.get(getActivity()).getTasks();
 		
 		TaskAdapter adapter = new TaskAdapter(mTasks);
@@ -97,7 +97,7 @@ public class TaskListFragment extends ListFragment {
 				@Override
 				public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 					MenuInflater inflater = mode.getMenuInflater();
-					inflater.inflate(R.menu.crime_list_item_context, menu);
+					inflater.inflate(R.menu.task_list_item_context, menu);
 					return true;
 				}
 				

@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-       
+      
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +14,8 @@
         android:id="@+id/task_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/task_title_hint" />
+        android:hint="@string/task_new_task_input"
+        android:singleLine="true" />
     
     <TextView 
         android:layout_width="match_parent"
