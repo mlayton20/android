@@ -21,6 +21,7 @@
 	        android:layout_weight="1"
 	        android:hint="@string/task_new_task_input"
 	        android:singleLine="true"
+	        android:inputType="textCapSentences|textAutoCorrect"
 	        android:nextFocusUp="@id/task_new_task_input" 
 	        android:nextFocusLeft="@id/task_new_task_input" />
 	    
