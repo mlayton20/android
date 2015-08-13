@@ -100,6 +100,9 @@ public class TaskLab {
 	}
 
 	public boolean allTasksCompleted() {
+		if (mTasks.isEmpty())
+			return false;
+		
 		for (Task t : mTasks) {
 			if (!t.isCompleted()) { 
 				return false;
