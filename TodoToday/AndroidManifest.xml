@@ -30,11 +30,6 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".TaskListActivity" />
         </activity>
-        <activity
-            android:name="com.laytonlabs.android.todotoday.CrimeCameraActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/app_name" >
-        </activity>
     </application>
 
 </manifest>
