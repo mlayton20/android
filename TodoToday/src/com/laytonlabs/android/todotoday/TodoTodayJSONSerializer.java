@@ -26,10 +26,10 @@ public class TodoTodayJSONSerializer {
 		mFilename = f;
 	}
 	
-	public void saveTasks(ArrayList<Task> crimes) throws JSONException, IOException {
+	public void saveTasks(ArrayList<Task> tasks) throws JSONException, IOException {
 		//Build an array in JSON
 		JSONArray array = new JSONArray();
-		for (Task c : crimes)
+		for (Task c : tasks)
 			array.put(c.toJSON());
 		
 		//Write the file to disk

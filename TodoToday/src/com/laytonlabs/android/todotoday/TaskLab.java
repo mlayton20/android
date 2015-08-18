@@ -1,6 +1,8 @@
 package com.laytonlabs.android.todotoday;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import android.content.Context;
@@ -33,9 +35,36 @@ public class TaskLab {
 		if (sTaskLab == null) {
 			sTaskLab = new TaskLab(c.getApplicationContext());
 		}
+		if (isNewDay(sTaskLab.mTasks)) {
+			sTaskLab.mTasks = new ArrayList<Task>();
+		}
 		return sTaskLab;
 	}
 	
+	private static boolean isNewDay(ArrayList<Task> tasks) {
+		if (tasks.isEmpty()) {
+			return false;
+		}
+		
+		Calendar c = Calendar.getInstance();
+
+		// set the calendar to start of today
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+
+		// and get that as a Date
+		Date today = c.getTime();
+		
+		for (Task t : tasks) {
+			if (t.getmDate().before(today)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void addTask(Task t) {
 		mTasks.add(t);
 	}
