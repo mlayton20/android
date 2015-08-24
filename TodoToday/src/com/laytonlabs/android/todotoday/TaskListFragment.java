@@ -1,17 +1,18 @@
 package com.laytonlabs.android.todotoday;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Calendar;
+import java.util.Date;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.ActionMode;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +21,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView.MultiChoiceModeListener;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -32,6 +32,15 @@ public class TaskListFragment extends ListFragment {
 	private static final String TAG = "TaskListFragment";
 	private static final String DIALOG_SHARE = "share";
 	private static final int REQUEST_SHARE = 0;
+	TextView emptyText;
+	Handler handler = new Handler();
+	Runnable timedTask = new Runnable(){
+
+	    @Override
+	    public void run() {
+	    	refreshEmptyView();
+	        handler.postDelayed(timedTask, 1000);
+	    }};
 	
 	public interface Callbacks {
 		void onTaskSelected(Task task);
@@ -63,7 +72,10 @@ public class TaskListFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		View  emptyView = getActivity().getLayoutInflater().inflate(R.layout.fragment_empty_list, null);
+		View emptyView = getActivity().getLayoutInflater().inflate(R.layout.fragment_empty_list, null);
+		emptyText = (TextView)emptyView.findViewById(R.id.empty_text);
+		refreshEmptyView();
+		handler.post(timedTask);
 		((ViewGroup)getListView().getParent()).addView(emptyView);
 		getListView().setEmptyView(emptyView);
 	}
@@ -210,6 +222,29 @@ public class TaskListFragment extends ListFragment {
 		TasksCompleteDFragment dialog = new TasksCompleteDFragment();
 		dialog.setTargetFragment(TaskListFragment.this, REQUEST_SHARE);
 		dialog.show(fm, DIALOG_SHARE);
+	}
+	
+	private void refreshEmptyView() {
+		Calendar tomorrow = Calendar.getInstance();
+
+		// set the calendar to start of tomorrow
+		tomorrow.add(Calendar.DATE, 1);
+		tomorrow.set(Calendar.HOUR_OF_DAY, 0);
+		tomorrow.set(Calendar.MINUTE, 0);
+		tomorrow.set(Calendar.SECOND, 0);
+		tomorrow.set(Calendar.MILLISECOND, 0);
+		
+		Calendar now = Calendar.getInstance();
+		
+		long difference = tomorrow.getTimeInMillis() - now.getTimeInMillis();
+		
+		Date timeLeft = new Date(difference);
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+		String dateFormatted = formatter.format(timeLeft);
+		
+		String result = dateFormatted;
+		
+		emptyText.setText(result);
 	}
 
 }

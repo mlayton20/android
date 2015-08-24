@@ -28,7 +28,7 @@
         android:id="@+id/task_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textCapSentences|textAutoCorrect"
+        android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
         android:hint="@string/task_note_hint" />
 
 </LinearLayout>
