@@ -66,6 +66,11 @@ public class TaskFragment extends Fragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 	   inflater.inflate(R.menu.fragment_task, menu);
+	   if (mTask.isCompleted()) {
+		   MenuItem completeItem = menu.findItem(R.id.menu_item_complete_task);
+		   completeItem.setVisible(false);
+		   completeItem.setEnabled(false);
+	   }
 	}
 	
 	@Override
