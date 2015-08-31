@@ -18,4 +18,5 @@
 	<string name="task_marked_as_complete">Task Completed</string>
 	<string name="share_button">Share</string>
 	<string name="empty_task_text">Time for more tasks?</string>
+	<string name="tasklist_banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

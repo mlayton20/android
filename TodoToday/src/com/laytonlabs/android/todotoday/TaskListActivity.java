@@ -1,5 +1,8 @@
 package com.laytonlabs.android.todotoday;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +17,10 @@ public class TaskListActivity extends FragmentActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fragment);
+		
+		AdView mAdView = (AdView)findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 		
 		FragmentManager fm = getSupportFragmentManager(); 
 		FragmentTransaction t = fm.beginTransaction();
