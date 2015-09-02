@@ -4,14 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,7 +32,9 @@ public class TaskListFragment extends ListFragment {
 	private Callbacks mCallbacks;
 	private static final String TAG = "TaskListFragment";
 	private static final String DIALOG_SHARE = "share";
+	private static final String DIALOG_CONFIRM_DELETE = "confirm_delete";
 	private static final int REQUEST_SHARE = 0;
+	private static final int REQUEST_CONFIRM_DELETE = 1;
 	TextView emptyText;
 	Handler handler = new Handler();
 	Runnable timedTask = new Runnable(){
@@ -67,6 +70,26 @@ public class TaskListFragment extends ListFragment {
 		TaskAdapter adapter = new TaskAdapter(mTasks);
 		setListAdapter(adapter);
 		setRetainInstance(true);
+		setHasOptionsMenu(true);
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	   inflater.inflate(R.menu.fragment_task_list, menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_item_delete_all_tasks:
+				TaskLab tasks = TaskLab.get(getActivity());
+				if (!tasks.getTasks().isEmpty()) {
+					showComfirmDeleteTasksDialog();					
+				}
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	@Override
@@ -78,6 +101,17 @@ public class TaskListFragment extends ListFragment {
 		handler.post(timedTask);
 		((ViewGroup)getListView().getParent()).addView(emptyView);
 		getListView().setEmptyView(emptyView);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode != Activity.RESULT_OK) 
+			return;
+		
+		if (requestCode == REQUEST_CONFIRM_DELETE) {
+			TaskLab.get(getActivity()).deleteAllTasks();
+			updateUI();
+		}
 	}
 	
 	@TargetApi(11)
@@ -222,6 +256,13 @@ public class TaskListFragment extends ListFragment {
 		TasksCompleteDFragment dialog = new TasksCompleteDFragment();
 		dialog.setTargetFragment(TaskListFragment.this, REQUEST_SHARE);
 		dialog.show(fm, DIALOG_SHARE);
+	}
+	
+	public void showComfirmDeleteTasksDialog() {
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		ConfirmDeleteTasksDFragment dialog = new ConfirmDeleteTasksDFragment();
+		dialog.setTargetFragment(TaskListFragment.this, REQUEST_CONFIRM_DELETE);
+		dialog.show(fm, DIALOG_CONFIRM_DELETE);
 	}
 	
 	private void refreshEmptyView() {

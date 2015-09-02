@@ -140,4 +140,8 @@ public class TaskLab {
 		return true;
 	}
 
+	public void deleteAllTasks() {
+		mTasks.clear();		
+	}
+
 }
