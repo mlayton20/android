@@ -32,20 +32,6 @@ public class TodoTodayJSONSerializer {
 		for (Task c : tasks)
 			array.put(c.toJSON());
 		
-		saveJSON(array);
-	}
-	
-	/*public void saveSettings(ArrayList<Setting> settings) throws JSONException, IOException {
-		//Build an array in JSON
-		JSONArray array = new JSONArray();
-		for (Setting c : settings)
-			array.put(c.toJSON());
-		
-		saveJSON(array);
-	}*/
-
-	private void saveJSON(JSONArray array) throws FileNotFoundException,
-			IOException {
 		//Write the file to disk
 		Writer writer = null;
 		try {
@@ -60,18 +46,6 @@ public class TodoTodayJSONSerializer {
 	
 	public ArrayList<Task> loadTasks() throws IOException, JSONException {
 		ArrayList<Task> tasks = new ArrayList<Task>();
-		JSONArray array = loadJSON();
-		
-		//Build the array of crimes from JSONObjects
-		for (int i = 0; i < array.length(); i++) {
-			tasks.add(new Task(array.getJSONObject(i)));
-		}
-		
-		return tasks;
-	}
-
-	private JSONArray loadJSON() throws IOException, JSONException {
-		JSONArray array = new JSONArray();
 		BufferedReader reader = null;
 		try {
 			//Open and read the file into a StringBuilder
@@ -84,13 +58,18 @@ public class TodoTodayJSONSerializer {
 				jsonString.append(line);
 			}
 			//Parse the JSON using JSONTokener
-			array = (JSONArray) new JSONTokener(jsonString.toString()).nextValue();
+			JSONArray array = (JSONArray) new JSONTokener(jsonString.toString()).nextValue();
+			//Build the array of crimes from JSONObjects
+			for (int i = 0; i < array.length(); i++) {
+				tasks.add(new Task(array.getJSONObject(i)));
+			}
 		} catch (FileNotFoundException e) {
 			//Ignore this one; it happens when starting fresh
 		} finally {
 			if (reader != null)
 				reader.close();
 		}
-		return array;
+		
+		return tasks;
 	}
 }
