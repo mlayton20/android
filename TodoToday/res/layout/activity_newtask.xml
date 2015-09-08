@@ -24,6 +24,14 @@
 	        android:inputType="textCapSentences|textAutoCorrect"
 	        android:nextFocusUp="@id/task_new_task_input" 
 	        android:nextFocusLeft="@id/task_new_task_input" />
+		    
+		<!-- <Button
+	        android:id="@+id/task_clear_text_button"      
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="10dp"
+	        android:layout_gravity="right|center_vertical"
+	        android:background="@drawable/ic_clear_black_18dp" />  -->
 	    
 	    <ImageButton 
 	        android:id="@+id/task_new_task_button"
