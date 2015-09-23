@@ -35,7 +35,11 @@ public class TaskLab {
 		if (sTaskLab == null) {
 			sTaskLab = new TaskLab(c.getApplicationContext());
 		}
-		if (isNewDay(sTaskLab.mTasks)) {
+		
+		if (SettingLab.get(c.getApplicationContext())
+				.getSetting(SettingLab.DELETE_ON_NEW_DAY)
+				.equals(SettingLab.ENABLED) && 
+				isNewDay(sTaskLab.mTasks)) {
 			sTaskLab.mTasks = new ArrayList<Task>();
 		}
 		return sTaskLab;

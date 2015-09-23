@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TodoToday</string>
+    <string name="app_name">Todo Today</string>
 	<string name="title_activity_task">TaskActivity</string>
 	<string name="task_title_label">Title</string>
 	<string name="tasks_title">My Tasks</string>
 	<string name="share_label">Nice work! Tell the world your triumph!</string>
 	<string name="delete_text">Delete</string>
-	<string name="empty_list">There are no crimes.</string>
+	<string name="empty_list">There are no tasks.</string>
 	<string name="task_new_task_input">Input a task</string>
 	<string name="task_note_label">Notes</string>
 	<string name="task_note_hint">Enter notes to help you with this task.</string>

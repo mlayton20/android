@@ -34,6 +34,15 @@ public class TodoTodayJSONSerializer {
 		
 		writeJSON(array);
 	}
+	
+	public void saveSettings(ArrayList<Setting> settings) throws JSONException, IOException {
+		//Build an array in JSON
+		JSONArray array = new JSONArray();
+		for (Setting c : settings)
+			array.put(c.toJSON());
+		
+		writeJSON(array);
+	}
 
 	private void writeJSON(JSONArray array) throws FileNotFoundException,
 			IOException {
@@ -59,6 +68,18 @@ public class TodoTodayJSONSerializer {
 		}
 		
 		return tasks;
+	}
+	
+	public ArrayList<Setting> loadSettings() throws IOException, JSONException {
+		ArrayList<Setting> settings = new ArrayList<Setting>();
+		JSONArray array = readJSON();
+		
+		//Build the array of crimes from JSONObjects
+		for (int i = 0; i < array.length(); i++) {
+			settings.add(new Setting(array.getJSONObject(i)));
+		}
+		
+		return settings;
 	}
 
 	private JSONArray readJSON() throws IOException, JSONException {
