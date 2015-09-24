@@ -1,14 +1,14 @@
 package com.laytonlabs.android.todotoday;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class TaskListActivity extends FragmentActivity 
 	implements TaskListFragment.Callbacks, TaskFragment.Callbacks, NewTaskFragment.Callbacks {
@@ -79,6 +79,12 @@ public class TaskListActivity extends FragmentActivity
 	@Override
 	public void onNewTask() {
 		updateListContents();
+	}
+
+	@Override
+	public void onSettingsSelected() {
+		Intent i = new Intent(TaskListActivity.this, SettingActivity.class);
+    	startActivityForResult(i, 0);
 	}
 
 }

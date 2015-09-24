@@ -48,6 +48,7 @@ public class SettingLab {
 
 	public void addSetting(Setting s) {
 		mSettings.add(s);
+		saveSettings();
 	}
 	
 	public boolean saveSettings() {
@@ -71,5 +72,14 @@ public class SettingLab {
 				return s.getValue();
 		}
 		return null;
+	}
+
+	public void setSetting(String key, String value) {
+		for (Setting s : mSettings) {
+			if (s.getKey().equals(key)) {
+				s.setValue(value);
+				saveSettings();
+			}
+		}
 	}
 }

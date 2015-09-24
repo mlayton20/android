@@ -21,4 +21,6 @@
 	<string name="tasklist_banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 	<string name="delete_all_tasks">Delete All</string>
 	<string name="delete_all_tasks_warning">All tasks will be deleted?</string>
+	<string name="setting_delete_tasks_new_day">Delete tasks on new day</string>
+	<string name="settings">Settings</string>
 </resources>

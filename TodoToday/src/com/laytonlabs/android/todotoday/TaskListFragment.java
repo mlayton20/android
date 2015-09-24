@@ -47,6 +47,7 @@ public class TaskListFragment extends ListFragment {
 	
 	public interface Callbacks {
 		void onTaskSelected(Task task);
+		void onSettingsSelected();
 	}
 	
 	@Override
@@ -87,6 +88,8 @@ public class TaskListFragment extends ListFragment {
 					showComfirmDeleteTasksDialog();					
 				}
 				return true;
+			case R.id.menu_item_settings:
+				mCallbacks.onSettingsSelected();
 			default:
 				return super.onOptionsItemSelected(item);
 		}
