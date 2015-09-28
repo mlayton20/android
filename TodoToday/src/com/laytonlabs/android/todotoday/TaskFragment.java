@@ -2,6 +2,9 @@ package com.laytonlabs.android.todotoday;
 
 import java.util.UUID;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -115,6 +118,10 @@ public class TaskFragment extends Fragment {
 				getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 			}
 		}
+		
+		AdView mAdView = (AdView)v.findViewById(R.id.taskFragmentAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 		
 		mTitleField = (EditText)v.findViewById(R.id.task_title);
 		mTitleField.setText(mTask.getmTitle());

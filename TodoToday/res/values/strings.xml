@@ -11,16 +11,27 @@
 	<string name="task_new_task_input">Input a task</string>
 	<string name="task_note_label">Notes</string>
 	<string name="task_note_hint">Enter notes to help you with this task.</string>
-	<!-- TODO Change the below to point to Google Play URL of my app. -->
-	<string name="task_share_url">http://www.bbc.co.uk</string>
+	<string name="task_share_url">https://goo.gl/aUXIM4</string>
 	<string name="task_share_subject">All tasks completed for today!</string>
 	<string name="complete_task">Complete</string>
 	<string name="task_marked_as_complete">Task Completed</string>
 	<string name="share_button">Share</string>
 	<string name="empty_task_text">Time for more tasks?</string>
-	<string name="tasklist_banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 	<string name="delete_all_tasks">Delete All</string>
 	<string name="delete_all_tasks_warning">All tasks will be deleted?</string>
 	<string name="setting_delete_tasks_new_day">Delete tasks on new day</string>
 	<string name="settings">Settings</string>
+	
+	<!-- Test Ad IDs -->
+	<!-- 
+	<string name="tasklist_banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+	<string name="taskfragment_banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+	 --> 
+	<!-- Test Ad IDs -->
+	
+	<!-- LIVE Ad IDs -->
+	<string name="tasklist_banner_ad_unit_id">ca-app-pub-4295275881144000/5559766572</string>
+	<string name="taskfragment_banner_ad_unit_id">ca-app-pub-4295275881144000/7036499774</string>
+	<!-- LIVE Ad IDs -->
+	
 </resources>

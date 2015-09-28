@@ -18,7 +18,7 @@ public class TaskListActivity extends FragmentActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fragment);
 		
-		AdView mAdView = (AdView)findViewById(R.id.adView);
+		AdView mAdView = (AdView)findViewById(R.id.taskListAdView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 		
