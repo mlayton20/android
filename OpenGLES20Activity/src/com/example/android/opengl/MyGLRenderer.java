@@ -57,7 +57,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         mTriangle = new Triangle();
         mSquare   = new Square();
         mHexagon  = new Hexagon();
-        mNumOne   = new NumOne();
+        mNumOne   = new NumOne(0.5f);
     }
 
     @Override

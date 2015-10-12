@@ -52,6 +52,8 @@ public class NumOne {
     private int mPositionHandle;
     private int mColorHandle;
     private int mMVPMatrixHandle;
+    
+    private final float SCALE;
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
@@ -79,7 +81,12 @@ public class NumOne {
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public NumOne() {
+    public NumOne(float scale) {
+    	this.SCALE = scale;
+    	
+    	//Resize based on the scale
+    	adjustSize(scale);
+    	
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
         // (# of coordinate values * 4 bytes per float)
@@ -112,7 +119,13 @@ public class NumOne {
         GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
     }
 
-    /**
+    private void adjustSize(float scale) {
+		for (int i = 0; i < oneCoords.length; i++) {
+			oneCoords[i] *= scale;
+		}
+	}
+
+	/**
      * Encapsulates the OpenGL ES instructions for drawing this shape.
      *
      * @param mvpMatrix - The Model View Project matrix in which to draw
