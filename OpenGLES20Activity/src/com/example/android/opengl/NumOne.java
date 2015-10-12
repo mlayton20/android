@@ -57,7 +57,7 @@ public class NumOne {
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
-    static float oneCoords[] = {
+    static float originalCoords[] = {
         -0.05f,  0.5f,  0.0f,   //0 
         -0.1f,   0.45f, 0.0f,   //1
         -0.05f,  0.45f, 0.0f,   //2
@@ -70,6 +70,7 @@ public class NumOne {
         -0.1f,  -0.5f,  0.0f,   //9
          0.1f,  -0.5f,  0.0f,   //10
          0.1f,  -0.4f,  0.0f }; //11
+    static float shapeCoords[] = new float[originalCoords.length];
 
     private final short drawOrder[] = { 0,1,2,1,3,2,2,3,4,0,5,7,7,5,6,8,9,11,11,9,10 }; // order to draw vertices
 
@@ -90,10 +91,10 @@ public class NumOne {
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
         // (# of coordinate values * 4 bytes per float)
-                oneCoords.length * 4);
+                shapeCoords.length * 4);
         bb.order(ByteOrder.nativeOrder());
         vertexBuffer = bb.asFloatBuffer();
-        vertexBuffer.put(oneCoords);
+        vertexBuffer.put(shapeCoords);
         vertexBuffer.position(0);
 
         // initialize byte buffer for the draw list
@@ -120,8 +121,8 @@ public class NumOne {
     }
 
     private void adjustSize(float scale) {
-		for (int i = 0; i < oneCoords.length; i++) {
-			oneCoords[i] *= scale;
+		for (int i = 0; i < shapeCoords.length; i++) {
+			shapeCoords[i] = originalCoords[i] * scale;
 		}
 	}
 

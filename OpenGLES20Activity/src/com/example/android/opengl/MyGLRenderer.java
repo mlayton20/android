@@ -56,8 +56,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         mTriangle = new Triangle();
         mSquare   = new Square();
-        mHexagon  = new Hexagon();
-        mNumOne   = new NumOne(0.5f);
+        mHexagon  = new Hexagon(0.35f);
+        mNumOne   = new NumOne(0.2f);
     }
 
     @Override
@@ -105,6 +105,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Adjust the viewport based on geometry changes,
         // such as screen rotation
         GLES20.glViewport(0, 0, width, height);
+        
+        //Log.d("MyGLRenderer", "Width: " + width + " Height: " + height);
 
         float ratio = (float) width / height;
 

@@ -52,16 +52,18 @@ public class Hexagon {
     private int mPositionHandle;
     private int mColorHandle;
     private int mMVPMatrixHandle;
+    private final float SCALE;
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
-    static float hexagonCoords[] = {
+    static float originalCoords[] = {
              0.0f,   0.5f, 0.0f,   // top
-            -0.5f,  0.25f, 0.0f,   // top left
-            -0.5f, -0.25f, 0.0f,   // bottom left
+            -0.5f,  0.2f, 0.0f,   // top left
+            -0.5f, -0.2f, 0.0f,   // bottom left
              0.0f,  -0.5f, 0.0f,   // bottom
-             0.5f, -0.25f, 0.0f,   // bottom right
-             0.5f,  0.25f, 0.0f }; // top right
+             0.5f, -0.2f, 0.0f,   // bottom right
+             0.5f,  0.2f, 0.0f }; // top right
+    static float shapeCoords[] = new float[originalCoords.length];
 
     private final short drawOrder[] = { 0, 1, 5, 1, 4, 5, 1, 2, 4, 2, 3, 4 }; // order to draw vertices
 
@@ -73,14 +75,19 @@ public class Hexagon {
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public Hexagon() {
+    public Hexagon(float scale) {
+    	this.SCALE = scale;
+    	
+    	//Resize based on the scale
+    	adjustSize(scale);
+    	
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
         // (# of coordinate values * 4 bytes per float)
-                hexagonCoords.length * 4);
+                shapeCoords.length * 4);
         bb.order(ByteOrder.nativeOrder());
         vertexBuffer = bb.asFloatBuffer();
-        vertexBuffer.put(hexagonCoords);
+        vertexBuffer.put(shapeCoords);
         vertexBuffer.position(0);
 
         // initialize byte buffer for the draw list
@@ -105,6 +112,12 @@ public class Hexagon {
         GLES20.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
         GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
     }
+    
+    private void adjustSize(float scale) {
+		for (int i = 0; i < shapeCoords.length; i++) {
+			shapeCoords[i] = originalCoords[i] * scale;
+		}
+	}
 
     /**
      * Encapsulates the OpenGL ES instructions for drawing this shape.
