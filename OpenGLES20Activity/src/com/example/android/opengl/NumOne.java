@@ -58,18 +58,18 @@ public class NumOne {
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
     static float originalCoords[] = {
-        -0.05f,  0.5f,  0.0f,   //0 
-        -0.1f,   0.45f, 0.0f,   //1
-        -0.05f,  0.45f, 0.0f,   //2
-        -0.1f,   0.4f,  0.0f,   //3
-        -0.05f,  0.4f,  0.0f,   //4
-        -0.05f, -0.4f,  0.0f,   //5
-         0.05f, -0.4f,  0.0f,   //6
-         0.05f,  0.5f,  0.0f,   //7
-        -0.1f,  -0.4f,  0.0f,   //8
-        -0.1f,  -0.5f,  0.0f,   //9
-         0.1f,  -0.5f,  0.0f,   //10
-         0.1f,  -0.4f,  0.0f }; //11
+        -0.075f,  0.5f,  0.0f,   //0 
+        -0.125f,   0.425f, 0.0f,   //1
+        -0.075f,  0.425f, 0.0f,   //2
+        -0.125f,   0.375f,  0.0f,   //3
+        -0.075f,  0.375f,  0.0f,   //4
+        -0.075f, -0.375f,  0.0f,   //5
+         0.075f, -0.375f,  0.0f,   //6
+         0.075f,  0.5f,  0.0f,   //7
+        -0.125f,  -0.375f,  0.0f,   //8
+        -0.125f,  -0.5f,  0.0f,   //9
+         0.125f,  -0.5f,  0.0f,   //10
+         0.125f,  -0.375f,  0.0f }; //11
     static float shapeCoords[] = new float[originalCoords.length];
 
     private final short drawOrder[] = { 0,1,2,1,3,2,2,3,4,0,5,7,7,5,6,8,9,11,11,9,10 }; // order to draw vertices
