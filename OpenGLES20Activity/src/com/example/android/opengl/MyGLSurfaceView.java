@@ -54,31 +54,22 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
         float x = e.getX();
         float y = e.getY();
+        float dy;
 
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
 
-                float dx = x - mPreviousX;
-                float dy = y - mPreviousY;
-
-                // reverse direction of rotation above the mid-line
                 if (y > getHeight() / 2) {
-                    dx = dx * -1 ;
+                	//Move shapes down
+                    dy = mRenderer.getAngle() + 0.005f;
+                } else {
+                	//Move shape down
+                	dy = mRenderer.getAngle() - 0.005f;
                 }
 
-                // reverse direction of rotation to left of the mid-line
-                if (x < getWidth() / 2) {
-                    dy = dy * -1 ;
-                }
-
-                mRenderer.setAngle(
-                        mRenderer.getAngle() +
-                        ((dx + dy) * TOUCH_SCALE_FACTOR));  // = 180.0f / 320
+                mRenderer.setAngle(dy);
                 requestRender();
         }
-
-        mPreviousX = x;
-        mPreviousY = y;
         return true;
     }
 
