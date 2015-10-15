@@ -39,6 +39,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private Square   mSquare;
     private Hexagon  mHexagon;
     private NumOne   mNumOne;
+    private NumTwo   mNumTwo;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -59,7 +60,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         mTriangle = new Triangle();
         mSquare   = new Square();
         mHexagon  = new Hexagon(0.35f);
-        mNumOne   = new NumOne(0.2f);
+        //mNumOne   = new NumOne(0.2f);
+        mNumTwo   = new NumTwo(0.2f);
     }
 
     @Override
@@ -102,7 +104,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         mHexagon.draw(mMVPMatrix);
         
         //Draw NumOne
-        mNumOne.draw(mMVPMatrix);
+        //mNumOne.draw(mMVPMatrix);
+        
+        //Draw NumTwo
+        mNumTwo.draw(mMVPMatrix);
     }
 
     @Override
