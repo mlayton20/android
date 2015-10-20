@@ -19,13 +19,18 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.Arrays;
 
 import android.opengl.GLES20;
+import android.opengl.Matrix;
+import android.util.Log;
 
 /**
  * A two-dimensional square for use as a drawn object in OpenGL ES 2.0.
  */
 public class NumTwo {
+	
+	private final String TAG = "NumTwo";
 
     private final String vertexShaderCode =
             // This matrix member variable provides a hook to manipulate
@@ -54,6 +59,7 @@ public class NumTwo {
     private int mMVPMatrixHandle;
     
     private final float SCALE;
+    private final float CENTRE;
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
@@ -88,7 +94,7 @@ public class NumTwo {
          0.15f,  -0.275f, 0.0f,   //27
          0.15f,  -0.35f,  0.0f,   //28
          0.3f,   -0.275f, 0.0f }; //29
-    static float shapeCoords[] = new float[originalCoords.length];
+    static float[] shapeCoords = originalCoords.clone();
 
     private final short drawOrder[] = { 0,1,3,3,1,2,0,4,7,4,5,9,9,5,6,3,8,13,10,11,13,13,11,12,18,16,12,14,15,17,17,15,16,14,20,19,20,21,23,23,21,22,21,24,26,26,24,25,27,28,29,29,28,26 }; // order to draw vertices
 
@@ -100,11 +106,13 @@ public class NumTwo {
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public NumTwo(float scale) {
+    public NumTwo(float scale, float centre) {
     	this.SCALE = scale;
+    	this.CENTRE = centre;
     	
+    	adjustShape(scale, centre);
     	//Resize based on the scale
-    	adjustSize(scale);
+    	//adjustSize(scale);
     	
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
@@ -138,9 +146,10 @@ public class NumTwo {
         GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
     }
 
-    private void adjustSize(float scale) {
-		for (int i = 0; i < shapeCoords.length; i++) {
-			shapeCoords[i] = originalCoords[i] * scale;
+    //Adjust the original scale of the shape and position
+    private void adjustShape(float scale, float centre) {
+    	for (int i = 0; i < shapeCoords.length; i++) {
+    		shapeCoords[i] = (originalCoords[i] * scale) + (i % 3 == 0 ? centre * scale : 0);
 		}
 	}
 

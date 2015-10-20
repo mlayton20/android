@@ -40,6 +40,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private Hexagon  mHexagon;
     private NumOne   mNumOne;
     private NumTwo   mNumTwo;
+    private NumTwo   mNumTwoR;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -60,13 +61,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         mTriangle = new Triangle();
         mSquare   = new Square();
         mHexagon  = new Hexagon(0.35f);
-        //mNumOne   = new NumOne(0.2f);
-        mNumTwo   = new NumTwo(0.2f);
+        //mNumOne   = new NumOne(0.15f, 0.35f);
+        mNumTwo   = new NumTwo(0.15f, 0.35f);
+        mNumTwoR  = new NumTwo(0.15f, -0.35f);
     }
 
     @Override
     public void onDrawFrame(GL10 unused) {
-        float[] scratch = new float[16];
         
         Matrix.setIdentityM(mModelMatrix, 0); // initialize to identity matrix
 
@@ -108,6 +109,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         
         //Draw NumTwo
         mNumTwo.draw(mMVPMatrix);
+        //Draw NumTwo
+        mNumTwoR.draw(mMVPMatrix);
     }
 
     @Override

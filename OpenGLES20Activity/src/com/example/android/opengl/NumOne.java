@@ -54,6 +54,7 @@ public class NumOne {
     private int mMVPMatrixHandle;
     
     private final float SCALE;
+    private final float CENTRE;
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
@@ -70,7 +71,7 @@ public class NumOne {
         -0.125f,  -0.5f,  0.0f,   //9
          0.125f,  -0.5f,  0.0f,   //10
          0.125f,  -0.375f,  0.0f }; //11
-    static float shapeCoords[] = new float[originalCoords.length];
+    static float[] shapeCoords = originalCoords.clone();
 
     private final short drawOrder[] = { 0,1,2,1,3,2,2,3,4,0,5,7,7,5,6,8,9,11,11,9,10 }; // order to draw vertices
 
@@ -82,11 +83,11 @@ public class NumOne {
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public NumOne(float scale) {
+    public NumOne(float scale, float centre) {
     	this.SCALE = scale;
+    	this.CENTRE = centre;
     	
-    	//Resize based on the scale
-    	adjustSize(scale);
+    	adjustShape(scale, centre);
     	
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
@@ -120,9 +121,9 @@ public class NumOne {
         GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
     }
 
-    private void adjustSize(float scale) {
-		for (int i = 0; i < shapeCoords.length; i++) {
-			shapeCoords[i] = originalCoords[i] * scale;
+    private void adjustShape(float scale, float centre) {
+    	for (int i = 0; i < shapeCoords.length; i++) {
+    		shapeCoords[i] = (originalCoords[i] * scale) + (i % 3 == 0 ? centre * scale : 0);
 		}
 	}
 
