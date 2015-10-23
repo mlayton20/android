@@ -15,6 +15,8 @@
  */
 package com.example.android.opengl;
 
+import java.util.ArrayList;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -35,19 +37,13 @@ import android.util.Log;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
-    private Triangle mTriangle;
     private Square   mSquare;
-    private Hexagon  mHexagon;
-    private NumOne   mNumOne;
-    private NumTwo   mNumTwo;
-    private NumTwo   mNumTwoR;
-    private OperatorPlus mOperatorPlus;
+    private ArrayList<Shape> shapes;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
-    private final float[] mRotationMatrix = new float[16];
     private final float[] mModelMatrix = new float[16];
     private float[] mTempMatrix = new float[16];
 
@@ -58,14 +54,15 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-        mTriangle = new Triangle();
-        mSquare   = new Square();
-        mHexagon  = new Hexagon(0.35f, 0);
-        mNumOne   = new NumOne(0.125f, -0.05f);
-        mNumTwo   = new NumTwo(0.125f, 0.65f);
-        mNumTwoR  = new NumTwo(0.125f, -0.05f);
-        mOperatorPlus = new OperatorPlus(0.125f, -0.75f);
+        
+        mSquare = new Square();
+        
+        shapes = new ArrayList<Shape>();
+        shapes.add(new Hexagon(0.35f, 0));
+        //shapes.add(new NumOne(0.125f, -0.05f));
+        shapes.add(new NumTwo(0.125f, 0.65f));
+        shapes.add(new NumTwo(0.125f, -0.05f));
+        shapes.add(new OperatorPlus(0.125f, -0.75f));
     }
 
     @Override
@@ -103,19 +100,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         mTempMatrix = mMVPMatrix.clone();
         Matrix.multiplyMM(mMVPMatrix, 0, mTempMatrix, 0, mModelMatrix, 0);
         
-        // Draw hexagon
-        mHexagon.draw(mMVPMatrix);
-        
-        //Draw NumOne
-        //mNumOne.draw(mMVPMatrix);
-        
-        //Draw NumTwo
-        mNumTwo.draw(mMVPMatrix);
-        //Draw NumTwo
-        mNumTwoR.draw(mMVPMatrix);
-        
-        //Draw OperatorPlus
-        mOperatorPlus.draw(mMVPMatrix);
+        //Draw all shapes
+        for (Shape shape : shapes) {
+        	shape.draw(mMVPMatrix);
+        }
     }
 
     @Override
