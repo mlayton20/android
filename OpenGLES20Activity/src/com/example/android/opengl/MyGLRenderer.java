@@ -61,7 +61,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         mTriangle = new Triangle();
         mSquare   = new Square();
-        mHexagon  = new Hexagon(0.35f);
+        mHexagon  = new Hexagon(0.35f, 0);
         mNumOne   = new NumOne(0.125f, -0.05f);
         mNumTwo   = new NumTwo(0.125f, 0.65f);
         mNumTwoR  = new NumTwo(0.125f, -0.05f);
