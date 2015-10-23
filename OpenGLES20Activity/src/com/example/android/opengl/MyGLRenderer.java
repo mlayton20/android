@@ -107,12 +107,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         mHexagon.draw(mMVPMatrix);
         
         //Draw NumOne
-        mNumOne.draw(mMVPMatrix);
+        //mNumOne.draw(mMVPMatrix);
         
         //Draw NumTwo
         mNumTwo.draw(mMVPMatrix);
         //Draw NumTwo
-        //mNumTwoR.draw(mMVPMatrix);
+        mNumTwoR.draw(mMVPMatrix);
         
         //Draw OperatorPlus
         mOperatorPlus.draw(mMVPMatrix);
