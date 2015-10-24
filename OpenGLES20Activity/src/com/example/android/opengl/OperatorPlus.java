@@ -17,7 +17,13 @@ public class OperatorPlus extends Shape {
     //#RGB: white (255, 255, 255)
     private static final float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-    public OperatorPlus(float scale, float centre) {
-    	super(originalCoords, drawOrder, color, scale, centre);
+    public OperatorPlus(float scale, float centre, float parentCentre) {
+    	super(originalCoords, drawOrder, color, scale, (scale*centre) + parentCentre);
     }
+
+	@Override
+	public float getXCentre() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

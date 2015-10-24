@@ -19,6 +19,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import android.opengl.GLES20;
@@ -57,7 +58,7 @@ public abstract class Shape {
     private int mPositionHandle;
     private int mColorHandle;
     private int mMVPMatrixHandle;
-    private float[] shapeCoords;
+    protected float[] shapeCoords;
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     // number of coordinates per vertex in this array
@@ -73,7 +74,13 @@ public abstract class Shape {
     //Sets the scale of the shape and where the X centre is.
     private final float SCALE;
     private final float CENTRE;
-
+    
+    public ArrayList<Shape> getShapes() {
+    	return null;
+    }
+    
+    public abstract float getXCentre();
+    
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
@@ -126,7 +133,7 @@ public abstract class Shape {
     //Adjust the original scale of the shape and position
     private void adjustShape(float scale, float centre) {
     	for (int i = 0; i < shapeCoords.length; i++) {
-    		shapeCoords[i] = (ORIGINAL_COORDS[i] * scale) + (i % 3 == 0 ? centre * scale : 0);
+    		shapeCoords[i] = (ORIGINAL_COORDS[i] * scale ) + (i % 3 == 0 ? centre : 0);
 		}
 	}
 

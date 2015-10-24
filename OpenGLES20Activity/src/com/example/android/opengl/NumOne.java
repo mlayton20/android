@@ -1,6 +1,10 @@
 package com.example.android.opengl;
 
+import android.util.Log;
+
 public class NumOne extends Shape {
+	
+	private static final String TAG = "NumOne";
 
     private static final float originalCoords[] = {
         -0.075f,  0.5f,  0.0f,   //0 
@@ -21,7 +25,12 @@ public class NumOne extends Shape {
     //#RGB: white (255, 255, 255)
     private static final float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-    public NumOne(float scale, float centre) {
-    	super(originalCoords, drawOrder, color, scale, centre);
+    public NumOne(float scale, float centre, float parentCentre) {
+    	super(originalCoords, drawOrder, color, scale, (scale*centre) + parentCentre);
     }
+
+	@Override
+	public float getXCentre() {
+		return shapeCoords[17] + shapeCoords[0];
+	}
 }
