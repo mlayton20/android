@@ -60,10 +60,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         shapes = new ArrayList<Shape>();
         
         //Draw cell 1
-        shapes.add(new Hexagon(0.35f, 0));
+        shapes.add(new Hexagon(0.35f, 0, "+12"));
         
         //Draw cell 2
-        shapes.add(new Hexagon(0.35f, -1.0f));
+        shapes.add(new Hexagon(0.35f, -1.0f, "+21"));
         
         //Draw cell 4
         shapes.add(new Hexagon(0.35f, 1.0f));
@@ -107,6 +107,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         //Draw all shapes
         for (Shape shape : shapes) {
         	shape.draw(mMVPMatrix);
+        	
+        	//Don't draw nested shapes if there are none.
+        	if (shape.getShapes() == null)
+        		continue;
+        	
+        	//Draw the nested shapes
         	for (Shape nestedShapes : shape.getShapes()) {
         		nestedShapes.draw(mMVPMatrix);
         	}
