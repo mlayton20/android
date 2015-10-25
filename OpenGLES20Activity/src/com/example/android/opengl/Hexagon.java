@@ -11,6 +11,7 @@ public class Hexagon extends Shape {
 	private static final float ALIGN_LEFT   = -0.75f;
 	private static final float ALIGN_CENTRE = -0.05f;
 	private static final float ALIGN_RIGHT  =  0.65f;
+	private static final float SCALE_BORDER =  0.92f;
 	private static final float SCALE_NESTED_TEXT = 0.35f;
 
     private static final float originalCoords[] = {
@@ -24,20 +25,22 @@ public class Hexagon extends Shape {
     private static final short drawOrder[] = { 0, 1, 5, 1, 4, 5, 1, 2, 4, 2, 3, 4 }; // order to draw vertices
 
     //#RGB: red (229, 51, 72)
-    private static final float color[] = { 0.8980392156862745f, 0.2f, 0.2823529411764706f, 1.0f };
+    private static final float borderColor[] = { 0.8980392156862745f, 0.2f, 0.2823529411764706f, 1.0f };
+    //#RGB: blue (48, 141, 212)
+    private static final float fillColor[] = { 0.1882352941176471f, 0.5529411764705882f, 0.8313725490196078f, 1.0f };
     
     private ArrayList<Shape> shapes;
 
     //This will be the parent cell.
 	public Hexagon(float scale, float centre, String nestedText) {
-    	super(originalCoords, drawOrder, color, scale, scale*centre);
+    	super(originalCoords, drawOrder, borderColor, scale, scale*centre);
     	
     	generateNestedShapes(scale, nestedText);
     }
 	
 	//This is for when we want to add a border to the hexagon.
-	public Hexagon(float scale, float centre) {
-    	super(originalCoords, drawOrder, color, scale, scale*centre);
+	private Hexagon(float scale, float centre, float parentCentre) {
+    	super(originalCoords, drawOrder, fillColor, scale, (scale*centre) + parentCentre);
     }
 
 	private void generateNestedShapes(float parentScale, String nestedText) {
@@ -46,10 +49,14 @@ public class Hexagon extends Shape {
 		}
 		
 		shapes = new ArrayList<Shape>();
-		float nestedScale = parentScale*SCALE_NESTED_TEXT;
+		
+		//Add the border hexagon
+		shapes.add(new Hexagon(parentScale*SCALE_BORDER, 0, getXCentre()));
+
+		float textNestedScale = parentScale*SCALE_NESTED_TEXT;
 		
 		for (int i = 0; i < nestedText.length(); i++) {
-			shapes.add(getShape(nestedScale,
+			shapes.add(getShape(textNestedScale,
 					nestedText.charAt(i),
 					getAlignPosition(nestedText.length(),i)
 					));

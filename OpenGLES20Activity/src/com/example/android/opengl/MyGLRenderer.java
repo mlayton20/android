@@ -37,7 +37,6 @@ import android.util.Log;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
-    private Square   mSquare;
     private ArrayList<Shape> shapes;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
@@ -55,8 +54,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         
-        mSquare = new Square();
-        
         shapes = new ArrayList<Shape>();
         
         //Draw cell 1
@@ -66,7 +63,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         shapes.add(new Hexagon(0.35f, -1.0f, "+21"));
         
         //Draw cell 4
-        shapes.add(new Hexagon(0.35f, 1.0f));
+        shapes.add(new Hexagon(0.35f, 1.0f, "+2"));
     }
 
     @Override
@@ -82,9 +79,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
-
-        // Draw square
-        mSquare.draw(mMVPMatrix);
 
         // Create a rotation for the triangle
 
