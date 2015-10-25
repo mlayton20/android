@@ -8,10 +8,11 @@ public class Hexagon extends Shape {
 	
 	private static final String TAG = "Hexagon";
 	
-	private static final float ALIGN_LEFT   = -0.75f;
-	private static final float ALIGN_CENTRE = -0.05f;
-	private static final float ALIGN_RIGHT  =  0.65f;
-	private static final float SCALE_BORDER =  0.92f;
+	private static final float ALIGN_LEFT   = -0.7f;
+	private static final float ALIGN_CENTRE = 0f;
+	private static final float ALIGN_RIGHT  = 0.7f;
+	private static final float OFFSET_ALIGN = 0.35f;
+	private static final float SCALE_BORDER = 0.92f;
 	private static final float SCALE_NESTED_TEXT = 0.35f;
 
     private static final float originalCoords[] = {
@@ -64,15 +65,11 @@ public class Hexagon extends Shape {
 	}
 
 	private float getAlignPosition(int maxPosition, int position) {
-		if (position == maxPosition) {
-			return ALIGN_CENTRE;
-		}
-		
 		switch(position) {
 			case 0:
-				return ALIGN_LEFT;
+				return ALIGN_LEFT + (maxPosition == 2 ? OFFSET_ALIGN : 0);
 			case 1:
-				return ALIGN_CENTRE;
+				return ALIGN_CENTRE + (maxPosition == 2 ? OFFSET_ALIGN : 0);
 			case 2:
 				return ALIGN_RIGHT;
 			default:
