@@ -39,12 +39,18 @@ public class NumTwo extends Shape {
     //#RGB: white (255, 255, 255)
     private static final float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-    public NumTwo(float scale, float centreX) {
-    	super(originalCoords, drawOrder, color, scale, centreX);
+    public NumTwo(float scale, float centreX, float centreY) {
+    	super(originalCoords, drawOrder, color, scale, centreX, centreY);
     }
 
 	@Override
 	public float getCentreX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getCentreY() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

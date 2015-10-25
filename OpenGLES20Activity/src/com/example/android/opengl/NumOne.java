@@ -25,12 +25,18 @@ public class NumOne extends Shape {
     //#RGB: white (255, 255, 255)
     private static final float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-    public NumOne(float scale, float centreX) {
-    	super(originalCoords, drawOrder, color, scale, centreX);
+    public NumOne(float scale, float centreX, float centreY) {
+    	super(originalCoords, drawOrder, color, scale, centreX, centreY);
     }
 
 	@Override
 	public float getCentreX() {
 		return shapeCoords[17] + shapeCoords[0];
+	}
+
+	@Override
+	public float getCentreY() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

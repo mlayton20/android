@@ -33,15 +33,15 @@ public class Hexagon extends Shape {
     private ArrayList<Shape> shapes;
 
     //This will be the parent cell.
-	public Hexagon(float scale, float centreX, String nestedText) {
-    	super(originalCoords, drawOrder, borderColor, scale, scale*centreX);
+	public Hexagon(float scale, float centreX, float centreY, String nestedText) {
+    	super(originalCoords, drawOrder, borderColor, scale, scale*centreX, scale*centreY);
     	
     	generateNestedShapes(scale, nestedText);
     }
 	
 	//This is for when we want to add a border to the hexagon.
-	private Hexagon(float scale, float centreX) {
-    	super(originalCoords, drawOrder, fillColor, scale, centreX);
+	private Hexagon(float scale, float centreX, float centreY) {
+    	super(originalCoords, drawOrder, fillColor, scale, centreX, centreY);
     }
 
 	private void generateNestedShapes(float parentScale, String nestedText) {
@@ -52,7 +52,7 @@ public class Hexagon extends Shape {
 		shapes = new ArrayList<Shape>();
 		
 		//Add the border hexagon
-		shapes.add(new Hexagon(parentScale*SCALE_BORDER, 0 + getCentreX()));
+		shapes.add(new Hexagon(parentScale*SCALE_BORDER, 0 + getCentreX(), 0 + getCentreY()));
 
 		float textNestedScale = parentScale*SCALE_NESTED_TEXT;
 		
@@ -79,16 +79,17 @@ public class Hexagon extends Shape {
 
 	private Shape getShape(float scale, char value, float alignValue) {
 		float centreX = (scale*alignValue) + getCentreX();
+		float centreY = getCentreY();
 		switch(value) {
 			//Numbers
 			case '1':
-				return new NumOne(scale, centreX);
+				return new NumOne(scale, centreX, centreY);
 			case '2':
-				return new NumTwo(scale, centreX);
+				return new NumTwo(scale, centreX, centreY);
 				
 			//Operators
 			case '+':
-				return new OperatorPlus(scale, centreX);
+				return new OperatorPlus(scale, centreX, centreY);
 			
 			//This shouldn't happen 
 			default:
@@ -104,5 +105,10 @@ public class Hexagon extends Shape {
 	@Override
 	public float getCentreX() {
 		return (shapeCoords[12] + shapeCoords[3])/2;
+	}
+
+	@Override
+	public float getCentreY() {
+		return (shapeCoords[1] + shapeCoords[10])/2;
 	}
 }
