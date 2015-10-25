@@ -73,28 +73,28 @@ public abstract class Shape {
     
     //Sets the scale of the shape and where the X centre is.
     private final float SCALE;
-    private final float CENTRE;
+    private final float CENTRE_X;
     
     public ArrayList<Shape> getShapes() {
     	return null;
     }
     
-    public abstract float getXCentre();
+    public abstract float getCentreX();
     
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public Shape(float[] originalCoords, short[] drawOrder, float[] color, float scale, float centre) {
+    public Shape(float[] originalCoords, short[] drawOrder, float[] color, float scale, float centreX) {
     	
     	this.ORIGINAL_COORDS = originalCoords;
     	this.DRAW_ORDER = drawOrder;
     	this.COLOR = color;
     	this.SCALE = scale;
-    	this.CENTRE = centre;
+    	this.CENTRE_X = centreX;
     	
     	this.shapeCoords = ORIGINAL_COORDS.clone();
     	
-    	adjustShape(scale, centre);
+    	adjustShape(scale, centreX);
     	//Resize based on the scale
     	//adjustSize(scale);
     	

@@ -33,15 +33,15 @@ public class Hexagon extends Shape {
     private ArrayList<Shape> shapes;
 
     //This will be the parent cell.
-	public Hexagon(float scale, float centre, String nestedText) {
-    	super(originalCoords, drawOrder, borderColor, scale, scale*centre);
+	public Hexagon(float scale, float centreX, String nestedText) {
+    	super(originalCoords, drawOrder, borderColor, scale, scale*centreX);
     	
     	generateNestedShapes(scale, nestedText);
     }
 	
 	//This is for when we want to add a border to the hexagon.
-	private Hexagon(float scale, float centre, float parentCentre) {
-    	super(originalCoords, drawOrder, fillColor, scale, (scale*centre) + parentCentre);
+	private Hexagon(float scale, float centreX) {
+    	super(originalCoords, drawOrder, fillColor, scale, centreX);
     }
 
 	private void generateNestedShapes(float parentScale, String nestedText) {
@@ -52,7 +52,7 @@ public class Hexagon extends Shape {
 		shapes = new ArrayList<Shape>();
 		
 		//Add the border hexagon
-		shapes.add(new Hexagon(parentScale*SCALE_BORDER, 0, getXCentre()));
+		shapes.add(new Hexagon(parentScale*SCALE_BORDER, 0 + getCentreX()));
 
 		float textNestedScale = parentScale*SCALE_NESTED_TEXT;
 		
@@ -78,17 +78,17 @@ public class Hexagon extends Shape {
 	}
 
 	private Shape getShape(float scale, char value, float alignValue) {
+		float centreX = (scale*alignValue) + getCentreX();
 		switch(value) {
-		
 			//Numbers
 			case '1':
-				return new NumOne(scale, alignValue, getXCentre());
+				return new NumOne(scale, centreX);
 			case '2':
-				return new NumTwo(scale, alignValue, getXCentre());
+				return new NumTwo(scale, centreX);
 				
 			//Operators
 			case '+':
-				return new OperatorPlus(scale, alignValue, getXCentre());
+				return new OperatorPlus(scale, centreX);
 			
 			//This shouldn't happen 
 			default:
@@ -102,7 +102,7 @@ public class Hexagon extends Shape {
 	}
 
 	@Override
-	public float getXCentre() {
+	public float getCentreX() {
 		return (shapeCoords[12] + shapeCoords[3])/2;
 	}
 }
