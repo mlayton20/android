@@ -55,16 +55,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         
         shapes = new ArrayList<Shape>();
-        
-        //Draw cell 1
-        shapes.add(new Hexagon(0.35f, 0, "+12"));
-        
-        //Draw cell 2
-        shapes.add(new Hexagon(0.35f, -1.0f, "+21"));
-        
-        //Draw cell 4
-        shapes.add(new Hexagon(0.35f, 1.0f, "+2"));
+        buildThreeCells();
     }
+
+	private void buildThreeCells() {
+		shapes.add(new Hexagon(0.3f, 0, "+12"));
+        shapes.add(new Hexagon(0.3f, -1.0f, "+21"));
+        shapes.add(new Hexagon(0.3f, 1.0f, "+2"));
+	}
 
     @Override
     public void onDrawFrame(GL10 unused) {
