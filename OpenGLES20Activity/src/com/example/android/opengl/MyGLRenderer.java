@@ -92,8 +92,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Leave this code out when using TouchEvents.
         // long time = SystemClock.uptimeMillis() % 4000L;
         // float angle = 0.090f * ((int) time);
+        
+        //Start the grid drawing at bottom of screen.
+        Matrix.translateM(mModelMatrix, 0, 0, -0.5f, 0);
 
-        Matrix.translateM(mModelMatrix, 0, 0, mAngle, 0); // translation to the left
+        //Move the grid down or up the screen depending on touch events.
+        Matrix.translateM(mModelMatrix, 0, 0, mAngle, 0);
 
         // Combine the rotation matrix with the projection and camera view
         // Note that the mMVPMatrix factor *must be first* in order
