@@ -17,6 +17,8 @@ package com.example.android.opengl;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
+import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -26,6 +28,7 @@ import android.view.MotionEvent;
  */
 public class MyGLSurfaceView extends GLSurfaceView {
 
+	private static final String TAG = "MyGLSurfaceView";
     private final MyGLRenderer mRenderer;
 
     public MyGLSurfaceView(Context context) {
@@ -54,6 +57,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
         float x = e.getX();
         float y = e.getY();
+        Vec2 touchCoords = new Vec2(e.getX(),e.getY());
         float dy;
 
         switch (e.getAction()) {
@@ -69,8 +73,80 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
                 mRenderer.setAngle(dy);
                 requestRender();
+                break;
+            case MotionEvent.ACTION_UP:                
+                Vec2 touchGLCoords = getWorldCoords(touchCoords);
+                mRenderer.getTouchedShape(touchGLCoords);
+                break;
         }
         return true;
+    }
+    
+    /**
+     * Calculates the transform from screen coordinate
+     * system to world coordinate system coordinates
+     * for a specific point, given a camera position.
+     *
+     * @param touch Vec2 point of screen touch, the
+       actual position on physical screen (ej: 160, 240)
+     * @return position in WCS.
+     */
+    public Vec2 getWorldCoords(Vec2 touch)
+    {  
+
+        // SCREEN height & width (ej: 320 x 480)
+        float screenW = (float) getWidth();
+        float screenH = (float) getHeight();
+
+        // Auxiliary matrix and vectors
+        // to deal with ogl.
+        float[] invertedMatrix, transformMatrix,
+            normalizedInPoint, outPoint;
+        invertedMatrix = new float[16];
+        transformMatrix = new float[16];
+        normalizedInPoint = new float[4];
+        outPoint = new float[4];
+
+        // Invert y coordinate, as android uses
+        // top-left, and ogl bottom-left.
+        int oglTouchY = (int) (screenH - touch.getY());
+
+        /* Transform the screen point to clip
+        space in ogl (-1,1) */       
+        normalizedInPoint[0] =
+         (float) ((touch.getX()) * 2.0f / screenW - 1.0);
+        normalizedInPoint[1] =
+         (float) ((oglTouchY) * 2.0f / screenH - 1.0);
+        normalizedInPoint[2] = - 1.0f;
+        normalizedInPoint[3] = 1.0f;
+
+        /* Obtain the transform matrix and
+        then the inverse. */
+        Matrix.multiplyMM(
+            transformMatrix, 0,
+            mRenderer.getProjectionMatrix(), 0,
+            mRenderer.getModelMatrix(), 0);
+        Matrix.invertM(invertedMatrix, 0,
+            transformMatrix, 0);       
+
+        /* Apply the inverse to the point
+        in clip space */
+        Matrix.multiplyMV(
+            outPoint, 0,
+            invertedMatrix, 0,
+            normalizedInPoint, 0);
+
+        if (outPoint[3] == 0.0)
+        {
+            // Avoid /0 error.
+            Log.e("World coords", "ERROR!");
+            return null;
+        }
+
+        Log.d("GLPosition", "Touch: " + (outPoint[0] / outPoint[3]) + ", " + (outPoint[1] / outPoint[3]));
+        // Divide by the 3rd component to find
+        // out the real position.
+        return new Vec2(outPoint[0] / outPoint[3], outPoint[1] / outPoint[3]);       
     }
 
 }

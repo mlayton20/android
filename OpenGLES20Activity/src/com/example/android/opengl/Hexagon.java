@@ -31,12 +31,17 @@ public class Hexagon extends Shape {
     private static final float fillColor[] = { 0.1882352941176471f, 0.5529411764705882f, 0.8313725490196078f, 1.0f };
     
     private ArrayList<Shape> shapes;
+    
+    private String nestedText;
 
     //This will be the parent cell.
 	public Hexagon(float scale, float centreX, float centreY, String nestedText) {
     	super(originalCoords, drawOrder, borderColor, scale, scale*centreX, scale*centreY);
     	
+    	this.nestedText = nestedText;
+    	
     	generateNestedShapes(scale, nestedText);
+    	Log.d("GLPosition", "Hexagon: (" + nestedText + ")" + getCentreX() + ", " + getCentreY());
     }
 	
 	//This is for when we want to add a border to the hexagon.
@@ -111,4 +116,22 @@ public class Hexagon extends Shape {
 	public float getCentreY() {
 		return (shapeCoords[1] + shapeCoords[10])/2;
 	}
+
+	public String getNestedText() {
+		return nestedText;
+	}
+	
+	@Override
+	public String toString() {
+    	return "Hexagon: " + getNestedText();
+    }
+	
+	@Override
+	public boolean intersects(Vec2 touchCoords) {
+		if (touchCoords.getX() >= shapeCoords[3] && touchCoords.getX() <= shapeCoords[12]
+				&& touchCoords.getY() >= shapeCoords[7] && touchCoords.getY() <= shapeCoords[4]) {
+			return true;
+		}
+    	return false;
+    }
 }

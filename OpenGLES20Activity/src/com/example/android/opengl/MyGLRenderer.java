@@ -198,4 +198,18 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         mAngle = angle;
     }
 
+	public float[] getProjectionMatrix() {
+		return mProjectionMatrix;
+	}
+
+	public float[] getModelMatrix() {
+		return mModelMatrix;
+	}
+	public void getTouchedShape(Vec2 touchGLCoords) {
+		for (Shape shape : shapes) {
+			if (shape.intersects(touchGLCoords)) {
+				Log.d("TouchedCell", shape.toString());
+			}
+		}
+	}
 }

@@ -76,12 +76,16 @@ public abstract class Shape {
     private final float CENTRE_X;
     private final float CENTRE_Y;
     
+    public abstract float getCentreX();
+    public abstract float getCentreY();
+    
     public ArrayList<Shape> getShapes() {
     	return null;
     }
     
-    public abstract float getCentreX();
-    public abstract float getCentreY();
+    public boolean intersects(Vec2 touchCoords) {
+    	return false;
+    }
     
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
@@ -137,7 +141,9 @@ public abstract class Shape {
     //Adjust the original scale of the shape and position
     private void adjustShape(float scale, float centreX, float centreY) {
     	for (int i = 0; i < shapeCoords.length; i++) {
-    		shapeCoords[i] = (ORIGINAL_COORDS[i] * scale ) + (i % 3 == 0 ? centreX : 0) + (i % 3 == 1 ? centreY : 0);
+    		shapeCoords[i] = (ORIGINAL_COORDS[i] * scale ) 
+    				+ (i % 3 == 0 ? centreX : 0) 
+    				+ (i % 3 == 1 ? centreY : 0);
 		}
 	}
 
