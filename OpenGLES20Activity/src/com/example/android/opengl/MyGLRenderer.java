@@ -38,15 +38,18 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
     private ArrayList<Shape> shapes;
+    private ArrayList<Shape> equationShapes;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
     private final float[] mModelMatrix = new float[16];
+    private float[] mEquationModelMatrix = new float[16];
     private float[] mTempMatrix = new float[16];
 
     private float mAngle;
+    private boolean showEquation = false;
 
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -74,6 +77,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 unused) {
+    	float[] mMVPEquation = new float[16];
         
         Matrix.setIdentityM(mModelMatrix, 0); // initialize to identity matrix
 
@@ -85,6 +89,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
+        
+        //Setup the equation display
+    	mEquationModelMatrix = mModelMatrix.clone();
+		Matrix.translateM(mEquationModelMatrix, 0, 0, -0.8f, 0);
+		mTempMatrix = mMVPMatrix.clone();
 
         // Create a rotation for the triangle
 
@@ -119,6 +128,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         	//Draw the nested shapes
         	for (Shape nestedShapes : shape.getShapes()) {
         		nestedShapes.draw(mMVPMatrix);
+        	}
+        }
+        
+        //Show the equation using the values from the selected cell.
+        if (showEquation) {
+        	if (equationShapes != null) {
+                Matrix.multiplyMM(mMVPEquation, 0, mTempMatrix, 0, mEquationModelMatrix, 0);
+        		for (Shape nestedShapes : equationShapes) {
+            		nestedShapes.draw(mMVPEquation);
+            	}
         	}
         }
     }
@@ -209,7 +228,19 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		for (Shape shape : shapes) {
 			if (shape.intersects(touchGLCoords)) {
 				Log.d("TouchedCell", shape.toString());
+				showEquation = true;
+				equationShapes = shape.getShapes();
+				return;
 			}
 		}
+		showEquation = false;
+	}
+
+	public boolean isShowEquation() {
+		return showEquation;
+	}
+
+	public void setShowEquation(boolean showEquation) {
+		this.showEquation = showEquation;
 	}
 }
