@@ -83,6 +83,8 @@ public abstract class Shape {
     	return null;
     }
     
+    public void setShapes(String nestedText) {}
+    
     public boolean intersects(Vec2 touchCoords) {
     	return false;
     }
@@ -191,5 +193,4 @@ public abstract class Shape {
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(mPositionHandle);
     }
-
 }

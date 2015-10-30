@@ -8,12 +8,7 @@ public class Hexagon extends Shape {
 	
 	private static final String TAG = "Hexagon";
 	
-	private static final float ALIGN_LEFT   = -0.7f;
-	private static final float ALIGN_CENTRE = 0f;
-	private static final float ALIGN_RIGHT  = 0.7f;
-	private static final float OFFSET_ALIGN = 0.35f;
 	private static final float SCALE_BORDER = 0.92f;
-	private static final float SCALE_NESTED_TEXT = 0.35f;
 
     private static final float originalCoords[] = {
         0.0f,   0.5f, 0.0f,   // top
@@ -40,7 +35,7 @@ public class Hexagon extends Shape {
     	
     	this.nestedText = nestedText;
     	
-    	generateNestedShapes(scale, nestedText);
+    	shapes = generateNestedShapes(scale, nestedText);
     	Log.d("GLPosition", "Hexagon: (" + nestedText + ")" + getCentreX() + ", " + getCentreY());
     }
 	
@@ -49,59 +44,15 @@ public class Hexagon extends Shape {
     	super(originalCoords, drawOrder, fillColor, scale, centreX, centreY);
     }
 
-	private void generateNestedShapes(float parentScale, String nestedText) {
-		if (nestedText == null || nestedText == "") {
-			return;
-		}
-		
-		shapes = new ArrayList<Shape>();
+	public ArrayList<Shape> generateNestedShapes(float parentScale, String nestedText) {
+		ArrayList<Shape> nestedShapes = ShapeUtil.generateNestedShapes(this, parentScale, nestedText);
 		
 		//Add the border hexagon
-		shapes.add(new Hexagon(parentScale*SCALE_BORDER, 0 + getCentreX(), 0 + getCentreY()));
-
-		float textNestedScale = parentScale*SCALE_NESTED_TEXT;
+		nestedShapes.add(0, new Hexagon(parentScale*SCALE_BORDER, 0 + getCentreX(), 0 + getCentreY()));
 		
-		for (int i = 0; i < nestedText.length(); i++) {
-			shapes.add(getShape(textNestedScale,
-					nestedText.charAt(i),
-					getAlignPosition(nestedText.length(),i)
-					));
-		}
+		return nestedShapes;
 	}
-
-	private float getAlignPosition(int maxPosition, int position) {
-		switch(position) {
-			case 0:
-				return ALIGN_LEFT + (maxPosition == 2 ? OFFSET_ALIGN : 0);
-			case 1:
-				return ALIGN_CENTRE + (maxPosition == 2 ? OFFSET_ALIGN : 0);
-			case 2:
-				return ALIGN_RIGHT;
-			default:
-				return ALIGN_CENTRE;
-		}
-	}
-
-	private Shape getShape(float scale, char value, float alignValue) {
-		float centreX = (scale*alignValue) + getCentreX();
-		float centreY = getCentreY();
-		switch(value) {
-			//Numbers
-			case '1':
-				return new NumOne(scale, centreX, centreY);
-			case '2':
-				return new NumTwo(scale, centreX, centreY);
-				
-			//Operators
-			case '+':
-				return new OperatorPlus(scale, centreX, centreY);
-			
-			//This shouldn't happen 
-			default:
-				return null;
-		}
-	}
-
+	
 	@Override
     public ArrayList<Shape> getShapes() {
 		return shapes;
@@ -123,7 +74,7 @@ public class Hexagon extends Shape {
 	
 	@Override
 	public String toString() {
-    	return "Hexagon: " + getNestedText();
+    	return getNestedText();
     }
 	
 	@Override

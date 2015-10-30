@@ -37,8 +37,8 @@ import android.util.Log;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
+    private static EquationRectangle equationRectangle;
     private ArrayList<Shape> shapes;
-    private ArrayList<Shape> equationShapes;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -49,7 +49,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private float[] mTempMatrix = new float[16];
 
     private float mAngle;
-    private boolean showEquation = false;
+    private String mCurrentAnswer = "11";
+    private String mEquationText = mCurrentAnswer;
 
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -57,6 +58,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         
+        equationRectangle = new EquationRectangle();
         shapes = new ArrayList<Shape>();
         buildThreeCells();
         buildFourCells();
@@ -90,7 +92,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
         
-        //Setup the equation display
+        //Setup the equation display before we start moving the grid around
     	mEquationModelMatrix = mModelMatrix.clone();
 		Matrix.translateM(mEquationModelMatrix, 0, 0, -0.8f, 0);
 		mTempMatrix = mMVPMatrix.clone();
@@ -132,14 +134,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         }
         
         //Show the equation using the values from the selected cell.
-        if (showEquation) {
-        	if (equationShapes != null) {
-                Matrix.multiplyMM(mMVPEquation, 0, mTempMatrix, 0, mEquationModelMatrix, 0);
-        		for (Shape nestedShapes : equationShapes) {
-            		nestedShapes.draw(mMVPEquation);
-            	}
-        	}
-        }
+        Matrix.multiplyMM(mMVPEquation, 0, mTempMatrix, 0, mEquationModelMatrix, 0);
+        
+        equationRectangle.setShapes(mEquationText);
+        equationRectangle.draw(mMVPEquation);
+        for (Shape nestedShapes : equationRectangle.getShapes()) {
+    		nestedShapes.draw(mMVPEquation);
+    	}
     }
 
     @Override
@@ -224,23 +225,29 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	public float[] getModelMatrix() {
 		return mModelMatrix;
 	}
-	public void getTouchedShape(Vec2 touchGLCoords) {
+	
+	public Shape getTouchedShape(Vec2 touchGLCoords) {
 		for (Shape shape : shapes) {
 			if (shape.intersects(touchGLCoords)) {
-				Log.d("TouchedCell", shape.toString());
-				showEquation = true;
-				equationShapes = shape.getShapes();
-				return;
+				return shape;
 			}
 		}
-		showEquation = false;
+		return null;
 	}
 
-	public boolean isShowEquation() {
-		return showEquation;
+	public String getEquationText() {
+		return mEquationText;
 	}
 
-	public void setShowEquation(boolean showEquation) {
-		this.showEquation = showEquation;
+	public void setEquationText(String mEquationText) {
+		this.mEquationText = mEquationText;
+	}
+
+	public String getCurrentAnswer() {
+		return mCurrentAnswer;
+	}
+
+	public void setCurrentAnswer(String mCurrentAnswer) {
+		this.mCurrentAnswer = mCurrentAnswer;
 	}
 }

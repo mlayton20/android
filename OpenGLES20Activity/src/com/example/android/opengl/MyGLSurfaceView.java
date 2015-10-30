@@ -76,7 +76,12 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 break;
             case MotionEvent.ACTION_UP:                
                 Vec2 touchGLCoords = getWorldCoords(touchCoords);
-                mRenderer.getTouchedShape(touchGLCoords);
+                Shape touchedShape = mRenderer.getTouchedShape(touchGLCoords);
+                if (touchedShape != null) {
+                	mRenderer.setEquationText(touchedShape.toString());
+                } else {
+                	mRenderer.setEquationText(mRenderer.getCurrentAnswer());
+        		}
                 requestRender();
                 break;
         }
