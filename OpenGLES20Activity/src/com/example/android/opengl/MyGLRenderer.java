@@ -39,6 +39,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private static final String TAG = "MyGLRenderer";
     private static EquationRectangle equationRectangle;
     private ArrayList<Shape> shapes;
+    private ArrayList<InputSquare> inputShapes;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -60,9 +61,25 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         
         equationRectangle = new EquationRectangle();
         shapes = new ArrayList<Shape>();
+        buildInputGrid();
         buildThreeCells();
         buildFourCells();
     }
+    
+    private void buildInputGrid() {
+    	inputShapes = new ArrayList<InputSquare>();
+    	inputShapes.add(new InputSquare(0.16f, -2.4f, 1.15f, "1")); //1
+    	inputShapes.add(new InputSquare(0.16f, -1.2f, 1.15f, "2")); //2
+    	inputShapes.add(new InputSquare(0.16f,     0, 1.15f, "1")); //3
+    	inputShapes.add(new InputSquare(0.16f,  1.2f, 1.15f, "2")); //4
+    	inputShapes.add(new InputSquare(0.16f,  2.4f, 1.15f, "1")); //5
+    	inputShapes.add(new InputSquare(0.16f, -3.0f,    0, "2")); //6
+    	inputShapes.add(new InputSquare(0.16f, -1.8f,    0, "1")); //7
+    	inputShapes.add(new InputSquare(0.16f, -0.6f,    0, "2")); //8
+    	inputShapes.add(new InputSquare(0.16f,  0.6f,    0, "1")); //9
+    	inputShapes.add(new InputSquare(0.16f,  1.8f,    0, "2")); //0
+    	inputShapes.add(new InputSquare(0.16f,  3.0f,    0, "1")); //X - This is to clear input
+	}
 
 	private void buildThreeCells() {
 		shapes.add(new Hexagon(0.3f,     0, 0.7f, "+12"));
@@ -94,7 +111,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         
         //Setup the equation display before we start moving the grid around
     	mEquationModelMatrix = mModelMatrix.clone();
-		Matrix.translateM(mEquationModelMatrix, 0, 0, -0.8f, 0);
+		Matrix.translateM(mEquationModelMatrix, 0, 0, -0.5f, 0);
 		mTempMatrix = mMVPMatrix.clone();
 
         // Create a rotation for the triangle
@@ -105,7 +122,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // float angle = 0.090f * ((int) time);
         
         //Start the grid drawing at bottom of screen.
-        Matrix.translateM(mModelMatrix, 0, 0, -0.5f, 0);
+        Matrix.translateM(mModelMatrix, 0, 0, -0.15f, 0);
 
         //Move the grid down or up the screen depending on touch events.
         Matrix.translateM(mModelMatrix, 0, 0, mAngle, 0);
@@ -141,6 +158,24 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         for (Shape nestedShapes : equationRectangle.getShapes()) {
     		nestedShapes.draw(mMVPEquation);
     	}
+        
+        //Move the fixed grid down to draw the input grid
+        Matrix.translateM(mEquationModelMatrix, 0, 0, -0.4f, 0);
+        Matrix.multiplyMM(mMVPEquation, 0, mTempMatrix, 0, mEquationModelMatrix, 0);
+        
+        //Draw all shapes
+        for (Shape shape : inputShapes) {
+        	shape.draw(mMVPEquation);
+        	
+        	//Don't draw nested shapes if there are none.
+        	if (shape.getShapes() == null)
+        		continue;
+        	
+        	//Draw the nested shapes
+        	for (Shape nestedShapes : shape.getShapes()) {
+        		nestedShapes.draw(mMVPEquation);
+        	}
+        }
     }
 
     @Override

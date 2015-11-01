@@ -31,7 +31,7 @@ public class ShapeUtil {
 	private static float getAlignPosition(int maxPosition, int position) {
 		switch(position) {
 			case 0:
-				return ALIGN_LEFT + (maxPosition == 2 ? OFFSET_ALIGN : 0);
+				return ALIGN_LEFT + (maxPosition == 2 ? OFFSET_ALIGN : 0) + (maxPosition == 1 ? OFFSET_ALIGN*2 : 0);
 			case 1:
 				return ALIGN_CENTRE + (maxPosition == 2 ? OFFSET_ALIGN : 0);
 			case 2:
