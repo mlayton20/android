@@ -9,6 +9,7 @@ public class Hexagon extends Shape {
 	private static final String TAG = "Hexagon";
 	
 	private static final float SCALE_BORDER = 0.92f;
+	private static final float SCALE_NESTED_TEXT = 0.35f;
 
     private static final float originalCoords[] = {
         0.0f,   0.5f, 0.0f,   // top
@@ -45,7 +46,7 @@ public class Hexagon extends Shape {
     }
 
 	public ArrayList<Shape> generateNestedShapes(float parentScale, String nestedText) {
-		ArrayList<Shape> nestedShapes = ShapeUtil.generateNestedShapes(this, parentScale, nestedText);
+		ArrayList<Shape> nestedShapes = ShapeUtil.generateNestedShapes(this, parentScale*SCALE_NESTED_TEXT, nestedText);
 		
 		//Add the border hexagon
 		nestedShapes.add(0, new Hexagon(parentScale*SCALE_BORDER, 0 + getCentreX(), 0 + getCentreY()));

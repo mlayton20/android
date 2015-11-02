@@ -7,6 +7,7 @@ import android.util.Log;
 public class EquationRectangle extends Shape {
 	
 	private static final String TAG = "EquationRectangle";
+	private static final float SCALE_NESTED_TEXT = 0.35f;
 
     private static final float originalCoords[] = {
         -1.0f,  0.1f,  0.0f,   //0
@@ -33,7 +34,7 @@ public class EquationRectangle extends Shape {
     
     @Override
     public void setShapes(String nestedText) {
-    	shapes = ShapeUtil.generateNestedShapes(this, 0.3f, nestedText);
+    	shapes = ShapeUtil.generateNestedShapes(this, 0.3f*SCALE_NESTED_TEXT, nestedText);
     }
 
 	@Override

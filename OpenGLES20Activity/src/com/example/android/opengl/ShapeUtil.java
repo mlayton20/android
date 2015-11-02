@@ -8,19 +8,16 @@ public class ShapeUtil {
 	private static final float ALIGN_CENTRE = 0f;
 	private static final float ALIGN_RIGHT  = 0.7f;
 	private static final float OFFSET_ALIGN = 0.35f;
-	private static final float SCALE_NESTED_TEXT = 0.35f;
     
-    public static ArrayList<Shape> generateNestedShapes(Shape parentShape, float parentScale, String nestedText) {
+    public static ArrayList<Shape> generateNestedShapes(Shape parentShape, float scale, String nestedText) {
     	ArrayList<Shape> nestedShapes = new ArrayList<Shape>();
 		if (nestedText == null || nestedText == "") {
 			return nestedShapes;
 		}
-
-		float textNestedScale = parentScale*SCALE_NESTED_TEXT;
 		
 		for (int i = 0; i < nestedText.length(); i++) {
 			nestedShapes.add(getShape(parentShape, 
-					textNestedScale,
+					scale,
 					nestedText.charAt(i),
 					getAlignPosition(nestedText.length(),i)
 					));
