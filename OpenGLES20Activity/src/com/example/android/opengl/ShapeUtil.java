@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 public class ShapeUtil {
     
-    private static final float ALIGN_LEFT   = -0.7f;
 	private static final float ALIGN_CENTRE = 0f;
-	private static final float ALIGN_RIGHT  = 0.7f;
-	private static final float OFFSET_ALIGN = 0.35f;
+	private static final float OFFSET_ALIGN  = 0.7f;
     
     public static ArrayList<Shape> generateNestedShapes(Shape parentShape, float scale, String nestedText) {
     	ArrayList<Shape> nestedShapes = new ArrayList<Shape>();
@@ -26,15 +24,21 @@ public class ShapeUtil {
 	}
 
 	private static float getAlignPosition(int maxPosition, int position) {
-		switch(position) {
-			case 0:
-				return ALIGN_LEFT + (maxPosition == 2 ? OFFSET_ALIGN : 0) + (maxPosition == 1 ? OFFSET_ALIGN*2 : 0);
-			case 1:
-				return ALIGN_CENTRE + (maxPosition == 2 ? OFFSET_ALIGN : 0);
-			case 2:
-				return ALIGN_RIGHT;
-			default:
-				return ALIGN_CENTRE;
+		int centre = maxPosition / 2;
+		int distanceFromCentre = position - centre;
+		float centreAlign = ALIGN_CENTRE;
+		
+		//Check if even amount of numbers
+		if (maxPosition % 2 == 0) {
+			centreAlign = OFFSET_ALIGN/2;
+		}
+		
+		//If its the centre, return centre
+		if (distanceFromCentre == 0) {
+			return centreAlign;
+		//Otherwise return the offset
+		} else {
+			return centreAlign + (OFFSET_ALIGN*distanceFromCentre);
 		}
 	}
 
