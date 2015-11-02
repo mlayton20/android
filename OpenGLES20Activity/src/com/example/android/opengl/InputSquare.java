@@ -65,6 +65,26 @@ public class InputSquare extends Shape {
 	public float getCentreY() {
 		return (shapeCoords[1] + shapeCoords[4])/2;
 	}
+	
+	@Override
+	public float getMinX() {
+		return shapeCoords[0];
+	}
+	
+	@Override
+    public float getMaxX() {
+    	return shapeCoords[6];
+    }
+    
+	@Override
+    public float getMinY() {
+		return shapeCoords[4];
+	}
+	
+	@Override
+    public float getMaxY() {
+		return shapeCoords[1];
+	}
 
 	public String getNestedText() {
 		return nestedText;
@@ -76,7 +96,7 @@ public class InputSquare extends Shape {
     }
 	
 	@Override
-	public boolean intersects(Vec2 touchCoords) {
+	public boolean intersects(Vec2 touchCoords) {		
 		if (touchCoords.getX() >= shapeCoords[0] && touchCoords.getX() <= shapeCoords[6]
 				&& touchCoords.getY() >= shapeCoords[4] && touchCoords.getY() <= shapeCoords[1]) {
 			return true;

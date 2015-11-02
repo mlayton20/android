@@ -39,7 +39,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private static final String TAG = "MyGLRenderer";
     private static EquationRectangle equationRectangle;
     private ArrayList<Shape> shapes;
-    private ArrayList<InputSquare> inputShapes;
+    private ArrayList<Shape> inputShapes;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -67,7 +67,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     }
     
     private void buildInputGrid() {
-    	inputShapes = new ArrayList<InputSquare>();
+    	inputShapes = new ArrayList<Shape>();
     	inputShapes.add(new InputSquare(0.16f, -2.4f, 1.15f, "1")); //1
     	inputShapes.add(new InputSquare(0.16f, -1.2f, 1.15f, "2")); //2
     	inputShapes.add(new InputSquare(0.16f,     0, 1.15f, "1")); //3
@@ -261,13 +261,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		return mModelMatrix;
 	}
 	
-	public Shape getTouchedShape(Vec2 touchGLCoords) {
-		for (Shape shape : shapes) {
-			if (shape.intersects(touchGLCoords)) {
-				return shape;
-			}
-		}
-		return null;
+	public float[] getEquationModelMatrix() {
+		return mEquationModelMatrix;
 	}
 
 	public String getEquationText() {
@@ -284,5 +279,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 	public void setCurrentAnswer(String mCurrentAnswer) {
 		this.mCurrentAnswer = mCurrentAnswer;
+	}
+
+	public ArrayList<Shape> getShapes() {
+		return shapes;
+	}
+
+	public ArrayList<Shape> getInputShapes() {
+		return inputShapes;
 	}
 }

@@ -89,6 +89,11 @@ public abstract class Shape {
     	return false;
     }
     
+    public float getMinX() {return 0;}
+    public float getMaxX() {return 0;}
+    public float getMinY() {return 0;}
+    public float getMaxY() {return 0;}
+    
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */

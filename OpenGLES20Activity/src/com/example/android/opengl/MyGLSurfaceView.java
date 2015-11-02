@@ -15,6 +15,8 @@
  */
 package com.example.android.opengl;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -75,8 +77,17 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 requestRender();
                 break;
             case MotionEvent.ACTION_UP:                
-                Vec2 touchGLCoords = getWorldCoords(touchCoords);
-                Shape touchedShape = mRenderer.getTouchedShape(touchGLCoords);
+                //Check if input grid is selected.
+            	Vec2 touchGLCoords = getWorldCoords(mRenderer.getEquationModelMatrix(), touchCoords);
+            	Log.d("TouchedInputShape", "GL Coords: " + touchGLCoords.toString());
+                Shape touchedShape = getTouchedShape(mRenderer.getInputShapes(), touchGLCoords, true);
+                
+                //Check if a cell was selected.
+                if (touchedShape == null) {
+                	touchGLCoords = getWorldCoords(mRenderer.getModelMatrix(), touchCoords);
+                	touchedShape = getTouchedShape(mRenderer.getShapes(), touchGLCoords, false);
+                }
+                
                 if (touchedShape != null) {
                 	mRenderer.setEquationText(touchedShape.toString());
                 } else {
@@ -88,6 +99,65 @@ public class MyGLSurfaceView extends GLSurfaceView {
         return true;
     }
     
+	public Shape getTouchedShape(ArrayList<Shape> shapes, Vec2 touchGLCoords, boolean findClosest) {
+		int index = 0;
+		for (Shape shape : shapes) {
+			index++;
+			if (shape.intersects(touchGLCoords)) {
+				Log.d("TouchedInputShape", "Shape touched is " + index + " value: " + shape.toString());
+				return shape;
+			}
+		}
+		
+		if (findClosest) {
+			float minX = 1000f, maxX = -1000f;
+			float minY = 1000f, maxY = -1000f;
+			float distanceToCentre = 1000f;
+			
+			//Get the GL ranges of the shapes
+			for (Shape shape : shapes) {
+				minX = Math.min(shape.getMinX(), minX);
+				maxX = Math.max(shape.getMaxX(), maxX);
+				minY = Math.min(shape.getMinY(), minY);
+				maxY = Math.max(shape.getMaxY(), maxY);
+			}
+			
+			//Increase the range a bit around the grid.
+			minX += -0.4;
+			maxX += 0.4;
+			minY += -0.4;
+			maxY += 0.2;
+			
+			//Need to push Y up to give top row a chance at selection.
+			float touchY = touchGLCoords.getY() + 0.35f;
+			
+			//Check if the touch was within the range of the shapes.
+			if (touchGLCoords.getX() >= minX && touchGLCoords.getX() <= maxX
+					&& touchY >= minY && touchY <= maxY) {
+				
+				Shape closestShape = null;
+				float tempDistanceToCentre = 0;
+				index = 0;
+				int touchedIndex = 0;
+				
+				for (Shape shape : shapes) {
+					tempDistanceToCentre = (float) Math.sqrt(Math.pow((touchGLCoords.getX() - shape.getCentreX()), 2) 
+							+ Math.pow((touchY - shape.getCentreY()), 2));
+					index++;
+					if (tempDistanceToCentre < distanceToCentre) {
+						closestShape = shape;
+						distanceToCentre = tempDistanceToCentre;
+						touchedIndex = index;
+					}
+				}
+				Log.d("TouchedInputShape", "Closest Shape touched is " + touchedIndex + " value: " + closestShape.toString());
+				return closestShape;
+			}
+		}
+		
+		return null;
+	}
+    
     /**
      * Calculates the transform from screen coordinate
      * system to world coordinate system coordinates
@@ -97,7 +167,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
        actual position on physical screen (ej: 160, 240)
      * @return position in WCS.
      */
-    public Vec2 getWorldCoords(Vec2 touch)
+    public Vec2 getWorldCoords(float[] modelMatrix, Vec2 touch)
     {  
 
         // SCREEN height & width (ej: 320 x 480)
@@ -131,7 +201,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         Matrix.multiplyMM(
             transformMatrix, 0,
             mRenderer.getProjectionMatrix(), 0,
-            mRenderer.getModelMatrix(), 0);
+            modelMatrix, 0);
         Matrix.invertM(invertedMatrix, 0,
             transformMatrix, 0);       
 
