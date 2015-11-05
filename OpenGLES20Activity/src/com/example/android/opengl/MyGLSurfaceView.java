@@ -16,6 +16,7 @@
 package com.example.android.opengl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
@@ -78,13 +79,14 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 break;
             case MotionEvent.ACTION_UP:                
                 //Check if input grid is selected.
-            	Vec2 touchGLCoords = getWorldCoords(mRenderer.getEquationModelMatrix(), touchCoords);
-            	Log.d("TouchedInputShape", "GL Coords: " + touchGLCoords.toString());
+            	Vec2 touchGLCoords = getWorldCoords(mRenderer.getFixedModelMatrix(), touchCoords);
+            	Log.d("TouchedInputShape", "Fixed GL Coords: " + touchGLCoords.toString());
                 Shape touchedShape = getTouchedShape(mRenderer.getInputShapes(), touchGLCoords, true);
                 
                 //Check if a cell was selected.
                 if (touchedShape == null) {
-                	touchGLCoords = getWorldCoords(mRenderer.getModelMatrix(), touchCoords);
+                	touchGLCoords = getWorldCoords(mRenderer.getGridModelMatrix(), touchCoords);
+                	Log.d("TouchedInputShape", "Grid GL Coords: " + touchGLCoords.toString());
                 	touchedShape = getTouchedShape(mRenderer.getShapes(), touchGLCoords, false);
                 }
                 
@@ -122,18 +124,17 @@ public class MyGLSurfaceView extends GLSurfaceView {
 				maxY = Math.max(shape.getMaxY(), maxY);
 			}
 			
+			Log.d("TouchedInputShape", "Range bef: x (" + minX + " - " + maxX + ") y (" + minY + " - " + maxY + ")");
 			//Increase the range a bit around the grid.
-			minX += -0.4;
-			maxX += 0.4;
-			minY += -0.4;
-			maxY += 0.2;
-			
-			//Need to push Y up to give top row a chance at selection.
-			float touchY = touchGLCoords.getY() + 0.35f;
+			minX += -0.1;
+			maxX += 0.1;
+			minY += -0.1;
+			maxY += 0.1;
+			Log.d("TouchedInputShape", "Range aft: x (" + minX + " - " + maxX + ") y (" + minY + " - " + maxY + ")");
 			
 			//Check if the touch was within the range of the shapes.
 			if (touchGLCoords.getX() >= minX && touchGLCoords.getX() <= maxX
-					&& touchY >= minY && touchY <= maxY) {
+					&& touchGLCoords.getY() >= minY && touchGLCoords.getY() <= maxY) {
 				
 				Shape closestShape = null;
 				float tempDistanceToCentre = 0;
@@ -142,7 +143,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 				
 				for (Shape shape : shapes) {
 					tempDistanceToCentre = (float) Math.sqrt(Math.pow((touchGLCoords.getX() - shape.getCentreX()), 2) 
-							+ Math.pow((touchY - shape.getCentreY()), 2));
+							+ Math.pow((touchGLCoords.getY() - shape.getCentreY()), 2));
 					index++;
 					if (tempDistanceToCentre < distanceToCentre) {
 						closestShape = shape;
@@ -169,7 +170,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
      */
     public Vec2 getWorldCoords(float[] modelMatrix, Vec2 touch)
     {  
-
+    	Log.d("TouchedInputShape", "Model Matrix for coords: " + Arrays.toString(modelMatrix));
         // SCREEN height & width (ej: 320 x 480)
         float screenW = (float) getWidth();
         float screenH = (float) getHeight();

@@ -83,7 +83,7 @@ public abstract class Shape {
     	return null;
     }
     
-    public void setShapes(String nestedText) {}
+    public void setShapes(float scale, String nestedText) {}
     
     public boolean intersects(Vec2 touchCoords) {
     	return false;
@@ -148,9 +148,14 @@ public abstract class Shape {
     //Adjust the original scale of the shape and position
     private void adjustShape(float scale, float centreX, float centreY) {
     	for (int i = 0; i < shapeCoords.length; i++) {
-    		shapeCoords[i] = (ORIGINAL_COORDS[i] * scale ) 
-    				+ (i % 3 == 0 ? centreX : 0) 
-    				+ (i % 3 == 1 ? centreY : 0);
+    		//Apply the scale
+    		shapeCoords[i] = (ORIGINAL_COORDS[i] * scale);
+    		
+    		//Apply the x offset
+    		shapeCoords[i] += (i % 3 == 0 ? centreX : 0);
+    		
+    		//Apply the y offset
+    		shapeCoords[i] += (i % 3 == 1 ? centreY : 0);
 		}
 	}
 

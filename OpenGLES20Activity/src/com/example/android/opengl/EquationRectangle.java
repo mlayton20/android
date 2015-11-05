@@ -22,8 +22,8 @@ public class EquationRectangle extends Shape {
     
     private ArrayList<Shape> shapes;
 
-    public EquationRectangle() {
-    	super(originalCoords, drawOrder, color, 1, 0, 0);
+    public EquationRectangle(float centreY) {
+    	super(originalCoords, drawOrder, color, 1, 0, centreY);
     	shapes = new ArrayList<Shape>();
     }
     
@@ -33,17 +33,17 @@ public class EquationRectangle extends Shape {
 	}
     
     @Override
-    public void setShapes(String nestedText) {
-    	shapes = ShapeUtil.generateNestedShapes(this, 0.3f*SCALE_NESTED_TEXT, nestedText);
+    public void setShapes(float scale, String nestedText) {
+    	shapes = ShapeUtil.generateNestedShapes(this, scale*SCALE_NESTED_TEXT, nestedText);
     }
 
 	@Override
 	public float getCentreX() {
-		return shapeCoords[6] + shapeCoords[0];
+		return (shapeCoords[6] + shapeCoords[0])/2;
 	}
 
 	@Override
 	public float getCentreY() {
-		return shapeCoords[1] + shapeCoords[4];
+		return (shapeCoords[1] + shapeCoords[4])/2;
 	}
 }

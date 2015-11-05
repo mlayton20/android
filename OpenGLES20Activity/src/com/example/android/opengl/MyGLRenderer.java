@@ -38,6 +38,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
     private static EquationRectangle equationRectangle;
+    private static EquationRectangle answerRectangle;
     private ArrayList<Shape> shapes;
     private ArrayList<Shape> inputShapes;
 
@@ -45,13 +46,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
-    private final float[] mModelMatrix = new float[16];
-    private float[] mEquationModelMatrix = new float[16];
+    private final float[] mGridModelMatrix = new float[16];
+    private float[] mFixedModelMatrix = new float[16];
     private float[] mTempMatrix = new float[16];
 
     private float mAngle;
     private String mCurrentAnswer = "11";
-    private String mEquationText = mCurrentAnswer;
+    private String mEquationText = "";
+    private String mAnswerText = mCurrentAnswer;
 
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -59,7 +61,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         
-        equationRectangle = new EquationRectangle();
+        equationRectangle = new EquationRectangle(-0.35f);
+        answerRectangle = new EquationRectangle(-0.5f);
         shapes = new ArrayList<Shape>();
         buildInputGrid();
         buildThreeCells();
@@ -96,9 +99,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 unused) {
-    	float[] mMVPEquation = new float[16];
         
-        Matrix.setIdentityM(mModelMatrix, 0); // initialize to identity matrix
+        Matrix.setIdentityM(mGridModelMatrix, 0); // initialize to identity matrix
+        //Setup the equation display before we start moving the grid around
+        Matrix.setIdentityM(mFixedModelMatrix, 0); // initialize to identity matrix
 
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -109,10 +113,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
         
-        //Setup the equation display before we start moving the grid around
-    	mEquationModelMatrix = mModelMatrix.clone();
-		Matrix.translateM(mEquationModelMatrix, 0, 0, -0.5f, 0);
-		mTempMatrix = mMVPMatrix.clone();
+        //Clone this for use with fixed and grid MVPs
+        mTempMatrix = mMVPMatrix.clone();
 
         // Create a rotation for the triangle
 
@@ -121,11 +123,17 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // long time = SystemClock.uptimeMillis() % 4000L;
         // float angle = 0.090f * ((int) time);
         
-        //Start the grid drawing at bottom of screen.
-        Matrix.translateM(mModelMatrix, 0, 0, -0.15f, 0);
+        drawGridShapes();
+        
+        drawFixedShapes();
+    }
+
+	private void drawGridShapes() {
+		//Start the grid drawing at bottom of screen.
+        Matrix.translateM(mGridModelMatrix, 0, 0, 0, 0);
 
         //Move the grid down or up the screen depending on touch events.
-        Matrix.translateM(mModelMatrix, 0, 0, mAngle, 0);
+        Matrix.translateM(mGridModelMatrix, 0, 0, mAngle, 0);
 
         // Combine the rotation matrix with the projection and camera view
         // Note that the mMVPMatrix factor *must be first* in order
@@ -133,8 +141,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         //Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
         
         //Add the movement to the matrix
-        mTempMatrix = mMVPMatrix.clone();
-        Matrix.multiplyMM(mMVPMatrix, 0, mTempMatrix, 0, mModelMatrix, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mTempMatrix, 0, mGridModelMatrix, 0);
         
         //Draw all shapes
         for (Shape shape : shapes) {
@@ -149,23 +156,23 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         		nestedShapes.draw(mMVPMatrix);
         	}
         }
+	}
+	
+	private void drawFixedShapes() {
+		float[] mMVPFixed = new float[16];
+		
+		Matrix.multiplyMM(mMVPFixed, 0, mTempMatrix, 0, mFixedModelMatrix, 0);
+		
+		//Show the equation using the values from the selected cell.
+        equationRectangle.setShapes(0.2f, mEquationText);
+        answerRectangle.setShapes(0.3f, mAnswerText);
+
+        drawShapes(answerRectangle, mMVPFixed);
+        drawShapes(equationRectangle, mMVPFixed);
         
-        //Show the equation using the values from the selected cell.
-        Matrix.multiplyMM(mMVPEquation, 0, mTempMatrix, 0, mEquationModelMatrix, 0);
-        
-        equationRectangle.setShapes(mEquationText);
-        equationRectangle.draw(mMVPEquation);
-        for (Shape nestedShapes : equationRectangle.getShapes()) {
-    		nestedShapes.draw(mMVPEquation);
-    	}
-        
-        //Move the fixed grid down to draw the input grid
-        Matrix.translateM(mEquationModelMatrix, 0, 0, -0.4f, 0);
-        Matrix.multiplyMM(mMVPEquation, 0, mTempMatrix, 0, mEquationModelMatrix, 0);
-        
-        //Draw all shapes
+        //Draw all input grid shapess
         for (Shape shape : inputShapes) {
-        	shape.draw(mMVPEquation);
+        	shape.draw(mMVPFixed);
         	
         	//Don't draw nested shapes if there are none.
         	if (shape.getShapes() == null)
@@ -173,10 +180,22 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         	
         	//Draw the nested shapes
         	for (Shape nestedShapes : shape.getShapes()) {
-        		nestedShapes.draw(mMVPEquation);
+        		nestedShapes.draw(mMVPFixed);
         	}
         }
-    }
+	}
+
+	private void drawShapes(Shape parentShape, float[] mMVPMatrix) {
+		parentShape.draw(mMVPMatrix);
+		
+		if (parentShape.getShapes() == null) {
+			return;
+		}
+		
+        for (Shape nestedShapes : parentShape.getShapes()) {
+    		nestedShapes.draw(mMVPMatrix);
+    	}
+	}
 
     @Override
     public void onSurfaceChanged(GL10 unused, int width, int height) {
@@ -257,12 +276,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		return mProjectionMatrix;
 	}
 
-	public float[] getModelMatrix() {
-		return mModelMatrix;
+	public float[] getGridModelMatrix() {
+		return mGridModelMatrix;
 	}
 	
-	public float[] getEquationModelMatrix() {
-		return mEquationModelMatrix;
+	public float[] getFixedModelMatrix() {
+		return mFixedModelMatrix;
 	}
 
 	public String getEquationText() {
@@ -271,6 +290,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 	public void setEquationText(String mEquationText) {
 		this.mEquationText = mEquationText;
+	}
+
+	public String getmAnswerText() {
+		return mAnswerText;
+	}
+
+	public void setmAnswerText(String mAnswerText) {
+		this.mAnswerText = mAnswerText;
 	}
 
 	public String getCurrentAnswer() {

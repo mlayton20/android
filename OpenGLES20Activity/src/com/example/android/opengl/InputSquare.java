@@ -8,6 +8,7 @@ public class InputSquare extends Shape {
 	
 	private static final String TAG = "InputSquare";
 	
+	private static final float FIXED_OFFSET_Y = 0.9f;
 	private static final float SCALE_BORDER = 0.92f;
 	private static final float SCALE_NESTED_TEXT = 0.6f;
 
@@ -30,7 +31,7 @@ public class InputSquare extends Shape {
 
     //This will be the parent cell.
 	public InputSquare(float scale, float centreX, float centreY, String nestedText) {
-    	super(originalCoords, drawOrder, borderColor, scale, scale*centreX, scale*centreY);
+    	super(originalCoords, drawOrder, borderColor, scale, scale*centreX, (scale*centreY)-FIXED_OFFSET_Y);
     	
     	this.nestedText = nestedText;
     	
