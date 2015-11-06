@@ -71,17 +71,18 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     
     private void buildInputGrid() {
     	inputShapes = new ArrayList<Shape>();
-    	inputShapes.add(new InputSquare(0.16f, -2.4f, 1.15f, "1")); //1
-    	inputShapes.add(new InputSquare(0.16f, -1.2f, 1.15f, "2")); //2
-    	inputShapes.add(new InputSquare(0.16f,     0, 1.15f, "1")); //3
-    	inputShapes.add(new InputSquare(0.16f,  1.2f, 1.15f, "2")); //4
-    	inputShapes.add(new InputSquare(0.16f,  2.4f, 1.15f, "1")); //5
-    	inputShapes.add(new InputSquare(0.16f, -3.0f,    0, "2")); //6
-    	inputShapes.add(new InputSquare(0.16f, -1.8f,    0, "1")); //7
-    	inputShapes.add(new InputSquare(0.16f, -0.6f,    0, "2")); //8
-    	inputShapes.add(new InputSquare(0.16f,  0.6f,    0, "1")); //9
-    	inputShapes.add(new InputSquare(0.16f,  1.8f,    0, "2")); //0
-    	inputShapes.add(new InputSquare(0.16f,  3.0f,    0, "1")); //X - This is to clear input
+    	
+    	inputShapes.add(new InputSquare(0.16f, -3.0f, 1.15f, "1")); //1
+    	inputShapes.add(new InputSquare(0.16f, -1.8f, 1.15f, "2")); //2
+    	inputShapes.add(new InputSquare(0.16f, -0.6f, 1.15f, "1")); //3
+    	inputShapes.add(new InputSquare(0.16f,  0.6f, 1.15f, "2")); //4
+    	inputShapes.add(new InputSquare(0.16f,  1.8f, 1.15f, "1")); //5
+    	inputShapes.add(new InputSquare(0.16f,  3.0f, 1.15f, "2")); //6
+    	inputShapes.add(new InputSquare(0.16f, -2.4f,     0, "1")); //7
+    	inputShapes.add(new InputSquare(0.16f, -1.2f,     0, "2")); //8
+    	inputShapes.add(new InputSquare(0.16f,     0,     0, "1")); //9
+    	inputShapes.add(new InputSquare(0.16f,  1.2f,     0, "2")); //0
+    	inputShapes.add(new InputSquare(0.16f,  2.4f,     0, "1")); //X - This is to clear input
 	}
 
 	private void buildThreeCells() {
@@ -292,11 +293,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		this.mEquationText = mEquationText;
 	}
 
-	public String getmAnswerText() {
+	public String getAnswerText() {
 		return mAnswerText;
 	}
 
-	public void setmAnswerText(String mAnswerText) {
+	public void setAnswerText(String mAnswerText) {
 		this.mAnswerText = mAnswerText;
 	}
 

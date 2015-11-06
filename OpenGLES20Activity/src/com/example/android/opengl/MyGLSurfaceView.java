@@ -51,6 +51,9 @@ public class MyGLSurfaceView extends GLSurfaceView {
     private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
     private float mPreviousX;
     private float mPreviousY;
+    
+    private Shape mPreviousTouchedCell;
+    private Shape mPreviousTouchedInput;
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
@@ -78,22 +81,42 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 requestRender();
                 break;
             case MotionEvent.ACTION_UP:                
-                //Check if input grid is selected.
+            	Shape touchedShape = null;
+            	//Check if input grid is selected.
             	Vec2 touchGLCoords = getWorldCoords(mRenderer.getFixedModelMatrix(), touchCoords);
             	Log.d("TouchedInputShape", "Fixed GL Coords: " + touchGLCoords.toString());
-                Shape touchedShape = getTouchedShape(mRenderer.getInputShapes(), touchGLCoords, true);
+                touchedShape = getTouchedShape(mRenderer.getInputShapes(), touchGLCoords, true);
                 
-                //Check if a cell was selected.
-                if (touchedShape == null) {
-                	touchGLCoords = getWorldCoords(mRenderer.getGridModelMatrix(), touchCoords);
-                	Log.d("TouchedInputShape", "Grid GL Coords: " + touchGLCoords.toString());
-                	touchedShape = getTouchedShape(mRenderer.getShapes(), touchGLCoords, false);
+                //If TouchedInput was selected, only show if a cell has been touched previously.
+            	if (touchedShape != null) {
+            		
+            		//Only show the input if a cell has been selected previously
+            		if (mPreviousTouchedCell != null) {
+            			mRenderer.setAnswerText(mRenderer.getAnswerText() + touchedShape.toString());
+            		}
+            		mPreviousTouchedInput = touchedShape;
+            		requestRender();
+            		break;
                 }
                 
+                //Check if a cell was selected.
+            	touchGLCoords = getWorldCoords(mRenderer.getGridModelMatrix(), touchCoords);
+            	Log.d("TouchedInputShape", "Grid GL Coords: " + touchGLCoords.toString());
+            	touchedShape = getTouchedShape(mRenderer.getShapes(), touchGLCoords, false);
+
+            	//TODO - Add the underscores for the expected input answer.
+                
+            	//If a cell has been touched, start making the equation
                 if (touchedShape != null) {
-                	mRenderer.setEquationText(touchedShape.toString());
-                } else {
-                	mRenderer.setEquationText(mRenderer.getCurrentAnswer());
+                	mRenderer.setEquationText(mRenderer.getCurrentAnswer() + touchedShape.toString());
+                	mRenderer.setAnswerText("");
+                	mPreviousTouchedCell = touchedShape;
+                //If nothing has been pressed, reset the output shapes.
+        		} else {
+        			mRenderer.setEquationText("");
+                	mRenderer.setAnswerText(mRenderer.getCurrentAnswer());
+                	mPreviousTouchedCell = null;
+                	mPreviousTouchedInput = null;
         		}
                 requestRender();
                 break;
@@ -112,50 +135,56 @@ public class MyGLSurfaceView extends GLSurfaceView {
 		}
 		
 		if (findClosest) {
-			float minX = 1000f, maxX = -1000f;
-			float minY = 1000f, maxY = -1000f;
-			float distanceToCentre = 1000f;
-			
-			//Get the GL ranges of the shapes
-			for (Shape shape : shapes) {
-				minX = Math.min(shape.getMinX(), minX);
-				maxX = Math.max(shape.getMaxX(), maxX);
-				minY = Math.min(shape.getMinY(), minY);
-				maxY = Math.max(shape.getMaxY(), maxY);
-			}
-			
-			Log.d("TouchedInputShape", "Range bef: x (" + minX + " - " + maxX + ") y (" + minY + " - " + maxY + ")");
-			//Increase the range a bit around the grid.
-			minX += -0.1;
-			maxX += 0.1;
-			minY += -0.1;
-			maxY += 0.1;
-			Log.d("TouchedInputShape", "Range aft: x (" + minX + " - " + maxX + ") y (" + minY + " - " + maxY + ")");
-			
-			//Check if the touch was within the range of the shapes.
-			if (touchGLCoords.getX() >= minX && touchGLCoords.getX() <= maxX
-					&& touchGLCoords.getY() >= minY && touchGLCoords.getY() <= maxY) {
-				
-				Shape closestShape = null;
-				float tempDistanceToCentre = 0;
-				index = 0;
-				int touchedIndex = 0;
-				
-				for (Shape shape : shapes) {
-					tempDistanceToCentre = (float) Math.sqrt(Math.pow((touchGLCoords.getX() - shape.getCentreX()), 2) 
-							+ Math.pow((touchGLCoords.getY() - shape.getCentreY()), 2));
-					index++;
-					if (tempDistanceToCentre < distanceToCentre) {
-						closestShape = shape;
-						distanceToCentre = tempDistanceToCentre;
-						touchedIndex = index;
-					}
-				}
-				Log.d("TouchedInputShape", "Closest Shape touched is " + touchedIndex + " value: " + closestShape.toString());
-				return closestShape;
-			}
+			return getClosestShape(shapes, touchGLCoords);
 		}
 		
+		return null;
+	}
+
+	private Shape getClosestShape(ArrayList<Shape> shapes, Vec2 touchGLCoords) {
+		int index;
+		float minX = 1000f, maxX = -1000f;
+		float minY = 1000f, maxY = -1000f;
+		float distanceToCentre = 1000f;
+		
+		//Get the GL ranges of the shapes
+		for (Shape shape : shapes) {
+			minX = Math.min(shape.getMinX(), minX);
+			maxX = Math.max(shape.getMaxX(), maxX);
+			minY = Math.min(shape.getMinY(), minY);
+			maxY = Math.max(shape.getMaxY(), maxY);
+		}
+		
+		Log.d("TouchedInputShape", "Range bef: x (" + minX + " - " + maxX + ") y (" + minY + " - " + maxY + ")");
+		//Increase the range a bit around the grid.
+		minX += -0.1;
+		maxX += 0.1;
+		minY += -0.1;
+		maxY += 0.1;
+		Log.d("TouchedInputShape", "Range aft: x (" + minX + " - " + maxX + ") y (" + minY + " - " + maxY + ")");
+		
+		//Check if the touch was within the range of the shapes.
+		if (touchGLCoords.getX() >= minX && touchGLCoords.getX() <= maxX
+				&& touchGLCoords.getY() >= minY && touchGLCoords.getY() <= maxY) {
+			
+			Shape closestShape = null;
+			float tempDistanceToCentre = 0;
+			index = 0;
+			int touchedIndex = 0;
+			
+			for (Shape shape : shapes) {
+				tempDistanceToCentre = (float) Math.sqrt(Math.pow((touchGLCoords.getX() - shape.getCentreX()), 2) 
+						+ Math.pow((touchGLCoords.getY() - shape.getCentreY()), 2));
+				index++;
+				if (tempDistanceToCentre < distanceToCentre) {
+					closestShape = shape;
+					distanceToCentre = tempDistanceToCentre;
+					touchedIndex = index;
+				}
+			}
+			Log.d("TouchedInputShape", "Closest Shape touched is " + touchedIndex + " value: " + closestShape.toString());
+			return closestShape;
+		}
 		return null;
 	}
     
