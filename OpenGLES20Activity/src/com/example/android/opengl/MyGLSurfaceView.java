@@ -17,6 +17,8 @@ package com.example.android.opengl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
@@ -54,6 +56,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
     
     private Shape mPreviousTouchedCell;
     private Shape mPreviousTouchedInput;
+    private String mExpectedAnswer;
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
@@ -93,6 +96,11 @@ public class MyGLSurfaceView extends GLSurfaceView {
             		//Only show the input if a cell has been selected previously
             		if (mPreviousTouchedCell != null) {
             			mRenderer.setAnswerText(mRenderer.getAnswerText() + touchedShape.toString());
+
+            			//TODO If length of guess is same as answer
+            				//TODO If guess matches answer then clear equation and set answer as expected Answer
+            				//TODO If guess does not match answer then clear answer text so someone can make new guess
+            			
             		}
             		mPreviousTouchedInput = touchedShape;
             		requestRender();
@@ -110,6 +118,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 if (touchedShape != null) {
                 	mRenderer.setEquationText(mRenderer.getCurrentAnswer() + touchedShape.toString());
                 	mRenderer.setAnswerText("");
+                	mExpectedAnswer = getExpectedAnswer(mRenderer.getEquationText());
                 	mPreviousTouchedCell = touchedShape;
                 //If nothing has been pressed, reset the output shapes.
         		} else {
@@ -124,6 +133,48 @@ public class MyGLSurfaceView extends GLSurfaceView {
         return true;
     }
     
+	private String getExpectedAnswer(String equationText) {
+		String pattern = "([\\d]+)([\\+-/x]{1})([\\d]+).*";
+		
+		// Create a Pattern object
+		Pattern r = Pattern.compile(pattern);
+		
+		// Now create matcher object.
+		Matcher m = r.matcher(equationText);
+		if (m.find()) {
+			int currentAnswer = Integer.parseInt(m.group(1));
+			char operator = (m.group(2)).toCharArray()[0];
+			int cellNumber = Integer.parseInt(m.group(3));
+			int expectedAnswer = 0;
+			switch (operator) {
+				case '+':
+					expectedAnswer = currentAnswer + cellNumber;
+					break;
+				case '-':
+					expectedAnswer = currentAnswer - cellNumber;
+					break;
+				case '/':
+					expectedAnswer = currentAnswer / cellNumber;
+					break;
+				case 'x':
+					expectedAnswer = currentAnswer * cellNumber;
+					break;
+			}
+			
+			Log.d("Matcher", "Equation: " + m.group(0));
+			Log.d("Matcher", "Current Answer: " + currentAnswer);
+			Log.d("Matcher", "Operator: " + operator);
+			Log.d("Matcher", "Cell number: " + cellNumber);
+			Log.d("Matcher", "Expected Answer====: " + expectedAnswer);
+			
+			if (expectedAnswer > 0) {
+				return Integer.toString(expectedAnswer);
+			}
+		}
+		
+		return null;
+	}
+
 	public Shape getTouchedShape(ArrayList<Shape> shapes, Vec2 touchGLCoords, boolean findClosest) {
 		int index = 0;
 		for (Shape shape : shapes) {
