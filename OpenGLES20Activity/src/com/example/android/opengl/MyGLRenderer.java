@@ -108,6 +108,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        
+        // Enable transparency options for colors.
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
         // Set the camera position (View matrix)
         Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
@@ -132,7 +136,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 	private void drawGridShapes() {
 		//Start the grid drawing at bottom of screen.
-        Matrix.translateM(mGridModelMatrix, 0, 0, 0, 0);
+        Matrix.translateM(mGridModelMatrix, 0, 0, -0.1f, 0);
 
         //Move the grid down or up the screen depending on touch events.
         Matrix.translateM(mGridModelMatrix, 0, 0, mAngle, 0);

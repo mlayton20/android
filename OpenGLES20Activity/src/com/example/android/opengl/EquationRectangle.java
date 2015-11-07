@@ -18,7 +18,10 @@ public class EquationRectangle extends Shape {
     private static final short drawOrder[] = { 0,1,3,3,1,2 }; // order to draw vertices
 
     //#RGB: Light blue
-    private static final float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
+    //private static final float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
+    
+    //#RGB: Transparent (Black)
+    private static final float color[] = { 0, 0, 0, 0 };
     
     private ArrayList<Shape> shapes;
 
