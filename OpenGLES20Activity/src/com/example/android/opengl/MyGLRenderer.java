@@ -61,6 +61,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         
+        //TODO Add code that sets current answer to whatever the current answer is.
         equationRectangle = new EquationRectangle(-0.35f);
         answerRectangle = new EquationRectangle(-0.5f);
         shapes = new ArrayList<Shape>();
@@ -211,7 +212,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
         Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
-
+        
+        //TODO Store the current answer, the current answer Text and the current Equation. 
     }
 
     /**

@@ -55,7 +55,6 @@ public class MyGLSurfaceView extends GLSurfaceView {
     private float mPreviousY;
     
     private Shape mPreviousTouchedCell;
-    private Shape mPreviousTouchedInput;
     private String mExpectedAnswer;
 
     @Override
@@ -96,13 +95,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
             		//Only show the input if a cell has been selected previously
             		if (mPreviousTouchedCell != null) {
             			mRenderer.setAnswerText(mRenderer.getAnswerText() + touchedShape.toString());
-
-            			//TODO If length of guess is same as answer
-            				//TODO If guess matches answer then clear equation and set answer as expected Answer
-            				//TODO If guess does not match answer then clear answer text so someone can make new guess
-            			
+            			processGuess();
             		}
-            		mPreviousTouchedInput = touchedShape;
             		requestRender();
             		break;
                 }
@@ -122,16 +116,19 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 	mPreviousTouchedCell = touchedShape;
                 //If nothing has been pressed, reset the output shapes.
         		} else {
-        			mRenderer.setEquationText("");
-                	mRenderer.setAnswerText(mRenderer.getCurrentAnswer());
-                	mPreviousTouchedCell = null;
-                	mPreviousTouchedInput = null;
+        			resetOutput();
         		}
                 requestRender();
                 break;
         }
         return true;
     }
+
+	private void resetOutput() {
+		mRenderer.setEquationText("");
+		mRenderer.setAnswerText(mRenderer.getCurrentAnswer());
+		mPreviousTouchedCell = null;
+	}
     
 	private String getExpectedAnswer(String equationText) {
 		String pattern = "([\\d]+)([\\+-/x]{1})([\\d]+).*";
@@ -173,6 +170,34 @@ public class MyGLSurfaceView extends GLSurfaceView {
 		}
 		
 		return null;
+	}
+	
+	public void processGuess() {
+		//If length of guess is not the same as expected answer, ignore it
+		if (mRenderer.getAnswerText().length() != mExpectedAnswer.length()) {
+			return;
+		}
+		
+		//If user still has to make inputs, ignore it
+		if (mRenderer.getAnswerText().indexOf('_') > -1) {
+			return;
+		}
+		
+		//If guess matches answer then clear equation and set answer as expected Answer
+		if (mRenderer.getAnswerText().equals(mExpectedAnswer)) {
+			mRenderer.setCurrentAnswer(mExpectedAnswer);
+			//TODO Change the text color of Answer text to green
+			//TODO Wait half a second before changing color back to white and clearing equation
+			//TODO Change the text color of Answer text to white
+			resetOutput();
+			return;
+		//If guess does not match answer then clear answer text so someone can make new guess
+		} else {
+			//TODO Change the text colour to red
+			//TODO Wait half a second before clearing the text
+			mRenderer.setAnswerText("");
+			return;
+		}
 	}
 
 	public Shape getTouchedShape(ArrayList<Shape> shapes, Vec2 touchGLCoords, boolean findClosest) {
