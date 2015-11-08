@@ -55,6 +55,8 @@ public class ShapeUtil {
 			//Operators
 			case '+':
 				return new OperatorPlus(scale, centreX, centreY);
+			case '*':
+				return new OperatorMultiply(scale, centreX, centreY);
 			
 			//This shouldn't happen 
 			default:

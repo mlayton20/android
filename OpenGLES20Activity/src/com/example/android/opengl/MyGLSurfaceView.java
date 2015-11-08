@@ -131,7 +131,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	}
     
 	private String getExpectedAnswer(String equationText) {
-		String pattern = "([\\d]+)([\\+-/x]{1})([\\d]+).*";
+		String pattern = "([\\d]+)([\\+-/\\*]{1})([\\d]+).*";
 		
 		// Create a Pattern object
 		Pattern r = Pattern.compile(pattern);
@@ -153,7 +153,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 				case '/':
 					expectedAnswer = currentAnswer / cellNumber;
 					break;
-				case 'x':
+				case '*':
 					expectedAnswer = currentAnswer * cellNumber;
 					break;
 			}

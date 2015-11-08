@@ -89,7 +89,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	private void buildThreeCells() {
 		shapes.add(new Hexagon(0.3f,     0, 0.7f, "+12"));
         shapes.add(new Hexagon(0.3f, -1.0f, 0.7f, "+21"));
-        shapes.add(new Hexagon(0.3f,  1.0f, 0.7f, "+2"));
+        shapes.add(new Hexagon(0.3f,  1.0f, 0.7f, "*2"));
 	}
 	
 	private void buildFourCells() {
