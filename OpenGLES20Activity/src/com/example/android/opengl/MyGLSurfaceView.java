@@ -70,7 +70,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         
         //Turn off constant refresh when there is no animation
         if (!mRenderer.isCorrectGuess()) {
-        	Log.d(TAG,"Turning off auto rendering");
+        	//Log.d(TAG,"Turning off auto rendering");
         	setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         }
 
