@@ -16,6 +16,7 @@
 package com.example.android.opengl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -51,9 +52,17 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private float[] mTempMatrix = new float[16];
 
     private float mAngle;
+    private float mBottomRowScale; 
     private String mCurrentAnswer = "11";
     private String mEquationText = "";
     private String mAnswerText = mCurrentAnswer;
+    private boolean isCorrectGuess = false;
+    
+    //Animation
+    float time = System.nanoTime();    // time value (initialize it)
+    float frameTime = 0;               // frame animation time
+    int[] frames = new int[10];        // 10 animation frames
+    int currentFrame = 0;              // active frame
 
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -66,8 +75,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         answerRectangle = new EquationRectangle(-0.5f);
         shapes = new ArrayList<Shape>();
         buildInputGrid();
-        buildThreeCells();
         buildFourCells();
+        buildThreeCells();
+        setBottomRowScale(1.0f);
     }
     
     private void buildInputGrid() {
@@ -129,12 +139,37 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // long time = SystemClock.uptimeMillis() % 4000L;
         // float angle = 0.090f * ((int) time);
         
+        if (isCorrectGuess()) {
+	        // calculate the elapsed time, and update timer
+	        float elapsedTime = ( System.nanoTime() - time ) / 1000000000.0f;
+	        time = System.nanoTime();
+	
+	        // now you can use the elapsed time to determine when to switch frames
+	        frameTime += time;             // count frame time
+	        if ( elapsedTime >= 0.006f )  {   // if 1/60th of a second passed (for 60fps)
+	        	currentFrame++;                    // step to next frame
+	        	//TODO - The 0.021f should be calculated in case the size of the shape changes or the frame number increases
+	        	setAngle(getAngle() - 0.021f);
+	        	//TODO - The 0.1f should be calculated in case the size of the shape changes or the frame number increases
+	        	setBottomRowScale(getBottomRowScale() - 0.1f);
+	        	if (currentFrame > 9) {            // if end of sequence
+	        		currentFrame = 0;               // restart sequence
+	        		setBottomRowScale(1.0f);		//Reset the scale
+	        		removeBottomRow();
+	        		setCorrectGuess(false);			//Mark as false so animation stops and user can make new guess
+	        	}
+	        }
+	
+	        // now you just bind the current "frame" as the texture
+	        //GLES20.glBindTexture( GL10.GL_TEXTURE_2D, frames[currentFrame] );
+        }
+        
         drawGridShapes();
         
         drawFixedShapes();
     }
 
-	private void drawGridShapes() {
+	private void drawGridShapes() {    	
 		//Start the grid drawing at bottom of screen.
         Matrix.translateM(mGridModelMatrix, 0, 0, -0.1f, 0);
 
@@ -148,22 +183,41 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         
         //Add the movement to the matrix
         Matrix.multiplyMM(mMVPMatrix, 0, mTempMatrix, 0, mGridModelMatrix, 0);
-        
-        //Draw all shapes
-        for (Shape shape : shapes) {
-        	shape.draw(mMVPMatrix);
-        	
-        	//Don't draw nested shapes if there are none.
-        	if (shape.getShapes() == null)
-        		continue;
-        	
-        	//Draw the nested shapes
-        	for (Shape nestedShapes : shape.getShapes()) {
-        		nestedShapes.draw(mMVPMatrix);
-        	}
+    	
+        //Draw all grid shapes
+        if (isCorrectGuess()) {
+        	drawAllShapesAndShrinkBottomRow(mMVPMatrix);
+        } else {
+        	drawAllShapes(mMVPMatrix);
         }
 	}
 	
+	private void drawAllShapes(float[] mMVPMatrix) {
+		for (Shape shape : shapes) {
+        	//Log.d(TAG, "Scale Hexagon ("+shape.toString()+") Aft ("+shape.getCentreX()+", "+shape.getCentreY()+")");
+        	drawShapes(shape, mMVPMatrix);
+        }
+	}
+	
+	private void drawAllShapesAndShrinkBottomRow(float[] mMVPMatrix) {
+		float[] mMVPScaled = mMVPMatrix.clone();
+		float[] mScaleModelMatrix = mGridModelMatrix.clone();
+		
+		Matrix.scaleM(mScaleModelMatrix, 0, getBottomRowScale(), getBottomRowScale(), 0);
+		Matrix.multiplyMM(mMVPScaled, 0, mTempMatrix, 0, mScaleModelMatrix, 0);
+		
+		int lastCellIndex = getBottomRowLastCellIndex();
+		
+		//Apply scaling to the bottom row and just move the other rows.
+		for (int i = 0; i < shapes.size(); i++) {
+			if (i <= lastCellIndex) {
+				drawShapes(shapes.get(i), mMVPScaled);
+			} else {
+				drawShapes(shapes.get(i), mMVPMatrix);
+			}
+		}
+	}
+
 	private void drawFixedShapes() {
 		float[] mMVPFixed = new float[16];
 		
@@ -201,6 +255,26 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         for (Shape nestedShapes : parentShape.getShapes()) {
     		nestedShapes.draw(mMVPMatrix);
     	}
+	}
+	
+	private int getBottomRowLastCellIndex() {
+		int lastCellIndex = 0;
+		Shape prevShape = null;
+		for (int i = 0; i < shapes.size(); i++) {
+			if (prevShape == null || shapes.get(i).getCentreY() == prevShape.getCentreY()) {
+				lastCellIndex = i;
+				prevShape = shapes.get(i);
+			} else {
+				return lastCellIndex;
+			}
+		}
+		return lastCellIndex;
+	}
+	
+	private void removeBottomRow() {
+		for (int i = getBottomRowLastCellIndex(); i >= 0 ; i--) {
+			shapes.remove(i);
+		}
 	}
 
     @Override
@@ -321,5 +395,24 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 	public ArrayList<Shape> getInputShapes() {
 		return inputShapes;
+	}
+
+	public boolean isCorrectGuess() {
+		return isCorrectGuess;
+	}
+
+	public void setCorrectGuess(boolean isCorrectGuess) {
+		this.isCorrectGuess = isCorrectGuess;
+	}
+
+	public float getBottomRowScale() {
+		return mBottomRowScale;
+	}
+
+	public void setBottomRowScale(float mBottomRowScale) {
+		if (mBottomRowScale < 0) {
+			return;
+		}
+		this.mBottomRowScale = mBottomRowScale;
 	}
 }

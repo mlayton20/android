@@ -67,21 +67,14 @@ public class MyGLSurfaceView extends GLSurfaceView {
         float y = e.getY();
         Vec2 touchCoords = new Vec2(e.getX(),e.getY());
         float dy;
+        
+        //Turn off constant refresh when there is no animation
+        if (!mRenderer.isCorrectGuess()) {
+        	Log.d(TAG,"Turning off auto rendering");
+        	setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        }
 
         switch (e.getAction()) {
-            case MotionEvent.ACTION_MOVE:
-
-                if (y > getHeight() / 2) {
-                	//Move shapes down
-                    dy = mRenderer.getAngle() + 0.005f;
-                } else {
-                	//Move shape down
-                	dy = mRenderer.getAngle() - 0.005f;
-                }
-
-                mRenderer.setAngle(dy);
-                requestRender();
-                break;
             case MotionEvent.ACTION_UP:                
             	Shape touchedShape = null;
             	//Check if input grid is selected.
@@ -185,11 +178,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 		
 		//If guess matches answer then clear equation and set answer as expected Answer
 		if (mRenderer.getAnswerText().equals(mExpectedAnswer)) {
-			mRenderer.setCurrentAnswer(mExpectedAnswer);
-			//TODO Change the text color of Answer text to green
-			//TODO Wait half a second before changing color back to white and clearing equation
-			//TODO Change the text color of Answer text to white
-			resetOutput();
+			processCorrectGuess();
 			return;
 		//If guess does not match answer then clear answer text so someone can make new guess
 		} else {
@@ -198,6 +187,17 @@ public class MyGLSurfaceView extends GLSurfaceView {
 			mRenderer.setAnswerText("");
 			return;
 		}
+	}
+
+	private void processCorrectGuess() {
+		//Turn on continuous rendering
+		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+		mRenderer.setCurrentAnswer(mExpectedAnswer);
+		//TODO Change the text color of Answer text to green
+		//TODO Wait half a second before changing color back to white and clearing equation
+		//TODO Change the text color of Answer text to white
+		resetOutput();
+		mRenderer.setCorrectGuess(true);
 	}
 
 	public Shape getTouchedShape(ArrayList<Shape> shapes, Vec2 touchGLCoords, boolean findClosest) {
