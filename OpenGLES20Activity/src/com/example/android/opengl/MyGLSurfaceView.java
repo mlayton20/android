@@ -45,14 +45,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         // Set the Renderer for drawing on the GLSurfaceView
         mRenderer = new MyGLRenderer();
         setRenderer(mRenderer);
-
-        // Render the view only when there is a change in the drawing data
-        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
-
-    private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
-    private float mPreviousX;
-    private float mPreviousY;
     
     private Shape mPreviousTouchedCell;
     private String mExpectedAnswer;
@@ -62,17 +55,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
         // MotionEvent reports input details from the touch screen
         // and other input controls. In this case, you are only
         // interested in events where the touch position changed.
-
-        float x = e.getX();
-        float y = e.getY();
+    	
         Vec2 touchCoords = new Vec2(e.getX(),e.getY());
-        float dy;
-        
-        //Turn off constant refresh when there is no animation
-        if (!mRenderer.isCorrectGuess()) {
-        	//Log.d(TAG,"Turning off auto rendering");
-        	setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-        }
 
         switch (e.getAction()) {
             case MotionEvent.ACTION_UP:                
@@ -190,8 +174,6 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	}
 
 	private void processCorrectGuess() {
-		//Turn on continuous rendering
-		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 		mRenderer.setCurrentAnswer(mExpectedAnswer);
 		//TODO Change the text color of Answer text to green
 		//TODO Wait half a second before changing color back to white and clearing equation

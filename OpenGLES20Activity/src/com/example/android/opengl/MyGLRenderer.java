@@ -51,18 +51,30 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private float[] mFixedModelMatrix = new float[16];
     private float[] mTempMatrix = new float[16];
 
-    private float mAngle;
+    private float mMovementY;
     private float mBottomRowScale; 
     private String mCurrentAnswer = "11";
     private String mEquationText = "";
     private String mAnswerText = mCurrentAnswer;
     private boolean isCorrectGuess = false;
     
-    //Animation
-    float time = System.nanoTime();    // time value (initialize it)
-    float frameTime = 0;               // frame animation time
-    int[] frames = new int[10];        // 10 animation frames
-    int currentFrame = 0;              // active frame
+    //To limit the number of renders per second
+    private long startTime;
+    private long endTime;
+    private long timeElapsed;
+    private int currentFrame = 0;              // active frame
+    private final int FPS = 33;			   	   // Frames per second
+    private final int FPS_ANIMATION = 20;
+    
+    //Reducer values, these are used for animation scenes
+    private float mFPSMovementY;
+    private float mFPSBottomRowScale;
+    
+    private int level; //The current row in the grid.
+    
+    //Constants for grid presentation 
+    private final float CELL_SCALE = 0.3f;
+    private final float CELL_OFFSET_Y = 0.7f;
 
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -70,15 +82,27 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         
+        startTime = System.currentTimeMillis();
+        
         //TODO Add code that sets current answer to whatever the current answer is.
+        
+        //TODO - Set level to be whatever the current level is
+        level = 0;
         equationRectangle = new EquationRectangle(-0.35f);
         answerRectangle = new EquationRectangle(-0.5f);
         shapes = new ArrayList<Shape>();
         buildInputGrid();
-        buildFourCells();
-        buildThreeCells();
+        buildGrid();
         setBottomRowScale(1.0f);
+        setFPSBottomRowScale(getBottomRowScale() / FPS_ANIMATION);
+        setFPSMovementY((CELL_OFFSET_Y*CELL_SCALE) / FPS_ANIMATION);
     }
+
+	private void buildGrid() {
+		buildFourCells(CELL_OFFSET_Y*level);
+		level++;
+        buildThreeCells(CELL_OFFSET_Y*level);
+	}
     
     private void buildInputGrid() {
     	inputShapes = new ArrayList<Shape>();
@@ -96,21 +120,34 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     	inputShapes.add(new InputSquare(0.16f,  2.4f,     0, "1")); //X - This is to clear input
 	}
 
-	private void buildThreeCells() {
-		shapes.add(new Hexagon(0.3f,     0, 0.7f, "+12"));
-        shapes.add(new Hexagon(0.3f, -1.0f, 0.7f, "+21"));
-        shapes.add(new Hexagon(0.3f,  1.0f, 0.7f, "*2"));
+	private void buildThreeCells(float offsetY) {
+		shapes.add(new Hexagon(CELL_SCALE,     0, offsetY, "+12"));
+        shapes.add(new Hexagon(CELL_SCALE, -1.0f, offsetY, "+21"));
+        shapes.add(new Hexagon(CELL_SCALE,  1.0f, offsetY, "*2"));
 	}
 	
-	private void buildFourCells() {
-		shapes.add(new Hexagon(0.3f, -1.5f, 0, "+11"));
-        shapes.add(new Hexagon(0.3f, -0.5f, 0, "+1"));
-        shapes.add(new Hexagon(0.3f,  0.5f, 0, "+22"));
-        shapes.add(new Hexagon(0.3f,  1.5f, 0, "+12"));
+	private void buildFourCells(float offsetY) {
+		shapes.add(new Hexagon(CELL_SCALE, -1.5f, offsetY, "+11"));
+        shapes.add(new Hexagon(CELL_SCALE, -0.5f, offsetY, "+1"));
+        shapes.add(new Hexagon(CELL_SCALE,  0.5f, offsetY, "+22"));
+        shapes.add(new Hexagon(CELL_SCALE,  1.5f, offsetY, "+12"));
 	}
 
     @Override
     public void onDrawFrame(GL10 unused) {
+    	
+    	//We dont need continuous rendering, only needed for animation and time switching
+    	endTime = System.currentTimeMillis();
+    	timeElapsed = endTime - startTime;
+        if (timeElapsed < FPS) {
+            try {
+            	Log.d(TAG, "Sleeping until "+FPS+" millsecs pass");
+				Thread.sleep(FPS - timeElapsed);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        }
+        startTime = endTime;
         
         Matrix.setIdentityM(mGridModelMatrix, 0); // initialize to identity matrix
         //Setup the equation display before we start moving the grid around
@@ -140,28 +177,17 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // float angle = 0.090f * ((int) time);
         
         if (isCorrectGuess()) {
-	        // calculate the elapsed time, and update timer
-	        float elapsedTime = ( System.nanoTime() - time ) / 1000000000.0f;
-	        time = System.nanoTime();
-	
-	        // now you can use the elapsed time to determine when to switch frames
-	        frameTime += time;             // count frame time
-	        if ( elapsedTime >= 0.006f )  {   // if 1/60th of a second passed (for 60fps)
-	        	currentFrame++;                    // step to next frame
-	        	//TODO - The 0.021f should be calculated in case the size of the shape changes or the frame number increases
-	        	setAngle(getAngle() - 0.021f);
-	        	//TODO - The 0.1f should be calculated in case the size of the shape changes or the frame number increases
-	        	setBottomRowScale(getBottomRowScale() - 0.1f);
-	        	if (currentFrame > 9) {            // if end of sequence
-	        		currentFrame = 0;               // restart sequence
-	        		setBottomRowScale(1.0f);		//Reset the scale
-	        		removeBottomRow();
-	        		setCorrectGuess(false);			//Mark as false so animation stops and user can make new guess
-	        	}
-	        }
-	
-	        // now you just bind the current "frame" as the texture
-	        //GLES20.glBindTexture( GL10.GL_TEXTURE_2D, frames[currentFrame] );
+        	currentFrame++;                    // step to next frame
+        	//TODO - The 0.021f should be calculated in case the size of the shape changes or the frame number increases
+        	setMovementY(getMovementY() - getFPSMovementY());
+        	//TODO - The 0.1f should be calculated in case the size of the shape changes or the frame number increases
+        	setBottomRowScale(getBottomRowScale() - getFPSBottomRowScale());
+        	if (currentFrame > FPS_ANIMATION) {            // if end of sequence
+        		currentFrame = 0;               // restart sequence
+        		setBottomRowScale(1.0f);		// Reset the scale
+        		removeBottomRow();
+        		setCorrectGuess(false);			//Mark as false so animation stops and user can make new guess
+        	}
         }
         
         drawGridShapes();
@@ -174,7 +200,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         Matrix.translateM(mGridModelMatrix, 0, 0, -0.1f, 0);
 
         //Move the grid down or up the screen depending on touch events.
-        Matrix.translateM(mGridModelMatrix, 0, 0, mAngle, 0);
+        Matrix.translateM(mGridModelMatrix, 0, 0, mMovementY, 0);
 
         // Combine the rotation matrix with the projection and camera view
         // Note that the mMVPMatrix factor *must be first* in order
@@ -194,7 +220,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	
 	private void drawAllShapes(float[] mMVPMatrix) {
 		for (Shape shape : shapes) {
-        	//Log.d(TAG, "Scale Hexagon ("+shape.toString()+") Aft ("+shape.getCentreX()+", "+shape.getCentreY()+")");
+        	Log.d(TAG, "Scale Hexagon ("+shape.toString()+") Aft ("+shape.getCentreX()+", "+shape.getCentreY()+")");
         	drawShapes(shape, mMVPMatrix);
         }
 	}
@@ -337,20 +363,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         }
     }
 
-    /**
-     * Returns the rotation angle of the triangle shape (mTriangle).
-     *
-     * @return - A float representing the rotation angle.
-     */
-    public float getAngle() {
-        return mAngle;
+    public float getMovementY() {
+        return mMovementY;
     }
 
-    /**
-     * Sets the rotation angle of the triangle shape (mTriangle).
-     */
-    public void setAngle(float angle) {
-        mAngle = angle;
+    public void setMovementY(float movementY) {
+        mMovementY = movementY;
     }
 
 	public float[] getProjectionMatrix() {
@@ -414,5 +432,21 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 			return;
 		}
 		this.mBottomRowScale = mBottomRowScale;
+	}
+
+	public float getFPSMovementY() {
+		return mFPSMovementY;
+	}
+
+	public void setFPSMovementY(float mFPSMovementY) {
+		this.mFPSMovementY = mFPSMovementY;
+	}
+
+	public float getFPSBottomRowScale() {
+		return mFPSBottomRowScale;
+	}
+
+	public void setFPSBottomRowScale(float mFPSBottomRowScale) {
+		this.mFPSBottomRowScale = mFPSBottomRowScale;
 	}
 }
