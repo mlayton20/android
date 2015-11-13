@@ -38,6 +38,9 @@ import android.util.Log;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
+    private static StatsRectangle levelRectangle;
+    private static StatsRectangle timeRectangle;
+    private static StatsRectangle scoreRectangle;
     private static EquationRectangle equationRectangle;
     private static EquationRectangle answerRectangle;
     private ArrayList<Shape> shapes;
@@ -88,8 +91,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         
         //TODO - Set level to be whatever the current level is
         level = 0;
+        //Initialise fixed shapes
         equationRectangle = new EquationRectangle(-0.35f);
         answerRectangle = new EquationRectangle(-0.5f);
+        //TODO - Change the below calculations to be align_left, align_centre, align_right, etc.
+        levelRectangle = new StatsRectangle(0 - (2.0f/4.6f));
+        timeRectangle = new StatsRectangle(0);
+        scoreRectangle = new StatsRectangle(0 + (2.0f/4.6f));
+        
         shapes = new ArrayList<Shape>();
         buildInputGrid();
         buildGrid();
@@ -255,6 +264,15 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         drawShapes(answerRectangle, mMVPFixed);
         drawShapes(equationRectangle, mMVPFixed);
+        
+        //Update the stats
+        levelRectangle.setShapes(-1f, Integer.toString(level));
+        timeRectangle.setShapes(-1f, "12");
+        scoreRectangle.setShapes(-1f, "22");
+        
+        drawShapes(levelRectangle, mMVPFixed);
+        drawShapes(timeRectangle, mMVPFixed);
+        drawShapes(scoreRectangle, mMVPFixed);
         
         //Draw all input grid shapess
         for (Shape shape : inputShapes) {
