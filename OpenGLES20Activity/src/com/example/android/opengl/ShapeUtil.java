@@ -53,6 +53,8 @@ public class ShapeUtil {
 				return new NumTwo(scale, centreX, centreY);
 			case '3':
 				return new NumThree(scale, centreX, centreY);
+			case '4':
+				return new NumFour(scale, centreX, centreY);
 				
 			//Operators
 			case '+':
