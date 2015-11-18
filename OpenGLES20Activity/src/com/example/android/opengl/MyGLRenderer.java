@@ -124,7 +124,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     	inputShapes.add(new InputSquare(0.16f,  3.0f, 1.15f, "6")); //6
     	inputShapes.add(new InputSquare(0.16f, -2.4f,     0, "7")); //7
     	inputShapes.add(new InputSquare(0.16f, -1.2f,     0, "8")); //8
-    	inputShapes.add(new InputSquare(0.16f,     0,     0, "1")); //9
+    	inputShapes.add(new InputSquare(0.16f,     0,     0, "9")); //9
     	inputShapes.add(new InputSquare(0.16f,  1.2f,     0, "2")); //0
     	inputShapes.add(new InputSquare(0.16f,  2.4f,     0, "1")); //X - This is to clear input
 	}
@@ -132,7 +132,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	private void buildThreeCells(float offsetY) {
 		shapes.add(new Hexagon(CELL_SCALE,     0, offsetY, "+13"));
         shapes.add(new Hexagon(CELL_SCALE, -1.0f, offsetY, "+24"));
-        shapes.add(new Hexagon(CELL_SCALE,  1.0f, offsetY, "*5"));
+        shapes.add(new Hexagon(CELL_SCALE,  1.0f, offsetY, "*9"));
 	}
 	
 	private void buildFourCells(float offsetY) {
