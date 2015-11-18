@@ -126,7 +126,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     	inputShapes.add(new InputSquare(0.16f, -1.2f,     0, "8")); //8
     	inputShapes.add(new InputSquare(0.16f,     0,     0, "9")); //9
     	inputShapes.add(new InputSquare(0.16f,  1.2f,     0, "0")); //0
-    	inputShapes.add(new InputSquare(0.16f,  2.4f,     0, "1")); //X - This is to clear input
+    	inputShapes.add(new InputSquare(0.16f,  2.4f,     0, "x")); //X - This is to clear input
 	}
 
 	private void buildThreeCells(float offsetY) {

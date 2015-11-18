@@ -77,6 +77,8 @@ public class ShapeUtil {
 			//Text
 			case '_':
 				return new TextUnderscore(scale, centreX, centreY);
+			case 'x':
+				return new OperatorMultiply(scale, centreX, centreY);
 			
 			//This shouldn't happen 
 			default:
