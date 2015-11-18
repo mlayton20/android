@@ -25,7 +25,7 @@ public class NumOne extends Shape {
     //#RGB: white (255, 255, 255)
     private static final float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-    public NumOne(float scale, float centreX, float centreY) {
+    public NumOne(float scale, float centreX, float centreY, float[] color) {
     	super(originalCoords, drawOrder, color, scale, centreX, centreY);
     }
 

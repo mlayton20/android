@@ -21,6 +21,7 @@ import java.util.Arrays;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import com.example.android.opengl.shapes.Color;
 import com.example.android.opengl.shapes.EquationRectangle;
 import com.example.android.opengl.shapes.Hexagon;
 import com.example.android.opengl.shapes.InputSquare;
@@ -287,8 +288,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		//Animation for changing color of the text
 		if (isWrongGuess()) {
 			if (outputCurrentFrame == 0) {
-				//TODO - Change the color of the text to red
-				answerRectangle.setShapes(0.3f, mAnswerText);
+				answerRectangle.setShapes(0.3f, mAnswerText, Color.RED);
 			}
 			outputCurrentFrame++;
 			if (outputCurrentFrame > FPS_ANIMATION_10) {

@@ -82,11 +82,19 @@ public abstract class Shape {
     public abstract float getCentreX();
     public abstract float getCentreY();
     
+    public float[] getNestedTextColor() {
+    	return null;
+    }
+    
+    public void setNestedTextColor(float[] textColor) {}
+    
     public ArrayList<Shape> getShapes() {
     	return null;
     }
     
     public void setShapes(float scale, String nestedText) {}
+    
+    public void setShapes(float scale, String nestedText, float[] textColor) {}
     
     public boolean intersects(Vec2 touchCoords) {
     	return false;

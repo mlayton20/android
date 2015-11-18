@@ -45,28 +45,34 @@ public class ShapeUtil {
 	private static Shape getShape(Shape parentShape, float scale, char value, float alignValue) {
 		float centreX = (scale*alignValue) + parentShape.getCentreX();
 		float centreY = parentShape.getCentreY();
+		float[] textColor = parentShape.getNestedTextColor();
+		
+		if (textColor == null) {
+			textColor = Color.WHITE;
+		}
+		
 		switch(value) {
 			//Numbers
 			case '1':
-				return new NumOne(scale, centreX, centreY);
+				return new NumOne(scale, centreX, centreY, textColor);
 			case '2':
-				return new NumTwo(scale, centreX, centreY);
+				return new NumTwo(scale, centreX, centreY, textColor);
 			case '3':
-				return new NumThree(scale, centreX, centreY);
+				return new NumThree(scale, centreX, centreY, textColor);
 			case '4':
-				return new NumFour(scale, centreX, centreY);
+				return new NumFour(scale, centreX, centreY, textColor);
 			case '5':
-				return new NumFive(scale, centreX, centreY);
+				return new NumFive(scale, centreX, centreY, textColor);
 			case '6':
-				return new NumSix(scale, centreX, centreY);
+				return new NumSix(scale, centreX, centreY, textColor);
 			case '7':
-				return new NumSeven(scale, centreX, centreY);
+				return new NumSeven(scale, centreX, centreY, textColor);
 			case '8':
-				return new NumEight(scale, centreX, centreY);
+				return new NumEight(scale, centreX, centreY, textColor);
 			case '9':
-				return new NumNine(scale, centreX, centreY);
+				return new NumNine(scale, centreX, centreY, textColor);
 			case '0':
-				return new NumZero(scale, centreX, centreY);
+				return new NumZero(scale, centreX, centreY, textColor);
 				
 			//Operators
 			case '+':
