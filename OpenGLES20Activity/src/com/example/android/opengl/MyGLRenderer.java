@@ -66,14 +66,18 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private String mEquationText = "";
     private String mAnswerText = mCurrentAnswer;
     private boolean isCorrectGuess = false;
+    private boolean isWrongGuess = false;
+    private boolean renderOutput = false;
     
     //To limit the number of renders per second
     private long startTime;
     private long endTime;
     private long timeElapsed;
     private int currentFrame = 0;              // active frame
+    private int outputCurrentFrame = 0;              // active frame
     private final int FPS = 33;			   	   // Frames per second
-    private final int FPS_ANIMATION = 20;
+    private final int FPS_ANIMATION_10 = 10;
+    private final int FPS_ANIMATION_20 = 20;
     
     //Reducer values, these are used for animation scenes
     private float mFPSMovementY;
@@ -100,17 +104,24 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         //Initialise fixed shapes
         equationRectangle = new EquationRectangle(-0.35f);
         answerRectangle = new EquationRectangle(-0.5f);
+        
+        equationRectangle.setShapes(0.2f, mEquationText);
+        answerRectangle.setShapes(0.3f, mAnswerText);
+        
         //TODO - Change the below calculations to be align_left, align_centre, align_right, etc.
         levelRectangle = new StatsRectangle(0 - (2.0f/4.6f));
         timeRectangle = new StatsRectangle(0);
         scoreRectangle = new StatsRectangle(0 + (2.0f/4.6f));
         
+        levelRectangle.setShapes(-1f, Integer.toString(level));
+        scoreRectangle.setShapes(-1f, "22");
+        
         shapes = new ArrayList<Shape>();
         buildInputGrid();
         buildGrid();
         setBottomRowScale(1.0f);
-        setFPSBottomRowScale(getBottomRowScale() / FPS_ANIMATION);
-        setFPSMovementY((CELL_OFFSET_Y*CELL_SCALE) / FPS_ANIMATION);
+        setFPSBottomRowScale(getBottomRowScale() / FPS_ANIMATION_20);
+        setFPSMovementY((CELL_OFFSET_Y*CELL_SCALE) / FPS_ANIMATION_20);
     }
 
 	private void buildGrid() {
@@ -191,20 +202,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // long time = SystemClock.uptimeMillis() % 4000L;
         // float angle = 0.090f * ((int) time);
         
-        if (isCorrectGuess()) {
-        	currentFrame++;                    // step to next frame
-        	//TODO - The 0.021f should be calculated in case the size of the shape changes or the frame number increases
-        	setMovementY(getMovementY() - getFPSMovementY());
-        	//TODO - The 0.1f should be calculated in case the size of the shape changes or the frame number increases
-        	setBottomRowScale(getBottomRowScale() - getFPSBottomRowScale());
-        	if (currentFrame > FPS_ANIMATION) {            // if end of sequence
-        		currentFrame = 0;               // restart sequence
-        		setBottomRowScale(1.0f);		// Reset the scale
-        		removeBottomRow();
-        		setCorrectGuess(false);			//Mark as false so animation stops and user can make new guess
-        	}
-        }
-        
         drawGridShapes();
         
         drawFixedShapes();
@@ -224,6 +221,18 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         
         //Add the movement to the matrix
         Matrix.multiplyMM(mMVPMatrix, 0, mTempMatrix, 0, mGridModelMatrix, 0);
+        
+        if (isCorrectGuess()) {
+        	currentFrame++;                    // step to next frame
+        	setMovementY(getMovementY() - getFPSMovementY());
+        	setBottomRowScale(getBottomRowScale() - getFPSBottomRowScale());
+        	if (currentFrame > FPS_ANIMATION_20) {            // if end of sequence
+        		currentFrame = 0;               // restart sequence
+        		setBottomRowScale(1.0f);		// Reset the scale
+        		removeBottomRow();
+        		setCorrectGuess(false);			//Mark as false so animation stops and user can make new guess
+        	}
+        }
     	
         //Draw all grid shapes
         if (isCorrectGuess()) {
@@ -264,18 +273,37 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		
 		Matrix.multiplyMM(mMVPFixed, 0, mTempMatrix, 0, mFixedModelMatrix, 0);
 		
-		//Show the equation using the values from the selected cell.
-        equationRectangle.setShapes(0.2f, mEquationText);
-        answerRectangle.setShapes(0.3f, mAnswerText);
+		if (isRenderOutput()) {
+			//Show the equation using the values from the selected cell.
+	        equationRectangle.setShapes(0.2f, mEquationText);
+	        answerRectangle.setShapes(0.3f, mAnswerText);
+	        
+	        //Update the stats
+	        levelRectangle.setShapes(-1f, Integer.toString(level));
+	        scoreRectangle.setShapes(-1f, "22");
+	        setRenderOutput(false);
+		}
+		
+		//Animation for changing color of the text
+		if (isWrongGuess()) {
+			if (outputCurrentFrame == 0) {
+				//TODO - Change the color of the text to red
+				answerRectangle.setShapes(0.3f, mAnswerText);
+			}
+			outputCurrentFrame++;
+			if (outputCurrentFrame > FPS_ANIMATION_10) {
+				outputCurrentFrame = 0;
+				//TODO - Change the input to be underscores instead of blank.
+				setAnswerText("");
+				answerRectangle.setShapes(0.3f, mAnswerText);
+        		setWrongGuess(false);			
+        	}
+		}
+		
+		timeRectangle.setShapes(-1f, "12");
 
         drawShapes(answerRectangle, mMVPFixed);
         drawShapes(equationRectangle, mMVPFixed);
-        
-        //Update the stats
-        levelRectangle.setShapes(-1f, Integer.toString(level));
-        timeRectangle.setShapes(-1f, "12");
-        scoreRectangle.setShapes(-1f, "22");
-        
         drawShapes(levelRectangle, mMVPFixed);
         drawShapes(timeRectangle, mMVPFixed);
         drawShapes(scoreRectangle, mMVPFixed);
@@ -472,5 +500,21 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 	public void setFPSBottomRowScale(float mFPSBottomRowScale) {
 		this.mFPSBottomRowScale = mFPSBottomRowScale;
+	}
+
+	public boolean isWrongGuess() {
+		return isWrongGuess;
+	}
+
+	public void setWrongGuess(boolean isWrongGuess) {
+		this.isWrongGuess = isWrongGuess;
+	}
+
+	public boolean isRenderOutput() {
+		return renderOutput;
+	}
+
+	public void setRenderOutput(boolean renderOutput) {
+		this.renderOutput = renderOutput;
 	}
 }

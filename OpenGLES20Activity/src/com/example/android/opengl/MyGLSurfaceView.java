@@ -76,7 +76,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
             			mRenderer.setAnswerText(mRenderer.getAnswerText() + touchedShape.toString());
             			processGuess();
             		}
-            		requestRender();
+            		mRenderer.setRenderOutput(true);
             		break;
                 }
                 
@@ -97,7 +97,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         		} else {
         			resetOutput();
         		}
-                requestRender();
+                mRenderer.setRenderOutput(true);
                 break;
         }
         return true;
@@ -168,11 +168,13 @@ public class MyGLSurfaceView extends GLSurfaceView {
 			return;
 		//If guess does not match answer then clear answer text so someone can make new guess
 		} else {
-			//TODO Change the text colour to red
-			//TODO Wait half a second before clearing the text
-			mRenderer.setAnswerText("");
+			processWrongGuess();
 			return;
 		}
+	}
+
+	private void processWrongGuess() {
+		mRenderer.setWrongGuess(true);
 	}
 
 	private void processCorrectGuess() {
