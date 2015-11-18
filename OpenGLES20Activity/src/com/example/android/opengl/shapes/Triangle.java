@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.opengl;
+package com.example.android.opengl.shapes;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+
+import com.example.android.opengl.MyGLRenderer;
 
 import android.opengl.GLES20;
 

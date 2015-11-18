@@ -1,4 +1,4 @@
-package com.example.android.opengl;
+package com.example.android.opengl.shapes;
 
 public class NumTwo extends Shape {
 

@@ -13,25 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.opengl;
+package com.example.android.opengl.shapes;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
+
+import com.example.android.opengl.MyGLRenderer;
 
 import android.opengl.GLES20;
-import android.opengl.Matrix;
-import android.util.Log;
 
 /**
  * A two-dimensional square for use as a drawn object in OpenGL ES 2.0.
  */
-public abstract class Shape {
-	
-	private final String TAG = "Shape";
+public class Square {
 
     private final String vertexShaderCode =
             // This matrix member variable provides a hook to manipulate
@@ -58,77 +54,41 @@ public abstract class Shape {
     private int mPositionHandle;
     private int mColorHandle;
     private int mMVPMatrixHandle;
-    protected float[] shapeCoords;
-    private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
-    
-    //These will be initiated by the abstract class
-    private final float[] ORIGINAL_COORDS;
-    private final short[] DRAW_ORDER; // order to draw vertices
-    
-    //#RGB: white (255, 255, 255)
-    private final float[] COLOR;
-    
-    //Sets the scale of the shape and where the X centre is.
-    private final float SCALE;
-    private final float CENTRE_X;
-    private final float CENTRE_Y;
-    
-    public abstract float getCentreX();
-    public abstract float getCentreY();
-    
-    public ArrayList<Shape> getShapes() {
-    	return null;
-    }
-    
-    public void setShapes(float scale, String nestedText) {}
-    
-    public boolean intersects(Vec2 touchCoords) {
-    	return false;
-    }
-    
-    public float getMinX() {return 0;}
-    public float getMaxX() {return 0;}
-    public float getMinY() {return 0;}
-    public float getMaxY() {return 0;}
-    
+    static float squareCoords[] = {
+            -0.5f,  0.5f, 0.0f,   // top left
+            -0.5f, -0.5f, 0.0f,   // bottom left
+             0.5f, -0.5f, 0.0f,   // bottom right
+             0.5f,  0.5f, 0.0f }; // top right
+
+    private final short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
+
+    private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
+
+    float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
+
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public Shape(float[] originalCoords, short[] drawOrder, float[] color, 
-    		float scale, float centreX, float centreY) {
-    	
-    	this.ORIGINAL_COORDS = originalCoords;
-    	this.DRAW_ORDER = drawOrder;
-    	this.COLOR = color;
-    	this.SCALE = scale;
-    	this.CENTRE_X = centreX;
-    	this.CENTRE_Y = centreY;
-    	
-    	this.shapeCoords = ORIGINAL_COORDS.clone();
-    	
-    	adjustShape(scale, centreX, centreY);
-    	//Resize based on the scale
-    	//adjustSize(scale);
-    	
+    public Square() {
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
         // (# of coordinate values * 4 bytes per float)
-                shapeCoords.length * 4);
+                squareCoords.length * 4);
         bb.order(ByteOrder.nativeOrder());
         vertexBuffer = bb.asFloatBuffer();
-        vertexBuffer.put(shapeCoords);
+        vertexBuffer.put(squareCoords);
         vertexBuffer.position(0);
 
         // initialize byte buffer for the draw list
         ByteBuffer dlb = ByteBuffer.allocateDirect(
                 // (# of coordinate values * 2 bytes per short)
-                DRAW_ORDER.length * 2);
+                drawOrder.length * 2);
         dlb.order(ByteOrder.nativeOrder());
         drawListBuffer = dlb.asShortBuffer();
-        drawListBuffer.put(DRAW_ORDER);
+        drawListBuffer.put(drawOrder);
         drawListBuffer.position(0);
 
         // prepare shaders and OpenGL program
@@ -145,21 +105,7 @@ public abstract class Shape {
         GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
     }
 
-    //Adjust the original scale of the shape and position
-    private void adjustShape(float scale, float centreX, float centreY) {
-    	for (int i = 0; i < shapeCoords.length; i++) {
-    		//Apply the scale
-    		shapeCoords[i] = (ORIGINAL_COORDS[i] * scale);
-    		
-    		//Apply the x offset
-    		shapeCoords[i] += (i % 3 == 0 ? centreX : 0);
-    		
-    		//Apply the y offset
-    		shapeCoords[i] += (i % 3 == 1 ? centreY : 0);
-		}
-	}
-
-	/**
+    /**
      * Encapsulates the OpenGL ES instructions for drawing this shape.
      *
      * @param mvpMatrix - The Model View Project matrix in which to draw
@@ -185,7 +131,7 @@ public abstract class Shape {
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
         // Set color for drawing the triangle
-        GLES20.glUniform4fv(mColorHandle, 1, COLOR, 0);
+        GLES20.glUniform4fv(mColorHandle, 1, color, 0);
 
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
@@ -197,10 +143,11 @@ public abstract class Shape {
 
         // Draw the square
         GLES20.glDrawElements(
-                GLES20.GL_TRIANGLES, DRAW_ORDER.length,
+                GLES20.GL_TRIANGLES, drawOrder.length,
                 GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
 
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(mPositionHandle);
     }
+
 }

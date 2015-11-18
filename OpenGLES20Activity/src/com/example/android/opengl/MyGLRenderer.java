@@ -21,6 +21,12 @@ import java.util.Arrays;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import com.example.android.opengl.shapes.EquationRectangle;
+import com.example.android.opengl.shapes.Hexagon;
+import com.example.android.opengl.shapes.InputSquare;
+import com.example.android.opengl.shapes.Shape;
+import com.example.android.opengl.shapes.StatsRectangle;
+
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;

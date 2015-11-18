@@ -1,6 +1,6 @@
-package com.example.android.opengl;
+package com.example.android.opengl.shapes;
 
-public class NumSix extends Shape {
+public class NumZero extends Shape {
 
     private static final float originalCoords[] = {
         -0.225f,  0.5f,   0.0f,   //0
@@ -33,12 +33,12 @@ public class NumSix extends Shape {
         -0.225f, -0.425f, 0.0f,   //27
          0.225f, -0.425f, 0.0f }; //28
     
-    private static final short drawOrder[] = { 0,1,3,3,1,2,4,5,7,7,5,6,0,4,12,8,9,11,11,9,10,3,13,11,14,15,17,17,15,16,18,19,21,21,19,20,17,22,21,23,24,26,26,24,25,28,25,20,5,24,27 }; // order to draw vertices
+    private static final short drawOrder[] = { 0,1,3,3,1,2,4,5,7,7,5,6,0,4,12,8,19,11,11,19,20,3,13,11,23,24,26,26,24,25,28,25,20,5,24,27 }; // order to draw vertices
 
     //#RGB: white (255, 255, 255)
     private static final float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-    public NumSix(float scale, float centreX, float centreY) {
+    public NumZero(float scale, float centreX, float centreY) {
     	super(originalCoords, drawOrder, color, scale, centreX, centreY);
     }
 

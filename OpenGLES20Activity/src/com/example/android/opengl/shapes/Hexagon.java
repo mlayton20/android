@@ -1,6 +1,8 @@
-package com.example.android.opengl;
+package com.example.android.opengl.shapes;
 
 import java.util.ArrayList;
+
+import com.example.android.opengl.Vec2;
 
 import android.util.Log;
 
