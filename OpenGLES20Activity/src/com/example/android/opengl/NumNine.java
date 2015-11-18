@@ -42,7 +42,7 @@ public class NumNine extends Shape {
         -0.225f, -0.425f, 0.0f,   //32
          0.225f, -0.425f, 0.0f }; //33
     
-    private static final short drawOrder[] = { 0,1,3,3,1,2,4,5,7,7,5,6,8,25,11,11,25,26,0,4,12,3,13,11,14,15,17,17,15,16,5,15,18,20,21,23,23,21,22,24,25,27,27,25,26,28,29,31,31,29,30,21,29,32,33,30,26 }; // order to draw vertices
+    private static final short drawOrder[] = { 0,1,3,3,1,2,4,5,7,7,5,6,8,25,11,11,25,26,0,4,12,3,13,11,14,15,17,17,15,16,5,15,18,20,21,23,23,21,22,28,29,31,31,29,30,21,29,32,33,30,26 }; // order to draw vertices
 
     //#RGB: white (255, 255, 255)
     private static final float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
