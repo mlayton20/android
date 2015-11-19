@@ -239,11 +239,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         if (isCorrectGuess()) {
         	drawAllShapesAndShrinkBottomRow(mMVPMatrix);
         } else {
-        	drawAllShapes(mMVPMatrix);
+        	drawAllShapes(shapes, mMVPMatrix);
         }
 	}
 	
-	private void drawAllShapes(float[] mMVPMatrix) {
+	private void drawAllShapes(ArrayList<Shape> shapes, float[] mMVPMatrix) {
 		for (Shape shape : shapes) {
         	Log.d(TAG, "Scale Hexagon ("+shape.toString()+") Aft ("+shape.getCentreX()+", "+shape.getCentreY()+")");
         	drawShapes(shape, mMVPMatrix);
@@ -309,18 +309,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         drawShapes(scoreRectangle, mMVPFixed);
         
         //Draw all input grid shapess
-        for (Shape shape : inputShapes) {
-        	shape.draw(mMVPFixed);
-        	
-        	//Don't draw nested shapes if there are none.
-        	if (shape.getShapes() == null)
-        		continue;
-        	
-        	//Draw the nested shapes
-        	for (Shape nestedShapes : shape.getShapes()) {
-        		nestedShapes.draw(mMVPFixed);
-        	}
-        }
+        drawAllShapes(inputShapes, mMVPFixed);
 	}
 
 	private void drawShapes(Shape parentShape, float[] mMVPMatrix) {
