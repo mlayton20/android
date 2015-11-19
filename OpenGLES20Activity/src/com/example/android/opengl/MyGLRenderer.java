@@ -67,6 +67,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private String mEquationText = "";
     private String mAnswerText = mCurrentAnswer;
     private boolean isCorrectGuess = false;
+    private boolean renderCorrectGuess = false;
     private boolean isWrongGuess = false;
     private boolean renderOutput = false;
     
@@ -224,6 +225,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mMVPMatrix, 0, mTempMatrix, 0, mGridModelMatrix, 0);
         
         if (isCorrectGuess()) {
+        	renderCorrectGuess = true; //This is to change the answer text to green inside drawFixedShapes
         	currentFrame++;                    // step to next frame
         	setMovementY(getMovementY() - getFPSMovementY());
         	setBottomRowScale(getBottomRowScale() - getFPSBottomRowScale());
@@ -297,6 +299,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 				setAnswerText("");
 				answerRectangle.setShapes(0.3f, mAnswerText);
         		setWrongGuess(false);			
+        	}
+		} else if (renderCorrectGuess) {
+			if (outputCurrentFrame == 0) {
+				answerRectangle.setShapes(0.3f, mAnswerText, Color.GREEN);
+			}
+			outputCurrentFrame++;
+			if (outputCurrentFrame > FPS_ANIMATION_20) {
+				outputCurrentFrame = 0;
+				answerRectangle.setShapes(0.3f, mAnswerText);
+				renderCorrectGuess = false;		
         	}
 		}
 		
