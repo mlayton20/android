@@ -79,6 +79,8 @@ public class ShapeUtil {
 				return new OperatorPlus(scale, centreX, centreY);
 			case '*':
 				return new OperatorMultiply(scale, centreX, centreY);
+			case '/':
+				return new OperatorDivide(scale, centreX, centreY);
 			
 			//Text
 			case '_':

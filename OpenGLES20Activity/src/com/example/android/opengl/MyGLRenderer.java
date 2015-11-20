@@ -149,7 +149,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	}
 
 	private void buildThreeCells(float offsetY) {
-		shapes.add(new Hexagon(CELL_SCALE,     0, offsetY, "+13"));
+		shapes.add(new Hexagon(CELL_SCALE,     0, offsetY, "/2"));
         shapes.add(new Hexagon(CELL_SCALE, -1.0f, offsetY, "+24"));
         shapes.add(new Hexagon(CELL_SCALE,  1.0f, offsetY, "*9"));
 	}
