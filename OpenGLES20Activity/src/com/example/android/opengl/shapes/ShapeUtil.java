@@ -77,6 +77,8 @@ public class ShapeUtil {
 			//Operators
 			case '+':
 				return new OperatorPlus(scale, centreX, centreY);
+			case '-':
+				return new OperatorSubtract(scale, centreX, centreY);
 			case '*':
 				return new OperatorMultiply(scale, centreX, centreY);
 			case '/':

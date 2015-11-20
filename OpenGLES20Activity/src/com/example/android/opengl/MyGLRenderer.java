@@ -157,7 +157,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	private void buildFourCells(float offsetY) {
 		shapes.add(new Hexagon(CELL_SCALE, -1.5f, offsetY, "+17"));
         shapes.add(new Hexagon(CELL_SCALE, -0.5f, offsetY, "+10"));
-        shapes.add(new Hexagon(CELL_SCALE,  0.5f, offsetY, "+28"));
+        shapes.add(new Hexagon(CELL_SCALE,  0.5f, offsetY, "-3"));
         shapes.add(new Hexagon(CELL_SCALE,  1.5f, offsetY, "+12"));
 	}
 
