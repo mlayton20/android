@@ -10,10 +10,7 @@ public class TextUnderscore extends Shape {
     
     private static final short drawOrder[] = { 0,1,3,3,1,2 }; // order to draw vertices
 
-    //#RGB: white (255, 255, 255)
-    private static final float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-
-    public TextUnderscore(float scale, float centreX, float centreY) {
+    public TextUnderscore(float scale, float centreX, float centreY, float[] color) {
     	super(originalCoords, drawOrder, color, scale, centreX, centreY);
     }
 

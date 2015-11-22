@@ -14,10 +14,7 @@ public class OperatorPlus extends Shape {
     
     private static final short drawOrder[] = { 0,1,3,3,1,2,4,5,7,7,5,6 }; // order to draw vertices
 
-    //#RGB: white (255, 255, 255)
-    private static final float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-
-    public OperatorPlus(float scale, float centreX, float centreY) {
+    public OperatorPlus(float scale, float centreX, float centreY, float[] color) {
     	super(originalCoords, drawOrder, color, scale, centreX, centreY);
     }
 

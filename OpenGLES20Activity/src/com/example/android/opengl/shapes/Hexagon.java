@@ -23,10 +23,7 @@ public class Hexagon extends Shape {
     
     private static final short drawOrder[] = { 0, 1, 5, 1, 4, 5, 1, 2, 4, 2, 3, 4 }; // order to draw vertices
 
-    //#RGB: red (229, 51, 72)
-    private static final float borderColor[] = { 0.8980392156862745f, 0.2f, 0.2823529411764706f, 1.0f };
-    //#RGB: blue (48, 141, 212)
-    private static final float fillColor[] = { 0.1882352941176471f, 0.5529411764705882f, 0.8313725490196078f, 1.0f };
+    private static final float fillColor[] = Color.LIGHT_GREY;
     
     private ArrayList<Shape> shapes;
     
@@ -34,7 +31,7 @@ public class Hexagon extends Shape {
 
     //This will be the parent cell.
 	public Hexagon(float scale, float centreX, float centreY, String nestedText) {
-    	super(originalCoords, drawOrder, borderColor, scale, scale*centreX, scale*centreY);
+    	super(originalCoords, drawOrder, getBorderColor(nestedText), scale, scale*centreX, scale*centreY);
     	
     	this.nestedText = nestedText;
     	
@@ -42,8 +39,27 @@ public class Hexagon extends Shape {
     	Log.d("GLPosition", "Hexagon: (" + nestedText + ")" + getCentreX() + ", " + getCentreY());
     }
 	
+	private static float[] getBorderColor(String nestedText) {
+		switch(nestedText.charAt(0)) {
+			//Operators
+			case '+':
+				return Color.LIGHT_BLUE;
+			case '-':
+				return Color.ORANGE;
+			case '*':
+				return Color.PURPLE;
+			case '/':
+				return Color.TURQUOISE;
+			
+			//This shouldn't happen 
+			default:
+				return Color.LIGHT_BLUE;
+		}
+	}
+
 	//This is for when we want to add a border to the hexagon.
 	private Hexagon(float scale, float centreX, float centreY) {
+		//TODO - make getFillColor function that when its a bonus cell the color is yellow otherwise light_grey
     	super(originalCoords, drawOrder, fillColor, scale, centreX, centreY);
     }
 

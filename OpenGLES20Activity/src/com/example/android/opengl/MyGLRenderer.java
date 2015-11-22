@@ -95,7 +95,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 
         // Set the background frame color
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GLES20.glClearColor(Color.DARK_GREY[0], Color.DARK_GREY[1], Color.DARK_GREY[2], Color.DARK_GREY[3]);
         
         startTime = System.currentTimeMillis();
         
@@ -111,9 +111,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         answerRectangle.setShapes(0.3f, mAnswerText);
         
         //TODO - Change the below calculations to be align_left, align_centre, align_right, etc.
-        levelRectangle = new StatsRectangle(0 - (2.0f/4.6f));
-        timeRectangle = new StatsRectangle(0);
-        scoreRectangle = new StatsRectangle(0 + (2.0f/4.6f));
+        levelRectangle = new StatsRectangle(0 - (2.0f/4.6f), Color.TURQUOISE, Color.TURQUOISE);
+        timeRectangle = new StatsRectangle(0, Color.PURPLE, Color.PURPLE);
+        scoreRectangle = new StatsRectangle(0 + (2.0f/4.6f), Color.TURQUOISE, Color.TURQUOISE);
         
         levelRectangle.setShapes(-1f, Integer.toString(level));
         scoreRectangle.setShapes(-1f, "22");

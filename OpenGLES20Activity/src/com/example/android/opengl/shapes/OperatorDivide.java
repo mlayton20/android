@@ -18,10 +18,7 @@ public class OperatorDivide extends Shape {
     
     private static final short drawOrder[] = { 0,1,3,3,1,2,4,5,7,7,5,6,8,9,11,11,9,10 }; // order to draw vertices
 
-    //#RGB: white (255, 255, 255)
-    private static final float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-
-    public OperatorDivide(float scale, float centreX, float centreY) {
+    public OperatorDivide(float scale, float centreX, float centreY, float[] color) {
     	super(originalCoords, drawOrder, color, scale, centreX, centreY);
     }
 

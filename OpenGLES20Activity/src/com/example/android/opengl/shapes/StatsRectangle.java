@@ -18,22 +18,17 @@ public class StatsRectangle extends Shape {
          1.0f/4.6f,  0.1f,  0.0f }; //3
     
     private static final short drawOrder[] = { 0,1,3,3,1,2 }; // order to draw vertices
-
-    //#RGB: red (229, 51, 72)
-    private static final float borderColor[] = { 0.8980392156862745f, 0.2f, 0.2823529411764706f, 1.0f };
-    //#RGB: blue (48, 141, 212)
-    private static final float fillColor[] = { 0.1882352941176471f, 0.5529411764705882f, 0.8313725490196078f, 1.0f };
     
     private ArrayList<Shape> shapes;
 
-    public StatsRectangle(float offsetX) {
+    public StatsRectangle(float offsetX, float[] borderColor, float[] fillColor) {
     	super(originalCoords, drawOrder, borderColor, 1, offsetX, FIXED_OFFSET_Y);
     	shapes = new ArrayList<Shape>();
-    	shapes.add(0, new StatsRectangle(SCALE_BORDER, 0 + getCentreX(), 0 + getCentreY()));
+    	shapes.add(0, new StatsRectangle(SCALE_BORDER, 0 + getCentreX(), 0 + getCentreY(), fillColor));
     }
     
     //This is for when we want to add a border
-  	private StatsRectangle(float scale, float centreX, float centreY) {
+  	private StatsRectangle(float scale, float centreX, float centreY, float[] fillColor) {
       	super(originalCoords, drawOrder, fillColor, scale, centreX, centreY);
     }
     
@@ -41,6 +36,11 @@ public class StatsRectangle extends Shape {
     public ArrayList<Shape> getShapes() {
 		return shapes;
 	}
+    
+    @Override
+    public float[] getNestedTextColor() {
+    	return Color.WHITE;
+    }
     
     @Override
     public void setShapes(float scale, String nestedText) {

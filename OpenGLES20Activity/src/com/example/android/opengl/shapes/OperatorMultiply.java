@@ -14,10 +14,7 @@ public class OperatorMultiply extends Shape {
     
     private static final short drawOrder[] = { 0,1,2,0,2,3,4,5,6,4,6,7 }; // order to draw vertices
 
-    //#RGB: white (255, 255, 255)
-    private static final float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-
-    public OperatorMultiply(float scale, float centreX, float centreY) {
+    public OperatorMultiply(float scale, float centreX, float centreY, float[] color) {
     	super(originalCoords, drawOrder, color, scale, centreX, centreY);
     }
 

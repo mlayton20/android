@@ -22,10 +22,8 @@ public class InputSquare extends Shape {
     
     private static final short drawOrder[] = { 0,1,3,3,1,2 }; // order to draw vertices
     
-    //#RGB: red (229, 51, 72)
-    private static final float borderColor[] = { 0.8980392156862745f, 0.2f, 0.2823529411764706f, 1.0f };
-    //#RGB: blue (48, 141, 212)
-    private static final float fillColor[] = { 0.1882352941176471f, 0.5529411764705882f, 0.8313725490196078f, 1.0f };
+    private static final float borderColor[] = Color.GREY;
+    private static final float fillColor[] = Color.LIGHT_GREY;
     
     private ArrayList<Shape> shapes;
     

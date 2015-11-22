@@ -48,7 +48,7 @@ public class ShapeUtil {
 		float[] textColor = parentShape.getNestedTextColor();
 		
 		if (textColor == null) {
-			textColor = Color.WHITE;
+			textColor = Color.NAVY_BLUE;
 		}
 		
 		switch(value) {
@@ -76,19 +76,19 @@ public class ShapeUtil {
 				
 			//Operators
 			case '+':
-				return new OperatorPlus(scale, centreX, centreY);
+				return new OperatorPlus(scale, centreX, centreY, textColor);
 			case '-':
-				return new OperatorSubtract(scale, centreX, centreY);
+				return new OperatorSubtract(scale, centreX, centreY, textColor);
 			case '*':
-				return new OperatorMultiply(scale, centreX, centreY);
+				return new OperatorMultiply(scale, centreX, centreY, textColor);
 			case '/':
-				return new OperatorDivide(scale, centreX, centreY);
+				return new OperatorDivide(scale, centreX, centreY, textColor);
 			
 			//Text
 			case '_':
-				return new TextUnderscore(scale, centreX, centreY);
+				return new TextUnderscore(scale, centreX, centreY, textColor);
 			case 'x':
-				return new OperatorMultiply(scale, centreX, centreY);
+				return new OperatorMultiply(scale, centreX, centreY, textColor);
 			
 			//This shouldn't happen 
 			default:
