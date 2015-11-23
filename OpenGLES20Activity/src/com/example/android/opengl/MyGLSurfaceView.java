@@ -72,8 +72,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
             		
             		//Only show the input if a cell has been selected previously
             		if (mPreviousTouchedCell != null) {
-            			mRenderer.setAnswerText(touchedShape.toString());
-            			processGuess();
+            			processGuess(touchedShape);
             		}
             		mRenderer.setRenderOutput(true);
             		break;
@@ -106,7 +105,15 @@ public class MyGLSurfaceView extends GLSurfaceView {
 		mPreviousTouchedCell = null;
 	}
 	
-	public void processGuess() {
+	public void processGuess(Shape touchedShape) {
+		//If the x was pressed we need to clear the current guess to start again.
+		if (touchedShape.toString() == "x") {
+			mRenderer.setAnswerText("");
+			return;
+		}
+		
+		mRenderer.setAnswerText(touchedShape.toString());
+		
 		//If length of guess is not the same as expected answer, ignore it
 		if (mRenderer.getAnswerText().length() != mRenderer.getExpectedAnswer().length()) {
 			return;
