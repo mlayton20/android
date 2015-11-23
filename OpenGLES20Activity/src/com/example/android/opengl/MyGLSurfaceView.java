@@ -50,7 +50,6 @@ public class MyGLSurfaceView extends GLSurfaceView {
     }
     
     private Shape mPreviousTouchedCell;
-    private String mExpectedAnswer;
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
@@ -73,7 +72,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
             		
             		//Only show the input if a cell has been selected previously
             		if (mPreviousTouchedCell != null) {
-            			mRenderer.setAnswerText(mRenderer.getAnswerText() + touchedShape.toString());
+            			mRenderer.setAnswerText(touchedShape.toString());
             			processGuess();
             		}
             		mRenderer.setRenderOutput(true);
@@ -84,14 +83,12 @@ public class MyGLSurfaceView extends GLSurfaceView {
             	touchGLCoords = getWorldCoords(mRenderer.getGridModelMatrix(), touchCoords);
             	Log.d("TouchedInputShape", "Grid GL Coords: " + touchGLCoords.toString());
             	touchedShape = getTouchedShape(mRenderer.getShapes(), touchGLCoords, false);
-
-            	//TODO - Add the underscores for the expected input answer.
                 
             	//If a cell has been touched, start making the equation
                 if (touchedShape != null) {
                 	mRenderer.setEquationText(mRenderer.getCurrentAnswer() + touchedShape.toString());
+                	mRenderer.setExpectedAnswer(mRenderer.getEquationText());
                 	mRenderer.setAnswerText("");
-                	mExpectedAnswer = getExpectedAnswer(mRenderer.getEquationText());
                 	mPreviousTouchedCell = touchedShape;
                 //If nothing has been pressed, reset the output shapes.
         		} else {
@@ -105,55 +102,13 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
 	private void resetOutput() {
 		mRenderer.setEquationText("");
-		mRenderer.setAnswerText(mRenderer.getCurrentAnswer());
+		mRenderer.resetAnswerText();
 		mPreviousTouchedCell = null;
-	}
-    
-	private String getExpectedAnswer(String equationText) {
-		String pattern = "([\\d]+)([\\+-/\\*]{1})([\\d]+).*";
-		
-		// Create a Pattern object
-		Pattern r = Pattern.compile(pattern);
-		
-		// Now create matcher object.
-		Matcher m = r.matcher(equationText);
-		if (m.find()) {
-			int currentAnswer = Integer.parseInt(m.group(1));
-			char operator = (m.group(2)).toCharArray()[0];
-			int cellNumber = Integer.parseInt(m.group(3));
-			int expectedAnswer = 0;
-			switch (operator) {
-				case '+':
-					expectedAnswer = currentAnswer + cellNumber;
-					break;
-				case '-':
-					expectedAnswer = currentAnswer - cellNumber;
-					break;
-				case '/':
-					expectedAnswer = currentAnswer / cellNumber;
-					break;
-				case '*':
-					expectedAnswer = currentAnswer * cellNumber;
-					break;
-			}
-			
-			Log.d("Matcher", "Equation: " + m.group(0));
-			Log.d("Matcher", "Current Answer: " + currentAnswer);
-			Log.d("Matcher", "Operator: " + operator);
-			Log.d("Matcher", "Cell number: " + cellNumber);
-			Log.d("Matcher", "Expected Answer====: " + expectedAnswer);
-			
-			if (expectedAnswer > 0) {
-				return Integer.toString(expectedAnswer);
-			}
-		}
-		
-		return null;
 	}
 	
 	public void processGuess() {
 		//If length of guess is not the same as expected answer, ignore it
-		if (mRenderer.getAnswerText().length() != mExpectedAnswer.length()) {
+		if (mRenderer.getAnswerText().length() != mRenderer.getExpectedAnswer().length()) {
 			return;
 		}
 		
@@ -163,7 +118,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 		}
 		
 		//If guess matches answer then clear equation and set answer as expected Answer
-		if (mRenderer.getAnswerText().equals(mExpectedAnswer)) {
+		if (mRenderer.getAnswerText().equals(mRenderer.getExpectedAnswer())) {
 			processCorrectGuess();
 			return;
 		//If guess does not match answer then clear answer text so someone can make new guess
@@ -178,7 +133,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	}
 
 	private void processCorrectGuess() {
-		mRenderer.setCurrentAnswer(mExpectedAnswer);
+		mRenderer.setCurrentAnswer(mRenderer.getExpectedAnswer());
 		//TODO Change the text color of Answer text to green
 		//TODO Wait half a second before changing color back to white and clearing equation
 		//TODO Change the text color of Answer text to white

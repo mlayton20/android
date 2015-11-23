@@ -17,6 +17,8 @@ package com.example.android.opengl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -66,6 +68,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private String mCurrentAnswer = "11";
     private String mEquationText = "";
     private String mAnswerText = mCurrentAnswer;
+    private String mExpectedAnswer;
     private boolean isCorrectGuess = false;
     private boolean renderCorrectGuess = false;
     private boolean isWrongGuess = false;
@@ -295,7 +298,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 			outputCurrentFrame++;
 			if (outputCurrentFrame > FPS_ANIMATION_10) {
 				outputCurrentFrame = 0;
-				//TODO - Change the input to be underscores instead of blank.
 				setAnswerText("");
 				answerRectangle.setShapes(0.3f, mAnswerText);
         		setWrongGuess(false);			
@@ -448,8 +450,25 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		return mAnswerText;
 	}
 
-	public void setAnswerText(String mAnswerText) {
-		this.mAnswerText = mAnswerText;
+	public void setAnswerText(String guessInput) {
+		if (guessInput == "") {
+			this.mAnswerText = getInputUnderscores();
+			return;
+		}
+		
+		this.mAnswerText = this.mAnswerText.replaceFirst("_", guessInput);
+	}
+	
+	public void resetAnswerText() {
+		this.mAnswerText = getCurrentAnswer();
+	}
+
+	private String getInputUnderscores() {
+		if (mExpectedAnswer == null || mExpectedAnswer == "") {
+			return "";
+		}
+		
+		return mExpectedAnswer.replaceAll("[0-9]", "_");
 	}
 
 	public String getCurrentAnswer() {
@@ -517,5 +536,52 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 	public void setRenderOutput(boolean renderOutput) {
 		this.renderOutput = renderOutput;
+	}
+
+	public String getExpectedAnswer() {
+		return mExpectedAnswer;
+	}
+
+	public void setExpectedAnswer(String equationText) {
+		String pattern = "([\\d]+)([\\+-/\\*]{1})([\\d]+).*";
+		
+		// Create a Pattern object
+		Pattern r = Pattern.compile(pattern);
+		
+		// Now create matcher object.
+		Matcher m = r.matcher(equationText);
+		if (m.find()) {
+			int currentAnswer = Integer.parseInt(m.group(1));
+			char operator = (m.group(2)).toCharArray()[0];
+			int cellNumber = Integer.parseInt(m.group(3));
+			int expectedAnswer = 0;
+			switch (operator) {
+				case '+':
+					expectedAnswer = currentAnswer + cellNumber;
+					break;
+				case '-':
+					expectedAnswer = currentAnswer - cellNumber;
+					break;
+				case '/':
+					expectedAnswer = currentAnswer / cellNumber;
+					break;
+				case '*':
+					expectedAnswer = currentAnswer * cellNumber;
+					break;
+			}
+			
+			Log.d("Matcher", "Equation: " + m.group(0));
+			Log.d("Matcher", "Current Answer: " + currentAnswer);
+			Log.d("Matcher", "Operator: " + operator);
+			Log.d("Matcher", "Cell number: " + cellNumber);
+			Log.d("Matcher", "Expected Answer====: " + expectedAnswer);
+			
+			if (expectedAnswer > 0) {
+				this.mExpectedAnswer = Integer.toString(expectedAnswer);
+				return;
+			}
+		}
+		
+		this.mExpectedAnswer = null;
 	}
 }
