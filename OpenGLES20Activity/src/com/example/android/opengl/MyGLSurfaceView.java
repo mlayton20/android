@@ -142,6 +142,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	private void processCorrectGuess() {
 		mRenderer.setCurrentAnswer(mRenderer.getExpectedAnswer());
 		mRenderer.incrementRowLevel();
+		Stats.setScore(mPreviousTouchedCell.toString());
 		resetOutput();
 		mRenderer.setCorrectGuess(true);
 	}

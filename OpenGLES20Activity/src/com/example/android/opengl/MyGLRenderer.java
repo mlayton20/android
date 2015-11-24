@@ -120,7 +120,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         scoreRectangle = new StatsRectangle(0 + (2.0f/4.6f), Color.TURQUOISE, Color.TURQUOISE);
         
         levelRectangle.setShapes(-1f, getRowLevelLabel());
-        scoreRectangle.setShapes(-1f, "22");
+        scoreRectangle.setShapes(-1f, Stats.getScoreLabel());
         
         shapes = new ArrayList<Shape>();
         buildInputGrid();
@@ -169,16 +169,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	}
 
 	private void buildThreeCells(float offsetY) {
-		shapes.add(new Hexagon(CELL_SCALE,     0, offsetY, "/2"));
-        shapes.add(new Hexagon(CELL_SCALE, -1.0f, offsetY, "+24"));
+		shapes.add(new Hexagon(CELL_SCALE,     0, offsetY, "+11"));
+        shapes.add(new Hexagon(CELL_SCALE, -1.0f, offsetY, "/11"));
         shapes.add(new Hexagon(CELL_SCALE,  1.0f, offsetY, "*9"));
 	}
 	
 	private void buildFourCells(float offsetY) {
-		shapes.add(new Hexagon(CELL_SCALE, -1.5f, offsetY, "+17"));
+		shapes.add(new Hexagon(CELL_SCALE, -1.5f, offsetY, "*11"));
         shapes.add(new Hexagon(CELL_SCALE, -0.5f, offsetY, "+10"));
         shapes.add(new Hexagon(CELL_SCALE,  0.5f, offsetY, "-3"));
-        shapes.add(new Hexagon(CELL_SCALE,  1.5f, offsetY, "+12"));
+        shapes.add(new Hexagon(CELL_SCALE,  1.5f, offsetY, "-12"));
 	}
 
     @Override
@@ -320,12 +320,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 			if (outputCurrentFrame == 0) {
 				answerRectangle.setShapes(0.3f, mAnswerText, Color.GREEN);
 				levelRectangle.setShapes(-1f, getRowLevelLabel(), Color.YELLOW);
+				scoreRectangle.setShapes(-1f, Stats.getScoreLabel(), Color.YELLOW);
 			}
 			outputCurrentFrame++;
 			if (outputCurrentFrame > FPS_ANIMATION_20) {
 				outputCurrentFrame = 0;
 				answerRectangle.setShapes(0.3f, mAnswerText);
 				levelRectangle.setShapes(-1f, getRowLevelLabel());
+				scoreRectangle.setShapes(-1f, Stats.getScoreLabel());
 				renderCorrectGuess = false;		
         	}
 		}
