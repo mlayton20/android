@@ -2,9 +2,9 @@ package com.example.android.opengl;
 
 import android.util.Log;
 
-public class Stats {
+public class Score {
 	
-	private static final String TAG = "Stats";
+	private static final String TAG = "Score";
 
 	private static int score = 0;
 

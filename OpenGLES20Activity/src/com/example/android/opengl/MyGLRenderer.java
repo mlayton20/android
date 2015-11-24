@@ -120,7 +120,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         scoreRectangle = new StatsRectangle(0 + (2.0f/4.6f), Color.TURQUOISE, Color.TURQUOISE);
         
         levelRectangle.setShapes(-1f, getRowLevelLabel());
-        scoreRectangle.setShapes(-1f, Stats.getScoreLabel());
+        scoreRectangle.setShapes(-1f, Score.getScoreLabel());
         
         shapes = new ArrayList<Shape>();
         buildInputGrid();
@@ -320,14 +320,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 			if (outputCurrentFrame == 0) {
 				answerRectangle.setShapes(0.3f, mAnswerText, Color.GREEN);
 				levelRectangle.setShapes(-1f, getRowLevelLabel(), Color.YELLOW);
-				scoreRectangle.setShapes(-1f, Stats.getScoreLabel(), Color.YELLOW);
+				scoreRectangle.setShapes(-1f, Score.getScoreLabel(), Color.YELLOW);
 			}
 			outputCurrentFrame++;
 			if (outputCurrentFrame > FPS_ANIMATION_20) {
 				outputCurrentFrame = 0;
 				answerRectangle.setShapes(0.3f, mAnswerText);
 				levelRectangle.setShapes(-1f, getRowLevelLabel());
-				scoreRectangle.setShapes(-1f, Stats.getScoreLabel());
+				scoreRectangle.setShapes(-1f, Score.getScoreLabel());
 				renderCorrectGuess = false;		
         	}
 		}
