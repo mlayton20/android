@@ -88,7 +88,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private float mFPSMovementY;
     private float mFPSBottomRowScale;
     
-    private int level; //The current row in the grid.
+    private int gridLevel = 0; //The cell layout level in the grid.
+    private int rowLevel = 1; //The current row in the grid user is selected.
     
     //Constants for grid presentation 
     private final float CELL_SCALE = 0.3f;
@@ -105,7 +106,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         //TODO Add code that sets current answer to whatever the current answer is.
         
         //TODO - Set level to be whatever the current level is
-        level = 0;
+
         //Initialise fixed shapes
         equationRectangle = new EquationRectangle(-0.35f);
         answerRectangle = new EquationRectangle(-0.5f);
@@ -118,7 +119,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         timeRectangle = new StatsRectangle(0, Color.PURPLE, Color.PURPLE);
         scoreRectangle = new StatsRectangle(0 + (2.0f/4.6f), Color.TURQUOISE, Color.TURQUOISE);
         
-        levelRectangle.setShapes(-1f, Integer.toString(level));
+        levelRectangle.setShapes(-1f, getRowLevelLabel());
         scoreRectangle.setShapes(-1f, "22");
         
         shapes = new ArrayList<Shape>();
@@ -130,9 +131,25 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
 	private void buildGrid() {
-		buildFourCells(CELL_OFFSET_Y*level);
-		level++;
-        buildThreeCells(CELL_OFFSET_Y*level);
+		buildFourCells(CELL_OFFSET_Y*gridLevel);
+		incrementGridLevel();
+        buildThreeCells(CELL_OFFSET_Y*gridLevel);
+        incrementGridLevel();
+        buildFourCells(CELL_OFFSET_Y*gridLevel);
+        incrementGridLevel();
+        buildThreeCells(CELL_OFFSET_Y*gridLevel);
+        incrementGridLevel();
+        buildFourCells(CELL_OFFSET_Y*gridLevel);
+        incrementGridLevel();
+        buildThreeCells(CELL_OFFSET_Y*gridLevel);
+        incrementGridLevel();
+        buildFourCells(CELL_OFFSET_Y*gridLevel);
+        incrementGridLevel();
+        buildThreeCells(CELL_OFFSET_Y*gridLevel);
+        incrementGridLevel();
+        buildFourCells(CELL_OFFSET_Y*gridLevel);
+        incrementGridLevel();
+        buildThreeCells(CELL_OFFSET_Y*gridLevel);
 	}
     
     private void buildInputGrid() {
@@ -284,9 +301,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	        equationRectangle.setShapes(0.2f, mEquationText);
 	        answerRectangle.setShapes(0.3f, mAnswerText);
 	        
-	        //Update the stats
-	        levelRectangle.setShapes(-1f, Integer.toString(level));
-	        scoreRectangle.setShapes(-1f, "22");
 	        setRenderOutput(false);
 		}
 		
@@ -305,11 +319,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		} else if (renderCorrectGuess) {
 			if (outputCurrentFrame == 0) {
 				answerRectangle.setShapes(0.3f, mAnswerText, Color.GREEN);
+				levelRectangle.setShapes(-1f, getRowLevelLabel(), Color.YELLOW);
 			}
 			outputCurrentFrame++;
 			if (outputCurrentFrame > FPS_ANIMATION_20) {
 				outputCurrentFrame = 0;
 				answerRectangle.setShapes(0.3f, mAnswerText);
+				levelRectangle.setShapes(-1f, getRowLevelLabel());
 				renderCorrectGuess = false;		
         	}
 		}
@@ -583,5 +599,25 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		}
 		
 		this.mExpectedAnswer = null;
+	}
+
+	public int getGridLevel() {
+		return gridLevel;
+	}
+
+	public void incrementGridLevel() {
+		this.gridLevel++;
+	}
+	
+	public String getRowLevelLabel() {
+		return Integer.toString(rowLevel);
+	}
+	
+	public int getRowLevel() {
+		return rowLevel;
+	}
+
+	public void incrementRowLevel() {
+		this.rowLevel++;
 	}
 }

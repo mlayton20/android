@@ -141,9 +141,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
 	private void processCorrectGuess() {
 		mRenderer.setCurrentAnswer(mRenderer.getExpectedAnswer());
-		//TODO Change the text color of Answer text to green
-		//TODO Wait half a second before changing color back to white and clearing equation
-		//TODO Change the text color of Answer text to white
+		mRenderer.incrementRowLevel();
 		resetOutput();
 		mRenderer.setCorrectGuess(true);
 	}

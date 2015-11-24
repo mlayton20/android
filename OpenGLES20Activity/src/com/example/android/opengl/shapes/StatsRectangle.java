@@ -20,6 +20,8 @@ public class StatsRectangle extends Shape {
     private static final short drawOrder[] = { 0,1,3,3,1,2 }; // order to draw vertices
     
     private ArrayList<Shape> shapes;
+    
+    private float[] nestedTextColor = Color.WHITE;
 
     public StatsRectangle(float offsetX, float[] borderColor, float[] fillColor) {
     	super(originalCoords, drawOrder, borderColor, 1, offsetX, FIXED_OFFSET_Y);
@@ -39,11 +41,25 @@ public class StatsRectangle extends Shape {
     
     @Override
     public float[] getNestedTextColor() {
-    	return Color.WHITE;
+    	return nestedTextColor;
     }
     
     @Override
     public void setShapes(float scale, String nestedText) {
+    	nestedTextColor = Color.WHITE;
+    	//Need to remove current text in the shape, if there is any text already.
+    	removeNestedTextShapes();
+    	
+    	ArrayList<Shape> nestedShapes = ShapeUtil.generateNestedShapes(this, SCALE_NESTED_TEXT, nestedText);
+    	
+    	for (Shape shape : nestedShapes) {
+    		shapes.add(shape);
+    	}
+    }
+    
+    @Override
+    public void setShapes(float scale, String nestedText, float[] color) {
+    	nestedTextColor = color;
     	//Need to remove current text in the shape, if there is any text already.
     	removeNestedTextShapes();
     	
