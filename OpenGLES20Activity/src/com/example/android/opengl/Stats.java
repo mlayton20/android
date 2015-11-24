@@ -27,8 +27,6 @@ public class Stats {
 			return 0;
 		}
 		
-		Log.d(TAG, "Score input is: " + nestedText);
-		
 		char operator = nestedText.charAt(0);
 		int cellValue = Integer.parseInt(nestedText.substring(1));
 		
