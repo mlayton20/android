@@ -104,8 +104,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         startTime = System.currentTimeMillis();
         
         //TODO Add code that sets current answer to whatever the current answer is.
-        
-        //TODO - Set level to be whatever the current level is
 
         //Initialise fixed shapes
         equationRectangle = new EquationRectangle(-0.35f);
@@ -121,6 +119,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         
         levelRectangle.setShapes(-1f, getRowLevelLabel());
         scoreRectangle.setShapes(-1f, Score.getScoreLabel());
+        timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel());
         
         shapes = new ArrayList<Shape>();
         buildInputGrid();
@@ -196,6 +195,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 			}
         }
         startTime = endTime;
+        
+        //Update the timers by deducting timeRemaining
+        Time.update();
         
         Matrix.setIdentityM(mGridModelMatrix, 0); // initialize to identity matrix
         //Setup the equation display before we start moving the grid around
@@ -304,6 +306,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	        setRenderOutput(false);
 		}
 		
+		//Update the time if time has changed
+		if (!timeRectangle.toString().equals(Time.getTimeRemainingLabel())) {
+			//TODO - If the time remaining is almost game over (approx 10 secs) then change text to red.
+			timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel());
+		}
+		
 		//Animation for changing color of the text
 		if (isWrongGuess()) {
 			if (outputCurrentFrame == 0) {
@@ -331,8 +339,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 				renderCorrectGuess = false;		
         	}
 		}
-		
-		timeRectangle.setShapes(-1f, "12");
 
         drawShapes(answerRectangle, mMVPFixed);
         drawShapes(equationRectangle, mMVPFixed);

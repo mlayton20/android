@@ -40,6 +40,9 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
     public MyGLSurfaceView(Context context) {
         super(context);
+        
+        //Initialise the Time for the Game to start
+        Time.initialise();
 
         // Create an OpenGL ES 2.0 context.
         setEGLContextClientVersion(2);

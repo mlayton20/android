@@ -87,6 +87,8 @@ public class ShapeUtil {
 			//Text
 			case '_':
 				return new TextUnderscore(scale, centreX, centreY, textColor);
+			case ':':
+				return new TextColon(scale, centreX, centreY, textColor);
 			case 'x':
 				return new OperatorMultiply(scale, centreX, centreY, textColor);
 			

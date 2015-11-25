@@ -26,6 +26,8 @@ public class EquationRectangle extends Shape {
     private ArrayList<Shape> shapes;
     
     private float[] nestedTextColor = Color.WHITE;
+    
+    private String nestedText;
 
     public EquationRectangle(float centreY) {
     	super(originalCoords, drawOrder, color, 1, 0, centreY);
@@ -39,12 +41,14 @@ public class EquationRectangle extends Shape {
     
     @Override
     public void setShapes(float scale, String nestedText) {
+    	this.nestedText = nestedText;
     	nestedTextColor = Color.WHITE;
     	shapes = ShapeUtil.generateNestedShapes(this, scale*SCALE_NESTED_TEXT, nestedText);
     }
     
     @Override
     public void setShapes(float scale, String nestedText, float[] color) {
+    	this.nestedText = nestedText;
     	nestedTextColor = color;
     	shapes = ShapeUtil.generateNestedShapes(this, scale*SCALE_NESTED_TEXT, nestedText);
     }
@@ -62,5 +66,10 @@ public class EquationRectangle extends Shape {
 	@Override
 	public float getCentreY() {
 		return (shapeCoords[1] + shapeCoords[4])/2;
+	}
+	
+	@Override
+	public String toString() {
+		return nestedText;
 	}
 }
