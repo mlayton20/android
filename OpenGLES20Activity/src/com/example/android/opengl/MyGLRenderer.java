@@ -251,7 +251,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         	currentFrame++;                    // step to next frame
         	setMovementY(getMovementY() - getFPSMovementY());
         	setBottomRowScale(getBottomRowScale() - getFPSBottomRowScale());
-        	if (currentFrame > FPS_ANIMATION_20) {            // if end of sequence
+        	if (currentFrame >= FPS_ANIMATION_20) {            // if end of sequence
         		currentFrame = 0;               // restart sequence
         		setBottomRowScale(1.0f);		// Reset the scale
         		removeBottomRow();
@@ -322,7 +322,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 				answerRectangle.setShapes(0.3f, mAnswerText, Color.RED);
 			}
 			outputCurrentFrame++;
-			if (outputCurrentFrame > FPS_ANIMATION_10) {
+			if (outputCurrentFrame >= FPS_ANIMATION_10) {
 				outputCurrentFrame = 0;
 				setAnswerText("");
 				answerRectangle.setShapes(0.3f, mAnswerText);
@@ -336,7 +336,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 				timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel(), Color.YELLOW);
 			}
 			outputCurrentFrame++;
-			if (outputCurrentFrame > FPS_ANIMATION_20) {
+			if (outputCurrentFrame >= FPS_ANIMATION_20) {
 				outputCurrentFrame = 0;
 				answerRectangle.setShapes(0.3f, mAnswerText);
 				levelRectangle.setShapes(-1f, getRowLevelLabel());
