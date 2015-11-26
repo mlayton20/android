@@ -146,6 +146,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 		mRenderer.setCurrentAnswer(mRenderer.getExpectedAnswer());
 		mRenderer.incrementRowLevel();
 		Score.setScore(mPreviousTouchedCell.toString());
+		Time.increaseTimeRemaining();
 		resetOutput();
 		mRenderer.setCorrectGuess(true);
 	}

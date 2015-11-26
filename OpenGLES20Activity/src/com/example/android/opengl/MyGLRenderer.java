@@ -333,6 +333,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 				answerRectangle.setShapes(0.3f, mAnswerText, Color.GREEN);
 				levelRectangle.setShapes(-1f, getRowLevelLabel(), Color.YELLOW);
 				scoreRectangle.setShapes(-1f, Score.getScoreLabel(), Color.YELLOW);
+				timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel(), Color.YELLOW);
 			}
 			outputCurrentFrame++;
 			if (outputCurrentFrame > FPS_ANIMATION_20) {
@@ -340,6 +341,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 				answerRectangle.setShapes(0.3f, mAnswerText);
 				levelRectangle.setShapes(-1f, getRowLevelLabel());
 				scoreRectangle.setShapes(-1f, Score.getScoreLabel());
+				timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel());
 				renderCorrectGuess = false;		
         	}
 		}
