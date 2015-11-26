@@ -276,10 +276,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	
 	private void drawAllShapesAndShrinkBottomRow(float[] mMVPMatrix) {
 		float[] mMVPScaled = mMVPMatrix.clone();
-		float[] mScaleModelMatrix = mGridModelMatrix.clone();
 		
-		Matrix.scaleM(mScaleModelMatrix, 0, getBottomRowScale(), getBottomRowScale(), 0);
-		Matrix.multiplyMM(mMVPScaled, 0, mTempMatrix, 0, mScaleModelMatrix, 0);
+		Matrix.scaleM(mMVPScaled, 0, getBottomRowScale(), getBottomRowScale(), 0);
 		
 		int lastCellIndex = getBottomRowLastCellIndex();
 		
