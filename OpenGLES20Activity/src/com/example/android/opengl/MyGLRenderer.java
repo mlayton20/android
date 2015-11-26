@@ -308,8 +308,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		
 		//Update the time if time has changed
 		if (!timeRectangle.toString().equals(Time.getTimeRemainingLabel())) {
-			//TODO - If the time remaining is almost game over (approx 10 secs) then change text to red.
-			timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel());
+			//If the time remaining is almost up then change text to red.
+			if (Time.isTimeAlmostUp()) {
+				timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel(), Color.RED);
+			} else {
+				timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel());
+			}
 		}
 		
 		//Animation for changing color of the text

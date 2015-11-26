@@ -14,6 +14,7 @@ public class Time {
 	private static final long HOUR = 3600 * MILLISECOND; //3600 seconds in an hour
 	private static final long STARTING_TIME = 60 * MILLISECOND; //60 seconds
 	private static final long CORRECT_ANSWER_TIME = 15 * MILLISECOND; //15 seconds
+	private static final long TIME_ALMOST_UP_THRESH = 10 * MILLISECOND; //10 seconds
 	
 	private static long previousTime = System.currentTimeMillis();
 	private static long timeElapsed = 0;
@@ -64,6 +65,10 @@ public class Time {
 			return;
 		}
 		Time.timeRemaining -= MILLISECOND;
+	}
+	
+	public static boolean isTimeAlmostUp() {
+		return Time.timeRemaining <= TIME_ALMOST_UP_THRESH;
 	}
 
 }
