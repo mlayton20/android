@@ -7,6 +7,7 @@ public class Screen {
 	private static final String TAG = "Screen";
 	public static final float DEFAULT_PORTRAIT_RATIO = 0.64400715f;
 	public static final float DEFAULT_LANDSCAPE_RATIO = 2.2299652f;
+	public static final float DEFAULT_WIDTH = DEFAULT_PORTRAIT_RATIO*2;
 	
 	//TODO - This will be applied to the cell ratio, so the scale, offsetY 
 	//and offsetX will be multiplied by this value to scale the shapes.

@@ -2,6 +2,8 @@ package com.example.android.opengl.shapes;
 
 import java.util.ArrayList;
 
+import com.example.android.opengl.Screen;
+
 import android.util.Log;
 
 public class EquationRectangle extends Shape {
@@ -10,10 +12,10 @@ public class EquationRectangle extends Shape {
 	private static final float SCALE_NESTED_TEXT = 0.35f;
 
     private static final float originalCoords[] = {
-        -1.0f,  0.1f,  0.0f,   //0
-        -1.0f, -0.1f,  0.0f,   //1
-         1.0f, -0.1f,  0.0f,   //2
-         1.0f,  0.1f,  0.0f }; //3
+        -Screen.DEFAULT_PORTRAIT_RATIO,  0.1f,  0.0f,   //0
+        -Screen.DEFAULT_PORTRAIT_RATIO, -0.1f,  0.0f,   //1
+         Screen.DEFAULT_PORTRAIT_RATIO, -0.1f,  0.0f,   //2
+         Screen.DEFAULT_PORTRAIT_RATIO,  0.1f,  0.0f }; //3
     
     private static final short drawOrder[] = { 0,1,3,3,1,2 }; // order to draw vertices
 

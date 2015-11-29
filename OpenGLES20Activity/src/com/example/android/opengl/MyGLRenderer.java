@@ -113,9 +113,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         answerRectangle.setShapes(0.3f, mAnswerText);
         
         //TODO - Change the below calculations to be align_left, align_centre, align_right, etc.
-        levelRectangle = new StatsRectangle(0 - (2.0f/4.6f), Color.TURQUOISE, Color.TURQUOISE);
+        levelRectangle = new StatsRectangle(0 - (Screen.DEFAULT_WIDTH/3), Color.TURQUOISE, Color.TURQUOISE);
         timeRectangle = new StatsRectangle(0, Color.PURPLE, Color.PURPLE);
-        scoreRectangle = new StatsRectangle(0 + (2.0f/4.6f), Color.TURQUOISE, Color.TURQUOISE);
+        scoreRectangle = new StatsRectangle(0 + (Screen.DEFAULT_WIDTH/3), Color.TURQUOISE, Color.TURQUOISE);
         
         levelRectangle.setShapes(-1f, getRowLevelLabel());
         scoreRectangle.setShapes(-1f, Score.getScoreLabel());

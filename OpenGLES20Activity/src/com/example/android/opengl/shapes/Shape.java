@@ -20,14 +20,11 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import android.opengl.GLES20;
 
 import com.example.android.opengl.MyGLRenderer;
 import com.example.android.opengl.Vec2;
-
-import android.opengl.GLES20;
-import android.opengl.Matrix;
-import android.util.Log;
 
 /**
  * A two-dimensional square for use as a drawn object in OpenGL ES 2.0.
@@ -100,10 +97,45 @@ public abstract class Shape {
     	return false;
     }
     
-    public float getMinX() {return 0;}
-    public float getMaxX() {return 0;}
-    public float getMinY() {return 0;}
-    public float getMaxY() {return 0;}
+    public float getMinX() {return getMin(getArraySubset(0));}
+	public float getMaxX() {return getMax(getArraySubset(0));}
+    public float getMinY() {return getMin(getArraySubset(1));}
+    public float getMaxY() {return getMax(getArraySubset(1));}
+    
+    private float getMin(float[] values) {
+    	float minVal = 1000f;
+    	for (float value : values) {
+    		if (value < minVal) {
+    			minVal = value;
+    		}
+    	}
+		return minVal;
+	}
+    
+    private float getMax(float[] values) {
+    	float maxVal = -1000f;
+    	for (float value : values) {
+    		if (value > maxVal) {
+    			maxVal = value;
+    		}
+    	}
+		return maxVal;
+	}
+    
+    private float[] getArraySubset(int offset) {
+    	if (shapeCoords == null || shapeCoords.length == 0) {
+    		return null;
+    	}
+    	
+    	float[] subsetArray = new float[shapeCoords.length / COORDS_PER_VERTEX];
+    	int subsetIndex = 0;
+    	
+    	for (int i = offset; i < shapeCoords.length; i=(i+COORDS_PER_VERTEX)) {
+    		subsetArray[subsetIndex] = shapeCoords[i];
+    		subsetIndex++;
+    	}
+    	return subsetArray;
+    }
     
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.

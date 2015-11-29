@@ -6,12 +6,16 @@ public class ShapeUtil {
     
 	private static final float ALIGN_CENTRE = 0f;
 	private static final float OFFSET_ALIGN  = 0.7f;
+	private static final float SCALE_PADDING = 0.1f;
+	private static final float TEXT_MIN_X = -0.3f;
     
     public static ArrayList<Shape> generateNestedShapes(Shape parentShape, float scale, String nestedText) {
     	ArrayList<Shape> nestedShapes = new ArrayList<Shape>();
 		if (nestedText == null || nestedText == "") {
 			return nestedShapes;
 		}
+		
+		scale = getTextScale(parentShape, scale, nestedText);
 		
 		for (int i = 0; i < nestedText.length(); i++) {
 			nestedShapes.add(getShape(parentShape, 
@@ -21,6 +25,23 @@ public class ShapeUtil {
 					));
 		}
 		return nestedShapes;
+	}
+    
+    private static float getTextScale(Shape parentShape, float scale, String nestedText) {
+    	float parentPadding = parentShape.getMinX()*SCALE_PADDING;
+    	parentPadding = (parentPadding < 0 ? parentPadding*-1 : parentPadding);
+		float parentMinX = parentShape.getMinX() + parentPadding;
+		float adjustValue = getAlignPosition(nestedText.length(),0);
+		//0.3f is the width from centre of a text shape. It's always 0.3f
+		float adjustedScale = scale;
+		float leftTextMinX = ((adjustedScale*adjustValue) + parentShape.getCentreX()) + (TEXT_MIN_X*adjustedScale);
+		
+		while (leftTextMinX <= parentMinX) {
+			adjustedScale -= 0.01f;
+			leftTextMinX = ((adjustedScale*adjustValue) + parentShape.getCentreX()) + (TEXT_MIN_X*adjustedScale);
+		};
+		
+		return adjustedScale;
 	}
 
 	private static float getAlignPosition(int maxPosition, int position) {
