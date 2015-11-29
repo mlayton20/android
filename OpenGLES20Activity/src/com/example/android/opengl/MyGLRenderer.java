@@ -395,9 +395,17 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         //Log.d("MyGLRenderer", "Width: " + width + " Height: " + height);
 
         float ratio = (float) width / height;
+        
+        Log.d("Screen","Width: "+ width +" - Height: "+ height +" - Ratio: "+ ratio);
 
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
+        if (ratio > 1) {
+        	ratio = Screen.DEFAULT_LANDSCAPE_RATIO;
+        } else {
+        	ratio = Screen.DEFAULT_PORTRAIT_RATIO;
+        }
+        
         Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
         
         //TODO Store the current answer, the current answer Text and the current Equation. 
