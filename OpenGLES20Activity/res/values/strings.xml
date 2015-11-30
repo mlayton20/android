@@ -16,7 +16,7 @@
 -->
 <resources>
 
-    <string name="hello">Hello, OpenGL ES 2.0!</string>
-    <string name="app_name">Hello OpenGL ES 2.0</string>
+    <string name="hello">Level Up!</string>
+    <string name="app_name">Level Up</string>
 
 </resources>
