@@ -57,6 +57,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private static EquationRectangle equationRectangle;
     private static EquationRectangle answerRectangle;
     private ArrayList<Shape> shapes;
+    private ArrayList<Shape> bottomRowShapes;
     private ArrayList<Shape> inputShapes;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
@@ -123,6 +124,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel());
         
         shapes = new ArrayList<Shape>();
+        bottomRowShapes = new ArrayList<Shape>();
         buildInputGrid();
         buildGrid();
         setBottomRowScale(1.0f);
@@ -150,6 +152,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         buildFourCells(CELL_OFFSET_Y*gridLevel);
         incrementGridLevel();
         buildThreeCells(CELL_OFFSET_Y*gridLevel);
+        
+        //Complete the bottom row for inputting guesses
+        setBottomRowShapes();
 	}
     
     private void buildInputGrid() {
@@ -385,6 +390,22 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		for (int i = getBottomRowLastCellIndex(); i >= 0 ; i--) {
 			shapes.remove(i);
 		}
+		//Reset the bottom row shapes
+		setBottomRowShapes();
+	}
+	
+	public ArrayList<Shape> getBottomRowShapes() {
+		return bottomRowShapes;
+	}
+	
+	private void setBottomRowShapes() {
+		ArrayList<Shape> tempRowShapes = new ArrayList<Shape>();
+		
+		//Apply scaling to the bottom row and just move the other rows.
+		for (int i = 0; i <= getBottomRowLastCellIndex(); i++) {
+			tempRowShapes.add(shapes.get(i));
+		}
+		bottomRowShapes = tempRowShapes;
 	}
 
     @Override

@@ -87,7 +87,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 //Check if a cell was selected.
             	touchGLCoords = getWorldCoords(mRenderer.getGridModelMatrix(), touchCoords);
             	Log.d("TouchedInputShape", "Grid GL Coords: " + touchGLCoords.toString());
-            	touchedShape = getTouchedShape(mRenderer.getShapes(), touchGLCoords, false);
+            	touchedShape = getTouchedShape(mRenderer.getBottomRowShapes(), touchGLCoords, false);
                 
             	//If a cell has been touched, start making the equation
                 if (touchedShape != null) {
