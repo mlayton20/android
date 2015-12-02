@@ -1,4 +1,4 @@
-package com.laytonlabs.android.levelup;
+package com.laytonlabs.android.levelup.game;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

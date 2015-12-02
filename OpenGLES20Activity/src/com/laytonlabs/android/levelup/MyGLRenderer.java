@@ -23,6 +23,10 @@ import java.util.regex.Pattern;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import com.laytonlabs.android.levelup.game.CurrentAnswer;
+import com.laytonlabs.android.levelup.game.Equation;
+import com.laytonlabs.android.levelup.game.Score;
+import com.laytonlabs.android.levelup.game.Time;
 import com.laytonlabs.android.levelup.shapes.Color;
 import com.laytonlabs.android.levelup.shapes.EquationRectangle;
 import com.laytonlabs.android.levelup.shapes.Hexagon;
@@ -65,10 +69,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private float mMovementY;
     private float mBottomRowScale; 
-    private String mCurrentAnswer = "11";
-    private String mEquationText = "";
-    private String mAnswerText = mCurrentAnswer;
-    private String mExpectedAnswer;
+    private String mAnswerText = CurrentAnswer.getLabel();
     private boolean isCorrectGuess = false;
     private boolean renderCorrectGuess = false;
     private boolean isWrongGuess = false;
@@ -109,7 +110,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         equationRectangle = new EquationRectangle(-0.35f);
         answerRectangle = new EquationRectangle(-0.5f);
         
-        equationRectangle.setShapes(0.2f, mEquationText);
+        equationRectangle.setShapes(0.2f, Equation.get());
         answerRectangle.setShapes(0.3f, mAnswerText);
         
         //TODO - Change the below calculations to be align_left, align_centre, align_right, etc.
@@ -298,7 +299,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		
 		if (isRenderOutput()) {
 			//Show the equation using the values from the selected cell.
-	        equationRectangle.setShapes(0.2f, mEquationText);
+	        equationRectangle.setShapes(0.2f, Equation.get());
 	        answerRectangle.setShapes(0.3f, mAnswerText);
 	        
 	        setRenderOutput(false);
@@ -474,14 +475,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		return mFixedModelMatrix;
 	}
 
-	public String getEquationText() {
-		return mEquationText;
-	}
-
-	public void setEquationText(String mEquationText) {
-		this.mEquationText = mEquationText;
-	}
-
 	public String getAnswerText() {
 		return mAnswerText;
 	}
@@ -496,23 +489,15 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	}
 	
 	public void resetAnswerText() {
-		this.mAnswerText = getCurrentAnswer();
+		this.mAnswerText = CurrentAnswer.getLabel();
 	}
 
 	private String getInputUnderscores() {
-		if (mExpectedAnswer == null || mExpectedAnswer == "") {
+		if (Equation.getExpectedAnswer() <= 0) {
 			return "";
 		}
 		
-		return mExpectedAnswer.replaceAll("[0-9]", "_");
-	}
-
-	public String getCurrentAnswer() {
-		return mCurrentAnswer;
-	}
-
-	public void setCurrentAnswer(String mCurrentAnswer) {
-		this.mCurrentAnswer = mCurrentAnswer;
+		return Equation.getExpectedAnswerLabel().replaceAll("[0-9]", "_");
 	}
 
 	public ArrayList<Shape> getShapes() {
@@ -572,53 +557,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 	public void setRenderOutput(boolean renderOutput) {
 		this.renderOutput = renderOutput;
-	}
-
-	public String getExpectedAnswer() {
-		return mExpectedAnswer;
-	}
-
-	public void setExpectedAnswer(String equationText) {
-		String pattern = "([\\d]+)([\\+-/\\*]{1})([\\d]+).*";
-		
-		// Create a Pattern object
-		Pattern r = Pattern.compile(pattern);
-		
-		// Now create matcher object.
-		Matcher m = r.matcher(equationText);
-		if (m.find()) {
-			int currentAnswer = Integer.parseInt(m.group(1));
-			char operator = (m.group(2)).toCharArray()[0];
-			int cellNumber = Integer.parseInt(m.group(3));
-			int expectedAnswer = 0;
-			switch (operator) {
-				case '+':
-					expectedAnswer = currentAnswer + cellNumber;
-					break;
-				case '-':
-					expectedAnswer = currentAnswer - cellNumber;
-					break;
-				case '/':
-					expectedAnswer = currentAnswer / cellNumber;
-					break;
-				case '*':
-					expectedAnswer = currentAnswer * cellNumber;
-					break;
-			}
-			
-			Log.d("Matcher", "Equation: " + m.group(0));
-			Log.d("Matcher", "Current Answer: " + currentAnswer);
-			Log.d("Matcher", "Operator: " + operator);
-			Log.d("Matcher", "Cell number: " + cellNumber);
-			Log.d("Matcher", "Expected Answer====: " + expectedAnswer);
-			
-			if (expectedAnswer > 0) {
-				this.mExpectedAnswer = Integer.toString(expectedAnswer);
-				return;
-			}
-		}
-		
-		this.mExpectedAnswer = null;
 	}
 
 	public int getGridLevel() {

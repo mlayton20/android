@@ -17,16 +17,19 @@ package com.laytonlabs.android.levelup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.laytonlabs.android.levelup.shapes.Shape;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
 import android.view.MotionEvent;
+
+import com.laytonlabs.android.levelup.game.CurrentAnswer;
+import com.laytonlabs.android.levelup.game.Equation;
+import com.laytonlabs.android.levelup.game.Game;
+import com.laytonlabs.android.levelup.game.Score;
+import com.laytonlabs.android.levelup.game.Time;
+import com.laytonlabs.android.levelup.shapes.Shape;
 
 /**
  * A view container where OpenGL ES graphics can be drawn on screen.
@@ -52,7 +55,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         setRenderer(mRenderer);
     }
     
-    private Shape mPreviousTouchedCell;
+    private static Shape mPreviousTouchedCell;
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
@@ -88,8 +91,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 
             	//If a cell has been touched, start making the equation
                 if (touchedShape != null) {
-                	mRenderer.setEquationText(mRenderer.getCurrentAnswer() + touchedShape.toString());
-                	mRenderer.setExpectedAnswer(mRenderer.getEquationText());
+                	Equation.set(CurrentAnswer.getLabel() + touchedShape.toString());
                 	mRenderer.setAnswerText("");
                 	mPreviousTouchedCell = touchedShape;
                 //If nothing has been pressed, reset the output shapes.
@@ -103,7 +105,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
     }
 
 	private void resetOutput() {
-		mRenderer.setEquationText("");
+		Equation.set("");
 		mRenderer.resetAnswerText();
 		mPreviousTouchedCell = null;
 	}
@@ -118,7 +120,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 		mRenderer.setAnswerText(touchedShape.toString());
 		
 		//If length of guess is not the same as expected answer, ignore it
-		if (mRenderer.getAnswerText().length() != mRenderer.getExpectedAnswer().length()) {
+		if (mRenderer.getAnswerText().length() != Equation.getExpectedAnswerLabel().length()) {
 			return;
 		}
 		
@@ -128,7 +130,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 		}
 		
 		//If guess matches answer then clear equation and set answer as expected Answer
-		if (mRenderer.getAnswerText().equals(mRenderer.getExpectedAnswer())) {
+		if (mRenderer.getAnswerText().equals(Equation.getExpectedAnswerLabel())) {
 			processCorrectGuess();
 			return;
 		//If guess does not match answer then clear answer text so someone can make new guess
@@ -143,10 +145,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	}
 
 	private void processCorrectGuess() {
-		mRenderer.setCurrentAnswer(mRenderer.getExpectedAnswer());
-		mRenderer.incrementRowLevel();
-		Score.setScore(mPreviousTouchedCell.toString());
-		Time.increaseTimeRemaining();
+		Game.processCorrectGuess(mPreviousTouchedCell.toString());
 		resetOutput();
 		mRenderer.setCorrectGuess(true);
 	}

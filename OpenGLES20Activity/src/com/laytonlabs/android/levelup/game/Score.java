@@ -1,4 +1,4 @@
-package com.laytonlabs.android.levelup;
+package com.laytonlabs.android.levelup.game;
 
 import android.util.Log;
 
