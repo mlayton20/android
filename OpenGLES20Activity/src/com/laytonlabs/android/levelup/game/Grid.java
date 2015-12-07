@@ -2,6 +2,8 @@ package com.laytonlabs.android.levelup.game;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 public class Grid {
 	
 	private static Grid instance = null;
@@ -9,6 +11,7 @@ public class Grid {
 	private int gridLevel = 0;
 	
 	protected Grid() {
+		this.setup();
 	}
 	
 	public static Grid getInstance() {
@@ -41,9 +44,9 @@ public class Grid {
 	}
 	
 	public int getActiveStageIndex() {
-		for (Stage stage : stages) {
-			if (stage.isActive())
-				return stage.getRow();
+		for (int i = 0; i < stages.size(); i++) {
+			if (stages.get(i).isActive())
+				return i;
 		}
 		return -1;
 	}
@@ -70,7 +73,7 @@ public class Grid {
 		return output;
 	}
 
-	public void setup() {
+	private void setup() {
 		this.addStage();
 		this.getStage(0).activate();
 		this.addStage();
@@ -78,9 +81,13 @@ public class Grid {
 		this.addStage();
 		this.addStage();
 		this.addStage();
-		this.addStage();
-		this.addStage();
-		this.addStage();
+		//Log.d("Grid", "setup" + this.toString());
+	}
+	
+	public void restart() {
+		gridLevel = 0;
+		stages.clear();
+		setup();
 	}
 	
 	public Stage getActiveStage() {
@@ -105,6 +112,26 @@ public class Grid {
 		this.getActiveStage().deactivate();
 		this.updatePotentialAnswers();
 		this.addStage();
+		this.removeOldStages();
+		//Log.d("Grid", "moveToNextStage" + this.toString());
 	}
 
+	private void removeOldStages() {
+		System.out.println("Active Stage is: " + this.getActiveStageIndex());
+		System.out.println("Before Removal: " + this.stages.size());
+		//Start from active stage-2 as the last active cell needs to be kept for rendering to work.
+		for (int i = this.getActiveStageIndex()-2; i >= 0; i--) {
+			System.out.println("Removing stage: " + i);
+			stages.remove(i);
+		}
+		System.out.println("After Removal: " + this.stages.size());
+	}
+	
+	public ArrayList<Stage> getCurrentStages() {
+		ArrayList<Stage> currentStages = new ArrayList<Stage>();
+		for (int i = this.getActiveStageIndex(); i < stages.size(); i++) {
+			currentStages.add(stages.get(i));
+		}
+		return currentStages;
+	}
 }

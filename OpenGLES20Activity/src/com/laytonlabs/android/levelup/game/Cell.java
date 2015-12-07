@@ -2,6 +2,8 @@ package com.laytonlabs.android.levelup.game;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 public class Cell {
 	
 	private final int ADD_OPERATOR = 1;
@@ -74,7 +76,9 @@ public class Cell {
 	}
 	
 	public boolean containsAnswer(int answer) {			
+		//Log.d("Cell","Answer is: " + answer);
 		for (int storedAnswer : this.potentialAnswers) {
+			//Log.d("Cell","Potential Answer is: " + storedAnswer);
 			if (storedAnswer == answer)
 				return true;
 		}
@@ -191,8 +195,8 @@ public class Cell {
 	
 	public String toString() {
 		String output = "";
-		if (!this.isEnabled())
-			output += "D";
+		//if (!this.isEnabled())
+		//	output += "D";
 		if (this.getOperator() == ADD_OPERATOR) {
 			output += "+" + this.getOperatorValue();
 		} else if (this.getOperator() == SUBTRACT_OPERATOR) {

@@ -25,7 +25,10 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.laytonlabs.android.levelup.game.CurrentAnswer;
 import com.laytonlabs.android.levelup.game.Equation;
+import com.laytonlabs.android.levelup.game.Game;
+import com.laytonlabs.android.levelup.game.Level;
 import com.laytonlabs.android.levelup.game.Score;
+import com.laytonlabs.android.levelup.game.Stage;
 import com.laytonlabs.android.levelup.game.Time;
 import com.laytonlabs.android.levelup.shapes.Color;
 import com.laytonlabs.android.levelup.shapes.EquationRectangle;
@@ -56,7 +59,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private static StatsRectangle scoreRectangle;
     private static EquationRectangle equationRectangle;
     private static EquationRectangle answerRectangle;
-    private ArrayList<Shape> shapes;
+    private ArrayList<Shape> gridShapes;
     private ArrayList<Shape> bottomRowShapes;
     private ArrayList<Shape> inputShapes;
 
@@ -119,43 +122,19 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         timeRectangle = new StatsRectangle(0, Color.PURPLE, Color.PURPLE);
         scoreRectangle = new StatsRectangle(0 + (Screen.DEFAULT_WIDTH/3), Color.TURQUOISE, Color.TURQUOISE);
         
-        levelRectangle.setShapes(-1f, getRowLevelLabel());
+        levelRectangle.setShapes(-1f, Level.getLabel());
         scoreRectangle.setShapes(-1f, Score.getScoreLabel());
         timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel());
         
-        shapes = new ArrayList<Shape>();
+        setGridShapes();
+        //Complete the bottom row for inputting guesses
         bottomRowShapes = new ArrayList<Shape>();
+        setBottomRowShapes();
         buildInputGrid();
-        buildGrid();
         setBottomRowScale(1.0f);
         setFPSBottomRowScale(getBottomRowScale() / FPS_ANIMATION_20);
         setFPSMovementY((CELL_OFFSET_Y*CELL_SCALE) / FPS_ANIMATION_20);
     }
-
-	private void buildGrid() {
-		buildFourCells(CELL_OFFSET_Y*gridLevel);
-		incrementGridLevel();
-        buildThreeCells(CELL_OFFSET_Y*gridLevel);
-        incrementGridLevel();
-        buildFourCells(CELL_OFFSET_Y*gridLevel);
-        incrementGridLevel();
-        buildThreeCells(CELL_OFFSET_Y*gridLevel);
-        incrementGridLevel();
-        buildFourCells(CELL_OFFSET_Y*gridLevel);
-        incrementGridLevel();
-        buildThreeCells(CELL_OFFSET_Y*gridLevel);
-        incrementGridLevel();
-        buildFourCells(CELL_OFFSET_Y*gridLevel);
-        incrementGridLevel();
-        buildThreeCells(CELL_OFFSET_Y*gridLevel);
-        incrementGridLevel();
-        buildFourCells(CELL_OFFSET_Y*gridLevel);
-        incrementGridLevel();
-        buildThreeCells(CELL_OFFSET_Y*gridLevel);
-        
-        //Complete the bottom row for inputting guesses
-        setBottomRowShapes();
-	}
     
     private void buildInputGrid() {
     	inputShapes = new ArrayList<Shape>();
@@ -171,19 +150,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     	inputShapes.add(new InputSquare(0.16f,     0,     0, "9")); //9
     	inputShapes.add(new InputSquare(0.16f,  1.2f,     0, "0")); //0
     	inputShapes.add(new InputSquare(0.16f,  2.4f,     0, "x")); //X - This is to clear input
-	}
-
-	private void buildThreeCells(float offsetY) {
-		shapes.add(new Hexagon(CELL_SCALE,     0, offsetY, "+11"));
-        shapes.add(new Hexagon(CELL_SCALE, -1.0f, offsetY, "/11"));
-        shapes.add(new Hexagon(CELL_SCALE,  1.0f, offsetY, "*9"));
-	}
-	
-	private void buildFourCells(float offsetY) {
-		shapes.add(new Hexagon(CELL_SCALE, -1.5f, offsetY, "*11"));
-        shapes.add(new Hexagon(CELL_SCALE, -0.5f, offsetY, "+10"));
-        shapes.add(new Hexagon(CELL_SCALE,  0.5f, offsetY, "-3"));
-        shapes.add(new Hexagon(CELL_SCALE,  1.5f, offsetY, "-12"));
 	}
 
     @Override
@@ -269,7 +235,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         if (isCorrectGuess()) {
         	drawAllShapesAndShrinkBottomRow(mMVPMatrix);
         } else {
-        	drawAllShapes(shapes, mMVPMatrix);
+        	drawAllShapes(getGridShapes(), mMVPMatrix);
         }
 	}
 	
@@ -288,11 +254,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		int lastCellIndex = getBottomRowLastCellIndex();
 		
 		//Apply scaling to the bottom row and just move the other rows.
-		for (int i = 0; i < shapes.size(); i++) {
+		for (int i = 0; i < getGridShapes().size(); i++) {
 			if (i <= lastCellIndex) {
-				drawShapes(shapes.get(i), mMVPScaled);
+				drawShapes(getGridShapes().get(i), mMVPScaled);
 			} else {
-				drawShapes(shapes.get(i), mMVPMatrix);
+				drawShapes(getGridShapes().get(i), mMVPMatrix);
 			}
 		}
 	}
@@ -335,7 +301,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		} else if (renderCorrectGuess) {
 			if (outputCurrentFrame == 0) {
 				answerRectangle.setShapes(0.3f, mAnswerText, Color.GREEN);
-				levelRectangle.setShapes(-1f, getRowLevelLabel(), Color.YELLOW);
+				levelRectangle.setShapes(-1f, Level.getLabel(), Color.YELLOW);
 				scoreRectangle.setShapes(-1f, Score.getScoreLabel(), Color.YELLOW);
 				timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel(), Color.YELLOW);
 			}
@@ -343,9 +309,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 			if (outputCurrentFrame >= FPS_ANIMATION_20) {
 				outputCurrentFrame = 0;
 				answerRectangle.setShapes(0.3f, mAnswerText);
-				levelRectangle.setShapes(-1f, getRowLevelLabel());
+				levelRectangle.setShapes(-1f, Level.getLabel());
 				scoreRectangle.setShapes(-1f, Score.getScoreLabel());
 				timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel());
+				setGridShapes();
 				renderCorrectGuess = false;		
         	}
 		}
@@ -372,13 +339,17 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     	}
 	}
 	
+	private ArrayList<Shape> getGridShapes() {
+		return gridShapes;
+	}
+	
 	private int getBottomRowLastCellIndex() {
 		int lastCellIndex = 0;
 		Shape prevShape = null;
-		for (int i = 0; i < shapes.size(); i++) {
-			if (prevShape == null || shapes.get(i).getCentreY() == prevShape.getCentreY()) {
+		for (int i = 0; i < getGridShapes().size(); i++) {
+			if (prevShape == null || getGridShapes().get(i).getCentreY() == prevShape.getCentreY()) {
 				lastCellIndex = i;
-				prevShape = shapes.get(i);
+				prevShape = getGridShapes().get(i);
 			} else {
 				return lastCellIndex;
 			}
@@ -388,7 +359,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	
 	private void removeBottomRow() {
 		for (int i = getBottomRowLastCellIndex(); i >= 0 ; i--) {
-			shapes.remove(i);
+			getGridShapes().remove(i);
 		}
 		//Reset the bottom row shapes
 		setBottomRowShapes();
@@ -403,7 +374,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		
 		//Apply scaling to the bottom row and just move the other rows.
 		for (int i = 0; i <= getBottomRowLastCellIndex(); i++) {
-			tempRowShapes.add(shapes.get(i));
+			tempRowShapes.add(getGridShapes().get(i));
 		}
 		bottomRowShapes = tempRowShapes;
 	}
@@ -521,12 +492,29 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 		return Equation.getExpectedAnswerLabel().replaceAll("[0-9]", "_");
 	}
 
-	public ArrayList<Shape> getShapes() {
-		return shapes;
-	}
-
 	public ArrayList<Shape> getInputShapes() {
 		return inputShapes;
+	}
+	
+	private void setGridShapes() {
+		//This needs to create the grid based on the cells in the grid.
+		ArrayList<Shape> tempGrid = new ArrayList<Shape>();
+		float xOffset;
+		int fixedXOffset = 1;
+		
+		for (Stage stage : Game.getGrid()) {
+			if (stage.getStageSize() == 4) {
+				xOffset = -1.5f;
+			} else {
+				xOffset = -1f;
+			}
+			for (int i = 0; i < stage.getStageSize(); i++) {
+				tempGrid.add(new Hexagon(CELL_SCALE, xOffset+(fixedXOffset*i), CELL_OFFSET_Y*stage.getRow(), stage.getCell(i).toString()));
+			}
+			
+		}
+		
+		gridShapes = tempGrid;
 	}
 
 	public boolean isCorrectGuess() {
@@ -578,25 +566,5 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 	public void setRenderOutput(boolean renderOutput) {
 		this.renderOutput = renderOutput;
-	}
-
-	public int getGridLevel() {
-		return gridLevel;
-	}
-
-	public void incrementGridLevel() {
-		this.gridLevel++;
-	}
-	
-	public String getRowLevelLabel() {
-		return Integer.toString(rowLevel);
-	}
-	
-	public int getRowLevel() {
-		return rowLevel;
-	}
-
-	public void incrementRowLevel() {
-		this.rowLevel++;
 	}
 }

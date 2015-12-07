@@ -27,8 +27,9 @@ public class Stage {
 		Stage prevStage = null;
 		cells = new Cell[this.getStageSize()];
 		
-		if (row > 0) 
-			prevStage = grid.getStage(row-1);
+		if (row > 0) {
+			prevStage = grid.getStage(grid.stages.size()-1);
+		}
 		
 		for (int i = 0; i < cells.length; i++) {
 			if (prevStage == null) {

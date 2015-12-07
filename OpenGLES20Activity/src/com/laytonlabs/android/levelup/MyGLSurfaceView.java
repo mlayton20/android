@@ -46,6 +46,9 @@ public class MyGLSurfaceView extends GLSurfaceView {
         
         //Initialise the Time for the Game to start
         Time.initialise();
+        
+        //Start and setup the new game
+        Game.initialise();
 
         // Create an OpenGL ES 2.0 context.
         setEGLContextClientVersion(2);
@@ -56,6 +59,9 @@ public class MyGLSurfaceView extends GLSurfaceView {
     }
     
     private static Shape mPreviousTouchedCell;
+    //TODO - Replace the below with the actual cell which was touched, which will store its own index.
+    private static int mPreviousTouchedCellIndex;
+    private static int mPreviousTouchedIndex;
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
@@ -94,6 +100,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 	Equation.set(CurrentAnswer.getLabel() + touchedShape.toString());
                 	mRenderer.setAnswerText("");
                 	mPreviousTouchedCell = touchedShape;
+                	mPreviousTouchedCellIndex = mPreviousTouchedIndex;
                 //If nothing has been pressed, reset the output shapes.
         		} else {
         			resetOutput();
@@ -145,7 +152,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	}
 
 	private void processCorrectGuess() {
-		Game.processCorrectGuess(mPreviousTouchedCell.toString());
+		Game.processCorrectGuess(mPreviousTouchedCellIndex, mPreviousTouchedCell.toString());
 		resetOutput();
 		mRenderer.setCorrectGuess(true);
 	}
@@ -153,11 +160,12 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	public Shape getTouchedShape(ArrayList<Shape> shapes, Vec2 touchGLCoords, boolean findClosest) {
 		int index = 0;
 		for (Shape shape : shapes) {
-			index++;
 			if (shape.intersects(touchGLCoords)) {
 				Log.d("TouchedInputShape", "Shape touched is " + index + " value: " + shape.toString());
+				mPreviousTouchedIndex = index;
 				return shape;
 			}
+			index++;
 		}
 		
 		if (findClosest) {
