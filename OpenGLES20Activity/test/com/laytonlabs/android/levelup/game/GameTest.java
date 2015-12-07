@@ -15,7 +15,7 @@ public class GameTest {
 	
 	@Test
 	public void gridHasCorrectNumberOfStages() {
-		assertEquals(9, Game.getGrid().size());
+		assertEquals(6, Game.getGrid().size());
 		assertEquals(0, Game.getGrid().get(0).getRow());
 	}
 
@@ -25,7 +25,7 @@ public class GameTest {
 		int cellIndex = 2;
 		Equation.set(CurrentAnswer.getLabel() + Game.getGrid().get(0).getCell(cellIndex).toString());
 		Game.processCorrectGuess(cellIndex, Game.getGrid().get(0).getCell(cellIndex).toString());
-		assertEquals(9, Game.getGrid().size());
+		assertEquals(6, Game.getGrid().size());
 		assertEquals(1, Game.getGrid().get(0).getRow());
 	}
 	
@@ -37,14 +37,14 @@ public class GameTest {
 		Equation.set(CurrentAnswer.getLabel() + Game.getGrid().get(0).getCell(cellIndex).toString());
 		Game.processCorrectGuess(cellIndex, Game.getGrid().get(0).getCell(cellIndex).toString());
 		System.out.println("After Guess 1: " + Grid.getInstance().toString());
-		assertEquals(9, Game.getGrid().size());
+		assertEquals(6, Game.getGrid().size());
 		assertEquals(1, Game.getGrid().get(0).getRow());
 		Equation.set(CurrentAnswer.getLabel() + Game.getGrid().get(0).getCell(cellIndex).toString());
 		Game.processCorrectGuess(cellIndex, Game.getGrid().get(0).getCell(cellIndex).toString());
 		//Equation.set(CurrentAnswer.getLabel() + Game.getGrid().get(0).getCell(cellIndex).toString());
 		//Game.processCorrectGuess(cellIndex, Game.getGrid().get(0).getCell(cellIndex).toString());
 		System.out.println("After Guess 2: " + Grid.getInstance().toString());
-		assertEquals(9, Game.getGrid().size());
+		assertEquals(6, Game.getGrid().size());
 	}
 	
 	@After
