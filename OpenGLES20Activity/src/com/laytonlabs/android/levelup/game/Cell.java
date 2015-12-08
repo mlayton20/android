@@ -17,7 +17,6 @@ public class Cell {
 	private int answer;
 	private int operator;
 	private int operatorValue;
-	private boolean active;
 	private boolean enabled;
 	private ArrayList<Integer> potentialAnswers = new ArrayList<Integer>();
 	
@@ -26,7 +25,6 @@ public class Cell {
 		this.setInputCellA(null);
 		this.setInputCellB(null);
 		this.enable();
-		this.deactivate();
 		this.fill(previousAnswer);
 	}
 
@@ -35,7 +33,6 @@ public class Cell {
 		this.setInputCellA(inputCellA);
 		this.setInputCellB(inputCellB);
 		this.enable();
-		this.deactivate();
 		this.fill();
 	}
 	
@@ -172,21 +169,8 @@ public class Cell {
 		this.enabled = true;
 	}
 	
-	public void deactivate() {
-		this.active = false;
-		
-	}
-	
-	public void activate() {
-		this.active = true;
-	}
-	
 	public boolean isEnabled() {
 		return this.enabled;
-	}
-
-	public boolean isActive() {
-		return this.active;
 	}
 
 	public ArrayList<Integer> getPotentialAnswers() {

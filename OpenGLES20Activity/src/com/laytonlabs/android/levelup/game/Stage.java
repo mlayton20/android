@@ -123,14 +123,6 @@ public class Stage {
 		return this.active;
 	}
 
-	public int getActiveCellIndex() {
-		for (int i = 0; i < cells.length; i++) {
-			if (this.getCell(i).isActive())
-				return i;
-		}
-		return -1;
-	}
-
 	public void enableConnectedCells(Stage nextStage) {
 		for (int i = 0; i < cells.length; i++) {
 			if (this.getCell(i).isEnabled()) {
@@ -138,13 +130,6 @@ public class Stage {
 				nextStage.getCell(this.getCellBIndex(i)).enable();
 			}
 		}
-	}
-
-	public void enableActiveCell() {
-		for (Cell cell : cells) {
-			if (cell.isActive())
-				cell.enable();
-		}		
 	}
 	
 	public String toString() {
