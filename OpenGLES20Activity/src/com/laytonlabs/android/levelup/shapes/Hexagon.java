@@ -23,8 +23,6 @@ public class Hexagon extends Shape {
         0.5f,  0.2f, 0.0f }; // top right
     
     private static final short drawOrder[] = { 0, 1, 5, 1, 4, 5, 1, 2, 4, 2, 3, 4 }; // order to draw vertices
-
-    private static final float fillColor[] = Color.LIGHT_GREY;
     
     private ArrayList<Shape> shapes;
     
@@ -150,6 +148,7 @@ public class Hexagon extends Shape {
 	public boolean intersects(Vec2 touchCoords) {
 		if (touchCoords.getX() >= shapeCoords[3] && touchCoords.getX() <= shapeCoords[12]
 				&& touchCoords.getY() >= shapeCoords[7] && touchCoords.getY() <= shapeCoords[4]) {
+			//If the shape was touched, then only return true if the cell is enabled.
 			return cell.isEnabled();
 		}
     	return false;
