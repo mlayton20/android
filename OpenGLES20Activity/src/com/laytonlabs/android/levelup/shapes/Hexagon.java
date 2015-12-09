@@ -150,7 +150,7 @@ public class Hexagon extends Shape {
 	public boolean intersects(Vec2 touchCoords) {
 		if (touchCoords.getX() >= shapeCoords[3] && touchCoords.getX() <= shapeCoords[12]
 				&& touchCoords.getY() >= shapeCoords[7] && touchCoords.getY() <= shapeCoords[4]) {
-			return true;
+			return cell.isEnabled();
 		}
     	return false;
     }
