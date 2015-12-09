@@ -87,9 +87,12 @@ public class Hexagon extends Shape {
 	private static float[] getFillColor(Cell cell) {
 		float[] color;
 		
-		//TODO - Add section to determine if a cell is a bonus cell.
-		//when its a bonus cell the color is yellow otherwise light_grey
-		color = Color.LIGHT_GREY.clone();
+		//When its a bonus cell the color is yellow otherwise light_grey
+		if (cell.isBonusCell()) {
+			color = Color.YELLOW.clone();
+		} else {
+			color = Color.LIGHT_GREY.clone();
+		}
 		
 		//Grey out the cell if it's not enabled.
 		if (!cell.isEnabled()) {

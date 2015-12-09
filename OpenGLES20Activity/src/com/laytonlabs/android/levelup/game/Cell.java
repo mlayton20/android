@@ -10,6 +10,7 @@ public class Cell {
 	private final int SUBTRACT_OPERATOR = 2;
 	private final int MULTIPLY_OPERATOR = 3;
 	private final int DIVIDE_OPERATOR = 4;
+	private final int BONUS_RANGE = 20;
 	
 	private Stage parent;
 	private Cell inputCellA;
@@ -19,11 +20,13 @@ public class Cell {
 	private int operatorValue;
 	private boolean enabled;
 	private ArrayList<Integer> potentialAnswers = new ArrayList<Integer>();
+	private boolean bonusCell;
 	
 	public Cell(Stage parent, int previousAnswer) {
 		this.parent = parent;
 		this.setInputCellA(null);
 		this.setInputCellB(null);
+		this.setBonusCell();
 		this.enable();
 		this.fill(previousAnswer);
 	}
@@ -32,6 +35,7 @@ public class Cell {
 		this.parent = parent;
 		this.setInputCellA(inputCellA);
 		this.setInputCellB(inputCellB);
+		this.setBonusCell();
 		this.enable();
 		this.fill();
 	}
@@ -207,6 +211,15 @@ public class Cell {
 		if (this.containsAnswer(guessedAnswer))
 			return true;
 		return false;
+	}
+
+	public boolean isBonusCell() {
+		return bonusCell;
+	}
+
+	private void setBonusCell() {
+		//1 in 20 cells will be random
+		this.bonusCell = ((int)(Math.random()*BONUS_RANGE)+1) == BONUS_RANGE;
 	}
 
 }
