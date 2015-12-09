@@ -3,6 +3,7 @@ package com.laytonlabs.android.levelup.shapes;
 import java.util.ArrayList;
 
 import com.laytonlabs.android.levelup.Vec2;
+import com.laytonlabs.android.levelup.game.Cell;
 
 import android.util.Log;
 
@@ -28,48 +29,97 @@ public class Hexagon extends Shape {
     private ArrayList<Shape> shapes;
     
     private String nestedText;
+    private float scale;
+    private Cell cell;
 
     //This will be the parent cell.
-	public Hexagon(float scale, float centreX, float centreY, String nestedText) {
-    	super(originalCoords, drawOrder, getBorderColor(nestedText), scale, scale*centreX, scale*centreY);
+	public Hexagon(float scale, float centreX, float centreY, Cell cell) {
+    	super(originalCoords, drawOrder, getBorderColor(cell), scale, scale*centreX, scale*centreY);
     	
-    	this.nestedText = nestedText;
+    	this.nestedText = cell.toString();
+    	this.scale = scale;
+    	this.cell = cell;
     	
-    	shapes = generateNestedShapes(scale, nestedText);
-    	Log.d("GLPosition", "Hexagon: (" + nestedText + ")" + getCentreX() + ", " + getCentreY());
+    	shapes = new ArrayList<Shape>();
+    	shapes.add(0, new Hexagon(this));
+    	generateNestedShapes(scale, nestedText);
     }
 	
-	private static float[] getBorderColor(String nestedText) {
+	private static float[] getBorderColor(Cell cell) {
+		String nestedText = cell.toString();
+		float[] color;
 		switch(nestedText.charAt(0)) {
 			//Operators
 			case '+':
-				return Color.LIGHT_BLUE;
+				color = Color.LIGHT_BLUE.clone();
+				break;
 			case '-':
-				return Color.ORANGE;
+				color = Color.ORANGE.clone();
+				break;
 			case '*':
-				return Color.PURPLE;
+				color = Color.PURPLE.clone();
+				break;
 			case '/':
-				return Color.TURQUOISE;
-			
+				color = Color.TURQUOISE.clone();
+				break;
 			//This shouldn't happen 
 			default:
-				return Color.LIGHT_BLUE;
+				color = Color.LIGHT_BLUE.clone();
+				break;
 		}
+		
+		//Grey out the cell if it's not enabled.
+		if (!cell.isEnabled()) {
+			//Set the opacity so the cell looks greyed out.
+			color[3] = 0.5f;
+		}
+		
+		return color;
 	}
 
 	//This is for when we want to add a border to the hexagon.
-	private Hexagon(float scale, float centreX, float centreY) {
-		//TODO - make getFillColor function that when its a bonus cell the color is yellow otherwise light_grey
-    	super(originalCoords, drawOrder, fillColor, scale, centreX, centreY);
+	private Hexagon(Hexagon parent) {
+    	super(originalCoords, drawOrder, 
+    			getFillColor(parent.cell), 
+    			parent.scale*SCALE_BORDER, 
+    			0 + parent.getCentreX(), 
+    			0 + parent.getCentreY());
     }
+	
+	private static float[] getFillColor(Cell cell) {
+		float[] color;
+		
+		//TODO - Add section to determine if a cell is a bonus cell.
+		//when its a bonus cell the color is yellow otherwise light_grey
+		color = Color.LIGHT_GREY.clone();
+		
+		//Grey out the cell if it's not enabled.
+		if (!cell.isEnabled()) {
+			color[3] = 0.5f;
+		}
+		
+		return color;
+	}
 
-	public ArrayList<Shape> generateNestedShapes(float parentScale, String nestedText) {
+	public void generateNestedShapes(float parentScale, String nestedText) {
+		//Need to remove current text in the shape, if there is any text already.
+    	removeNestedTextShapes();
+    	
 		ArrayList<Shape> nestedShapes = ShapeUtil.generateNestedShapes(this, parentScale*SCALE_NESTED_TEXT, nestedText);
 		
-		//Add the border hexagon
-		nestedShapes.add(0, new Hexagon(parentScale*SCALE_BORDER, 0 + getCentreX(), 0 + getCentreY()));
+		for (Shape shape : nestedShapes) {
+    		shapes.add(shape);
+    	}
+	}
+	
+	private void removeNestedTextShapes() {
+		if (shapes.size() <= 1) {
+			return;
+		}
 		
-		return nestedShapes;
+		for (int i = shapes.size()-1; i > 0; i--) {
+			shapes.remove(i);
+		}
 	}
 	
 	@Override

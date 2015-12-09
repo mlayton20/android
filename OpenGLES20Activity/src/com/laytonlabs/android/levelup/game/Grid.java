@@ -104,13 +104,13 @@ public class Grid {
 	}
 
 	private void moveToNextStage(int cellIndex) {
-		//this.disable();
-		//this.getActiveStage().getCell(cellIndex).enable();
-		//this.enableConnectedCells();
+		this.disable();
+		this.getActiveStage().getCell(cellIndex).enable();
+		this.enableConnectedCells();
+		this.updatePotentialAnswers();
 		this.getActiveStage().disableCells();
 		this.getStage(this.getActiveStageIndex()+1).activate();
 		this.getActiveStage().deactivate();
-		this.updatePotentialAnswers();
 		this.addStage();
 		this.removeOldStages();
 		//Log.d("Grid", "moveToNextStage" + this.toString());

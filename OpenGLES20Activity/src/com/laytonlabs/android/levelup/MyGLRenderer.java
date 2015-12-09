@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import com.laytonlabs.android.levelup.game.Cell;
 import com.laytonlabs.android.levelup.game.CurrentAnswer;
 import com.laytonlabs.android.levelup.game.Equation;
 import com.laytonlabs.android.levelup.game.Game;
@@ -508,8 +509,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 			} else {
 				xOffset = -1f;
 			}
-			for (int i = 0; i < stage.getStageSize(); i++) {
-				tempGrid.add(new Hexagon(CELL_SCALE, xOffset+(fixedXOffset*i), CELL_OFFSET_Y*stage.getRow(), stage.getCell(i).toString()));
+			for (int i = 0; i < stage.getStageSize(); i++) {				
+				tempGrid.add(new Hexagon(CELL_SCALE, xOffset+(fixedXOffset*i), CELL_OFFSET_Y*stage.getRow(), stage.getCell(i)));
 			}
 			
 		}
