@@ -15,12 +15,12 @@ public class Game {
 		//This is also used to instantiate GRID.
 	}
 
-	public static void processCorrectGuess(int touchedCellIndex, String touchedCell) {
+	public static void processCorrectGuess(Cell touchedCell) {
 		CurrentAnswer.set(Equation.getExpectedAnswer());
 		Level.increment();
 		Score.setScore(touchedCell);
 		Time.increaseTimeRemaining();
-		GRID.guessAnswer(touchedCellIndex, CurrentAnswer.get());
+		GRID.guessAnswer(touchedCell.getCellIndex(), CurrentAnswer.get());
 	}
 	
 	public static ArrayList<Stage> getGrid() {

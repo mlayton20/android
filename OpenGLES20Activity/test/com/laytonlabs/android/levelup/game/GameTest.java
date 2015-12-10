@@ -24,7 +24,7 @@ public class GameTest {
 		//Game.initialise();
 		int cellIndex = 2;
 		Equation.set(CurrentAnswer.getLabel() + Game.getGrid().get(0).getCell(cellIndex).toString());
-		Game.processCorrectGuess(cellIndex, Game.getGrid().get(0).getCell(cellIndex).toString());
+		Game.processCorrectGuess(Game.getGrid().get(0).getCell(cellIndex));
 		assertEquals(6, Game.getGrid().size());
 		assertEquals(1, Game.getGrid().get(0).getRow());
 	}
@@ -35,12 +35,12 @@ public class GameTest {
 		System.out.println("Start: " + Grid.getInstance().toString());
 		int cellIndex = 2;
 		Equation.set(CurrentAnswer.getLabel() + Game.getGrid().get(0).getCell(cellIndex).toString());
-		Game.processCorrectGuess(cellIndex, Game.getGrid().get(0).getCell(cellIndex).toString());
+		Game.processCorrectGuess(Game.getGrid().get(0).getCell(cellIndex));
 		System.out.println("After Guess 1: " + Grid.getInstance().toString());
 		assertEquals(6, Game.getGrid().size());
 		assertEquals(1, Game.getGrid().get(0).getRow());
 		Equation.set(CurrentAnswer.getLabel() + Game.getGrid().get(0).getCell(cellIndex).toString());
-		Game.processCorrectGuess(cellIndex, Game.getGrid().get(0).getCell(cellIndex).toString());
+		Game.processCorrectGuess(Game.getGrid().get(0).getCell(cellIndex));
 		//Equation.set(CurrentAnswer.getLabel() + Game.getGrid().get(0).getCell(cellIndex).toString());
 		//Game.processCorrectGuess(cellIndex, Game.getGrid().get(0).getCell(cellIndex).toString());
 		System.out.println("After Guess 2: " + Grid.getInstance().toString());

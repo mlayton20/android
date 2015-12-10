@@ -156,4 +156,9 @@ public class Hexagon extends Shape {
 		}
     	return false;
     }
+	
+	@Override
+	public Cell getCell() {
+		return this.cell;
+	}
 }

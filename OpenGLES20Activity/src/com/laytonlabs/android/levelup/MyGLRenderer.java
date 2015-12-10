@@ -444,6 +444,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         int error;
         while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
             Log.e(TAG, glOperation + ": glError " + error);
+            //TODO - Print out the fixed shapes values to see if something wierd is being displayed after a while.
             throw new RuntimeException(glOperation + ": glError " + error);
         }
     }

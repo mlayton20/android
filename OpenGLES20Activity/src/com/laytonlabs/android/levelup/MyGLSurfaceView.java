@@ -40,6 +40,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
 	private static final String TAG = "MyGLSurfaceView";
     private final MyGLRenderer mRenderer;
+    private static Shape mPreviousTouchedCell;
+    private static int mPreviousTouchedIndex;
 
     public MyGLSurfaceView(Context context) {
         super(context);
@@ -57,11 +59,6 @@ public class MyGLSurfaceView extends GLSurfaceView {
         mRenderer = new MyGLRenderer();
         setRenderer(mRenderer);
     }
-    
-    private static Shape mPreviousTouchedCell;
-    //TODO - Replace the below with the actual cell which was touched, which will store its own index.
-    private static int mPreviousTouchedCellIndex;
-    private static int mPreviousTouchedIndex;
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
@@ -100,7 +97,6 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 	Equation.set(CurrentAnswer.getLabel() + touchedShape.toString());
                 	mRenderer.setAnswerText("");
                 	mPreviousTouchedCell = touchedShape;
-                	mPreviousTouchedCellIndex = mPreviousTouchedIndex;
                 //If nothing has been pressed, reset the output shapes.
         		} else {
         			resetOutput();
@@ -152,7 +148,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 	}
 
 	private void processCorrectGuess() {
-		Game.processCorrectGuess(mPreviousTouchedCellIndex, mPreviousTouchedCell.toString());
+		Game.processCorrectGuess(mPreviousTouchedCell.getCell());
 		resetOutput();
 		mRenderer.setCorrectGuess(true);
 	}
@@ -162,7 +158,6 @@ public class MyGLSurfaceView extends GLSurfaceView {
 		for (Shape shape : shapes) {
 			if (shape.intersects(touchGLCoords)) {
 				Log.d("TouchedInputShape", "Shape touched is " + index + " value: " + shape.toString());
-				mPreviousTouchedIndex = index;
 				return shape;
 			}
 			index++;

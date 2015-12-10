@@ -33,12 +33,13 @@ public class Stage {
 		
 		for (int i = 0; i < cells.length; i++) {
 			if (prevStage == null) {
-				cells[i] = new Cell(this, grid.getCurrentAnswer());
+				cells[i] = new Cell(this, grid.getCurrentAnswer(), i);
 			} else {
 				cells[i] = new Cell(
 						this,
 						prevStage.getCell(getCellAIndex(i)),
-						prevStage.getCell(getCellBIndex(i)));
+						prevStage.getCell(getCellBIndex(i)),
+						i);
 			}
 		}		
 	}

@@ -21,9 +21,11 @@ public class Cell {
 	private boolean enabled;
 	private ArrayList<Integer> potentialAnswers = new ArrayList<Integer>();
 	private boolean bonusCell;
+	private int cellIndex;
 	
-	public Cell(Stage parent, int previousAnswer) {
+	public Cell(Stage parent, int previousAnswer, int cellIndex) {
 		this.parent = parent;
+		this.setCellIndex(cellIndex);
 		this.setInputCellA(null);
 		this.setInputCellB(null);
 		this.setBonusCell();
@@ -31,8 +33,9 @@ public class Cell {
 		this.fill(previousAnswer);
 	}
 
-	public Cell(Stage parent, Cell inputCellA, Cell inputCellB) {
+	public Cell(Stage parent, Cell inputCellA, Cell inputCellB, int cellIndex) {
 		this.parent = parent;
+		this.setCellIndex(cellIndex);
 		this.setInputCellA(inputCellA);
 		this.setInputCellB(inputCellB);
 		this.setBonusCell();
@@ -220,6 +223,14 @@ public class Cell {
 	private void setBonusCell() {
 		//1 in 20 cells will be random
 		this.bonusCell = ((int)(Math.random()*BONUS_RANGE)+1) == BONUS_RANGE;
+	}
+
+	public int getCellIndex() {
+		return cellIndex;
+	}
+
+	private void setCellIndex(int cellIndex) {
+		this.cellIndex = cellIndex;
 	}
 
 }

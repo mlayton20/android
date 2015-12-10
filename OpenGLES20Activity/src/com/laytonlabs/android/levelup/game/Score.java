@@ -16,9 +16,14 @@ public class Score {
 		return Integer.toString(score);
 	}
 
-	public static void setScore(String nestedText) {
-		int tempScore = calculateScore(nestedText);
-		//TODO - If the cell is a bonus cell, multiply the tempScore by 2.
+	public static void setScore(Cell touchedCell) {
+		int tempScore = calculateScore(touchedCell.toString());
+		
+		//If the cell is a bonus cell, multiply the tempScore by 2.
+		if (touchedCell.isBonusCell()) {
+			tempScore *= 2;
+		}
+		
 		score += tempScore;
 	}
 

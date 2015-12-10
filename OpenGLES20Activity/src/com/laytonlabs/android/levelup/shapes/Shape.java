@@ -25,6 +25,7 @@ import android.opengl.GLES20;
 
 import com.laytonlabs.android.levelup.MyGLRenderer;
 import com.laytonlabs.android.levelup.Vec2;
+import com.laytonlabs.android.levelup.game.Cell;
 
 /**
  * A two-dimensional square for use as a drawn object in OpenGL ES 2.0.
@@ -84,6 +85,10 @@ public abstract class Shape {
     }
     
     public void setNestedTextColor(float[] textColor) {}
+    
+    public Cell getCell() {
+    	return null;
+    }
     
     public ArrayList<Shape> getShapes() {
     	return null;
