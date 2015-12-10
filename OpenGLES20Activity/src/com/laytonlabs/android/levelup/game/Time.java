@@ -12,8 +12,8 @@ public class Time {
 	private static final SimpleDateFormat MM_DATE_FORMAT = new SimpleDateFormat("mm:ss");
 	private static final long MILLISECOND = 1000;
 	private static final long HOUR = 3600 * MILLISECOND; //3600 seconds in an hour
-	private static final long STARTING_TIME = 60 * MILLISECOND; //60 seconds
-	private static final long CORRECT_ANSWER_TIME = 15 * MILLISECOND; //15 seconds
+	private static final long STARTING_TIME = 30 * MILLISECOND; //30 seconds
+	private static final long CORRECT_ANSWER_TIME = 10 * MILLISECOND; //10 seconds
 	private static final long TIME_ALMOST_UP_THRESH = 10 * MILLISECOND; //10 seconds
 	
 	private static long previousTime = System.currentTimeMillis();
