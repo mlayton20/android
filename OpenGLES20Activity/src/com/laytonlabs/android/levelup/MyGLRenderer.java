@@ -62,10 +62,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private static EquationRectangle answerRectangle;
     private ArrayList<Shape> gridShapes;
     private ArrayList<Shape> bottomRowShapes;
-    private ArrayList<Shape> inputShapes;
+    private static ArrayList<Shape> inputShapes;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
+    private final float[] mMVPFixed = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
     private final float[] mGridModelMatrix = new float[16];
@@ -74,7 +75,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private float mMovementY;
     private float mBottomRowScale; 
-    private String mAnswerText = CurrentAnswer.getLabel();
+    private static String mAnswerText = CurrentAnswer.getLabel();
     private boolean isCorrectGuess = false;
     private boolean renderCorrectGuess = false;
     private boolean isWrongGuess = false;
@@ -242,7 +243,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	
 	private void drawAllShapes(ArrayList<Shape> shapes, float[] mMVPMatrix) {
 		for (Shape shape : shapes) {
-        	Log.d(TAG, "Scale Hexagon ("+shape.toString()+") Aft ("+shape.getCentreX()+", "+shape.getCentreY()+")");
+        	//Log.d(TAG, "Scale Hexagon ("+shape.toString()+") Aft ("+shape.getCentreX()+", "+shape.getCentreY()+")");
         	drawShapes(shape, mMVPMatrix);
         }
 	}
@@ -265,7 +266,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 	}
 
 	private void drawFixedShapes() {
-		float[] mMVPFixed = new float[16];
 		
 		Matrix.multiplyMM(mMVPFixed, 0, mTempMatrix, 0, mFixedModelMatrix, 0);
 		
@@ -327,15 +327,27 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         //Draw all input grid shapess
         drawAllShapes(inputShapes, mMVPFixed);
 	}
+	
+	public static void printStack() {
+		Log.e(TAG,"Level: " + Level.getLabel());
+		Log.e(TAG,"Score: " + Score.getScoreLabel());
+		Log.e(TAG,"Time: " + Time.getTimeRemainingLabel());
+		Log.e(TAG,"mAnswerText: " + mAnswerText);
+		Log.e(TAG,"Equation: " + Equation.get());
+		for (int i = 0; i < inputShapes.size(); i++) {
+			Log.e(TAG,"inputShapes[" + i + "]: " + inputShapes.get(i).toString());
+		}
+    }
 
 	private void drawShapes(Shape parentShape, float[] mMVPMatrix) {
 		parentShape.draw(mMVPMatrix);
 		
-		if (parentShape.getShapes() == null) {
+		if (parentShape.getShapes() == null || parentShape.getShapes().isEmpty()) {
 			return;
 		}
 		
         for (Shape nestedShapes : parentShape.getShapes()) {
+        	Log.d(TAG,"NestedShape is: " + nestedShapes.toString());
     		nestedShapes.draw(mMVPMatrix);
     	}
 	}
@@ -443,7 +455,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public static void checkGlError(String glOperation) {
         int error;
         while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-            Log.e(TAG, glOperation + ": glError " + error);
+            Log.e(TAG, glOperation + ": 1glError " + error);
+            printStack();
             //TODO - Print out the fixed shapes values to see if something wierd is being displayed after a while.
             throw new RuntimeException(glOperation + ": glError " + error);
         }

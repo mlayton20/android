@@ -18,10 +18,12 @@ package com.laytonlabs.android.levelup.shapes;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 
 import android.opengl.GLES20;
+import android.util.Log;
 
 import com.laytonlabs.android.levelup.MyGLRenderer;
 import com.laytonlabs.android.levelup.Vec2;
@@ -191,6 +193,23 @@ public abstract class Shape {
         GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
         GLES20.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
         GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
+        
+        IntBuffer intBuffer = IntBuffer.allocate(1);
+        GLES20.glGetProgramiv(mProgram, GLES20.GL_LINK_STATUS, intBuffer);
+
+        System.out.println("got link status");
+
+        if (intBuffer.get(0) != GLES20.GL_TRUE) {
+        	GLES20.glGetProgramiv(mProgram, GLES20.GL_INFO_LOG_LENGTH, intBuffer);
+            int size = intBuffer.get(0);
+            Log.e(TAG,"Program link error: ");
+            if (size > 0) {
+                Log.e(TAG,GLES20.glGetProgramInfoLog(mProgram));
+            } else {
+            	Log.e(TAG,"Unknown");
+            }
+            return;
+        }
     }
 
     //Adjust the original scale of the shape and position
