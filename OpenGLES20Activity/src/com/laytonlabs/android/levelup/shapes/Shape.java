@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import android.opengl.GLES20;
 import android.util.Log;
 
-import com.laytonlabs.android.levelup.MyGLRenderer;
+import com.laytonlabs.android.levelup.GameRenderer;
 import com.laytonlabs.android.levelup.Vec2;
 import com.laytonlabs.android.levelup.game.Cell;
 
@@ -182,10 +182,10 @@ public abstract class Shape {
         drawListBuffer.position(0);
 
         // prepare shaders and OpenGL program
-        int vertexShader = MyGLRenderer.loadShader(
+        int vertexShader = GameRenderer.loadShader(
                 GLES20.GL_VERTEX_SHADER,
                 vertexShaderCode);
-        int fragmentShader = MyGLRenderer.loadShader(
+        int fragmentShader = GameRenderer.loadShader(
                 GLES20.GL_FRAGMENT_SHADER,
                 fragmentShaderCode);
 
@@ -256,11 +256,11 @@ public abstract class Shape {
 
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-        MyGLRenderer.checkGlError("glGetUniformLocation");
+        GameRenderer.checkGlError("glGetUniformLocation");
 
         // Apply the projection and view transformation
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mvpMatrix, 0);
-        MyGLRenderer.checkGlError("glUniformMatrix4fv");
+        GameRenderer.checkGlError("glUniformMatrix4fv");
 
         // Draw the square
         GLES20.glDrawElements(

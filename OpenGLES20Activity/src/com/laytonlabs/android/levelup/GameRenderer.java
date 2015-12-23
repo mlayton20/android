@@ -51,9 +51,9 @@ import android.util.Log;
  *   <li>{@link android.opengl.GLSurfaceView.Renderer#onSurfaceChanged}</li>
  * </ul>
  */
-public class MyGLRenderer implements GLSurfaceView.Renderer {
+public class GameRenderer implements GLSurfaceView.Renderer {
 
-    private static final String TAG = "MyGLRenderer";
+    private static final String TAG = "GameRenderer";
     private static StatsRectangle levelRectangle;
     private static StatsRectangle timeRectangle;
     private static StatsRectangle scoreRectangle;
@@ -104,7 +104,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     
     private GameEventListener eventListener;
 
-    public MyGLRenderer(GameEventListener eventListener) {
+    public GameRenderer(GameEventListener eventListener) {
     	this.eventListener = eventListener;
 	}
 

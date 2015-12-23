@@ -35,15 +35,15 @@ import com.laytonlabs.android.levelup.shapes.Shape;
  * This view can also be used to capture touch events, such as a user
  * interacting with drawn objects.
  */
-public class MyGLSurfaceView extends GLSurfaceView implements GameEventListener {
+public class GameSurfaceView extends GLSurfaceView implements GameEventListener {
 
-	private static final String TAG = "MyGLSurfaceView";
-    private final MyGLRenderer mRenderer;
+	private static final String TAG = "GameSurfaceView";
+    private final GameRenderer mRenderer;
     private static Shape mPreviousTouchedCell;
     
     private GameEventListener eventListener;
 
-    public MyGLSurfaceView(Context context) {
+    public GameSurfaceView(Context context) {
         super(context);
         this.eventListener = (GameEventListener) context;
         
@@ -57,7 +57,7 @@ public class MyGLSurfaceView extends GLSurfaceView implements GameEventListener 
         setEGLContextClientVersion(2);
 
         // Set the Renderer for drawing on the GLSurfaceView
-        mRenderer = new MyGLRenderer(this);
+        mRenderer = new GameRenderer(this);
         setRenderer(mRenderer);
     }
 

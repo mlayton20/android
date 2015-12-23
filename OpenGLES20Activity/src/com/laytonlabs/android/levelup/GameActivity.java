@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.laytonlabs.android.levelup.game.Level;
 import com.laytonlabs.android.levelup.game.Score;
 
-public class OpenGLES20Activity extends Activity implements GameEventListener {
+public class GameActivity extends Activity implements GameEventListener {
 
     private GLSurfaceView mGLView;
     private Handler handler;
@@ -35,7 +35,7 @@ public class OpenGLES20Activity extends Activity implements GameEventListener {
 
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity
-        mGLView = new MyGLSurfaceView(this);
+        mGLView = new GameSurfaceView(this);
         setContentView(mGLView);
         handler = new Handler();
     }
