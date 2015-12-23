@@ -27,7 +27,6 @@ import android.view.MotionEvent;
 import com.laytonlabs.android.levelup.game.CurrentAnswer;
 import com.laytonlabs.android.levelup.game.Equation;
 import com.laytonlabs.android.levelup.game.Game;
-import com.laytonlabs.android.levelup.game.Score;
 import com.laytonlabs.android.levelup.game.Time;
 import com.laytonlabs.android.levelup.shapes.Shape;
 
@@ -36,15 +35,17 @@ import com.laytonlabs.android.levelup.shapes.Shape;
  * This view can also be used to capture touch events, such as a user
  * interacting with drawn objects.
  */
-public class MyGLSurfaceView extends GLSurfaceView {
+public class MyGLSurfaceView extends GLSurfaceView implements GameEventListener {
 
 	private static final String TAG = "MyGLSurfaceView";
     private final MyGLRenderer mRenderer;
     private static Shape mPreviousTouchedCell;
-    private static int mPreviousTouchedIndex;
+    
+    private GameEventListener eventListener;
 
     public MyGLSurfaceView(Context context) {
         super(context);
+        this.eventListener = (GameEventListener) context;
         
         //Initialise the Time for the Game to start
         Time.initialise();
@@ -56,7 +57,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         setEGLContextClientVersion(2);
 
         // Set the Renderer for drawing on the GLSurfaceView
-        mRenderer = new MyGLRenderer();
+        mRenderer = new MyGLRenderer(this);
         setRenderer(mRenderer);
     }
 
@@ -283,5 +284,10 @@ public class MyGLSurfaceView extends GLSurfaceView {
         // out the real position.
         return new Vec2(outPoint[0] / outPoint[3], outPoint[1] / outPoint[3]);       
     }
+
+	@Override
+	public void onGameOver() {
+		eventListener.onGameOver();
+	}
 
 }

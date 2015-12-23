@@ -18,10 +18,16 @@ package com.laytonlabs.android.levelup;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.Handler;
+import android.widget.Toast;
 
-public class OpenGLES20Activity extends Activity {
+import com.laytonlabs.android.levelup.game.Level;
+import com.laytonlabs.android.levelup.game.Score;
+
+public class OpenGLES20Activity extends Activity implements GameEventListener {
 
     private GLSurfaceView mGLView;
+    private Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,7 @@ public class OpenGLES20Activity extends Activity {
         // as the ContentView for this Activity
         mGLView = new MyGLSurfaceView(this);
         setContentView(mGLView);
+        handler = new Handler();
     }
 
     @Override
@@ -51,4 +58,18 @@ public class OpenGLES20Activity extends Activity {
         // this is a good place to re-allocate them.
         mGLView.onResume();
     }
+
+	@Override
+	public void onGameOver() {
+		Runnable runnable = new Runnable() {
+	        public void run() {
+	        	Toast.makeText(getApplicationContext(), 
+	        			getString(R.string.game_over_report, 
+	        					Score.getScoreLabel(), 
+	        					Level.getLabel()), 
+	        			Toast.LENGTH_SHORT).show();
+	        }
+	    };
+	    handler.post(runnable);		
+	}
 }

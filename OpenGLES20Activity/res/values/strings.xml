@@ -18,5 +18,7 @@
 
     <string name="hello">Level Up!</string>
     <string name="app_name">Level Up</string>
+    <string name="game_over">Game Over</string>
+    <string name="game_over_report">You scored %1$s points in %2$s levels</string>
 
 </resources>

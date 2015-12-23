@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import android.util.Log;
-
 public class Time {
 	
 	private static final SimpleDateFormat HH_DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
@@ -61,7 +59,7 @@ public class Time {
 	}
 	
 	public static void decreaseTimeRemaining() {
-		if (Time.timeRemaining - MILLISECOND < 0) {
+		if (isTimeUp()) {
 			return;
 		}
 		Time.timeRemaining -= MILLISECOND;
@@ -69,6 +67,10 @@ public class Time {
 	
 	public static boolean isTimeAlmostUp() {
 		return Time.timeRemaining <= TIME_ALMOST_UP_THRESH;
+	}
+	
+	public static boolean isTimeUp() {
+		return Time.timeRemaining == 0;
 	}
 
 }

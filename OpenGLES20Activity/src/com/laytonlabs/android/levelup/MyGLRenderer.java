@@ -37,7 +37,6 @@ import com.laytonlabs.android.levelup.shapes.Hexagon;
 import com.laytonlabs.android.levelup.shapes.InputSquare;
 import com.laytonlabs.android.levelup.shapes.Shape;
 import com.laytonlabs.android.levelup.shapes.StatsRectangle;
-
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -80,6 +79,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private boolean renderCorrectGuess = false;
     private boolean isWrongGuess = false;
     private boolean renderOutput = false;
+    private boolean isGameOver = false;
     
     //To limit the number of renders per second
     private long startTime;
@@ -101,8 +101,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     //Constants for grid presentation 
     private final float CELL_SCALE = 0.3f;
     private final float CELL_OFFSET_Y = 0.7f;
+    
+    private GameEventListener eventListener;
 
-    @Override
+    public MyGLRenderer(GameEventListener eventListener) {
+    	this.eventListener = eventListener;
+	}
+
+	@Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 
         // Set the background frame color
@@ -203,7 +209,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         drawGridShapes();
         
         drawFixedShapes();
+        
+        checkGameOver();
     }
+
+	private void checkGameOver() {
+		if (Time.isTimeUp() && !isGameOver) {
+			eventListener.onGameOver();
+			isGameOver = true;
+		}
+	}
 
 	private void drawGridShapes() {    	
 		//Start the grid drawing at bottom of screen.
