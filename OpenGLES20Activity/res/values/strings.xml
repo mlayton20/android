@@ -20,5 +20,13 @@
     <string name="app_name">Level Up</string>
     <string name="game_over">Game Over</string>
     <string name="game_over_report">You scored %1$s points in %2$s levels</string>
+    <string name="gameover_title">Nice Job!</string>
+    <string name="gameover_score">Score</string>
+    <string name="gameover_level">Level</string>
+    <string name="gameover_time">Time</string>
+    <string name="gameover_default_value">23</string>
+    <string name="gameover_button_restart">Restart</string>
+    <string name="gameover_button_mainmenu">Menu</string>
+    <string name="gameover_button_share">Share</string>
 
 </resources>
