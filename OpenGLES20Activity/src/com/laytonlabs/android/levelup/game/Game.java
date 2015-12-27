@@ -19,7 +19,7 @@ public class Game {
 		CurrentAnswer.set(Equation.getExpectedAnswer());
 		Level.increment();
 		Score.setScore(touchedCell);
-		Time.increaseTimeRemaining();
+		//Time.increaseTimeRemaining();
 		GRID.guessAnswer(touchedCell.getCellIndex(), CurrentAnswer.get());
 	}
 	
