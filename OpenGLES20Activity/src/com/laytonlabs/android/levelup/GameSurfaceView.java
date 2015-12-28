@@ -47,9 +47,6 @@ public class GameSurfaceView extends GLSurfaceView implements GameEventListener 
         super(context);
         this.eventListener = (GameEventListener) context;
         
-        //Initialise the Time for the Game to start
-        Time.initialise();
-        
         //Start and setup the new game
         Game.initialise();
 
@@ -109,7 +106,7 @@ public class GameSurfaceView extends GLSurfaceView implements GameEventListener 
     }
 
 	private void resetOutput() {
-		Equation.set("");
+		Equation.reset();
 		mRenderer.resetAnswerText();
 		mPreviousTouchedCell = null;
 	}
@@ -287,6 +284,7 @@ public class GameSurfaceView extends GLSurfaceView implements GameEventListener 
 
 	@Override
 	public void onGameOver() {
+		resetOutput();
 		eventListener.onGameOver();
 	}
 

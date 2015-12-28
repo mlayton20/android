@@ -4,6 +4,10 @@ public class CurrentAnswer {
 
 	private static int currentAnswer = randomWithRange(1,10);
 
+	public static void reset() {
+		currentAnswer = randomWithRange(1,10);
+	}
+	
 	public static int get() {
 		return currentAnswer;
 	}

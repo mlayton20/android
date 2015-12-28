@@ -24,6 +24,8 @@ public class Time {
 		MM_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
 		
 		timeRemaining = STARTING_TIME;
+		previousTime = System.currentTimeMillis();
+		timeElapsed = 0;
 	}
 	
 	public static void update() {
@@ -39,6 +41,11 @@ public class Time {
 	
 	public static long getTimeElapsed() {
 		return timeElapsed;
+	}
+	
+	public static String getTimeElapsedLabel() {
+		Date timeElapsed = new Date(getTimeElapsed());
+		return (getTimeElapsed() < HOUR ? MM_DATE_FORMAT : HH_DATE_FORMAT).format(timeElapsed);
 	}
 	
 	public static void updateTimeElapsed() {

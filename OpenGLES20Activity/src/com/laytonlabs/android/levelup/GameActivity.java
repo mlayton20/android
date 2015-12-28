@@ -16,6 +16,7 @@
 package com.laytonlabs.android.levelup;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,15 +62,8 @@ public class GameActivity extends Activity implements GameEventListener {
 
 	@Override
 	public void onGameOver() {
-		Runnable runnable = new Runnable() {
-	        public void run() {
-	        	Toast.makeText(getApplicationContext(), 
-	        			getString(R.string.game_over_report, 
-	        					Score.getScoreLabel(), 
-	        					Level.getLabel()), 
-	        			Toast.LENGTH_SHORT).show();
-	        }
-	    };
-	    handler.post(runnable);		
+		Intent i = new Intent(GameActivity.this, GameOverActivity.class);
+    	startActivity(i);
+    	mGLView = null;
 	}
 }

@@ -74,7 +74,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     private float mMovementY;
     private float mBottomRowScale; 
-    private static String mAnswerText = CurrentAnswer.getLabel();
+    private static String mAnswerText = "";
     private boolean isCorrectGuess = false;
     private boolean renderCorrectGuess = false;
     private boolean isWrongGuess = false;
@@ -114,9 +114,10 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(Color.DARK_GREY[0], Color.DARK_GREY[1], Color.DARK_GREY[2], Color.DARK_GREY[3]);
         
-        startTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();        
         
-        //TODO Add code that sets current answer to whatever the current answer is.
+        //Sets current answer to whatever the current answer is.
+        mAnswerText = CurrentAnswer.getLabel();
 
         //Initialise fixed shapes
         equationRectangle = new EquationRectangle(-0.35f);
@@ -131,7 +132,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         scoreRectangle = new StatsRectangle(0 + (Screen.DEFAULT_WIDTH/3), Color.PURPLE, Color.PURPLE);
         
         levelRectangle.setShapes(-1f, Level.getLabel());
-        scoreRectangle.setShapes(-1f, Score.getScoreLabel());
+        scoreRectangle.setShapes(-1f, Score.getLabel());
         timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel());
         
         setGridShapes();
@@ -318,7 +319,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 			if (outputCurrentFrame == 0) {
 				answerRectangle.setShapes(0.3f, mAnswerText, Color.GREEN);
 				levelRectangle.setShapes(-1f, Level.getLabel(), Color.YELLOW);
-				scoreRectangle.setShapes(-1f, Score.getScoreLabel(), Color.YELLOW);
+				scoreRectangle.setShapes(-1f, Score.getLabel(), Color.YELLOW);
 				timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel(), Color.YELLOW);
 			}
 			outputCurrentFrame++;
@@ -326,7 +327,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 				outputCurrentFrame = 0;
 				answerRectangle.setShapes(0.3f, mAnswerText);
 				levelRectangle.setShapes(-1f, Level.getLabel());
-				scoreRectangle.setShapes(-1f, Score.getScoreLabel());
+				scoreRectangle.setShapes(-1f, Score.getLabel());
 				timeRectangle.setShapes(-1f, Time.getTimeRemainingLabel());
 				setGridShapes();
 				renderCorrectGuess = false;		
@@ -345,7 +346,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 	
 	public static void printStack() {
 		Log.e(TAG,"Level: " + Level.getLabel());
-		Log.e(TAG,"Score: " + Score.getScoreLabel());
+		Log.e(TAG,"Score: " + Score.getLabel());
 		Log.e(TAG,"Time: " + Time.getTimeRemainingLabel());
 		Log.e(TAG,"mAnswerText: " + mAnswerText);
 		Log.e(TAG,"Equation: " + Equation.get());

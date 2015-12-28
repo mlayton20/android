@@ -3,6 +3,10 @@ package com.laytonlabs.android.levelup.game;
 public class Level {
 
 	private static int level = 1;
+	
+	public static void reset() {
+		level = 1;
+	}
 
 	public static int get() {
 		return level;

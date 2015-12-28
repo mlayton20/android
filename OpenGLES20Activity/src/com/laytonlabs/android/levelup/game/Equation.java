@@ -8,6 +8,10 @@ public class Equation {
 	private static String equation = "";
 	private static int expectedAnswer;
 	
+	public static void reset() {
+		equation = "";
+	}
+	
 	public static String get() {
 		return equation;
 	}

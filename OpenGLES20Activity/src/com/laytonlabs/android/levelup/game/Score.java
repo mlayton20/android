@@ -8,15 +8,19 @@ public class Score {
 
 	private static int score = 0;
 
-	public static int getScore() {
+	public static void reset() {
+		score = 0;
+	}
+	
+	public static int get() {
 		return score;
 	}
 	
-	public static String getScoreLabel() {
+	public static String getLabel() {
 		return Integer.toString(score);
 	}
 
-	public static void setScore(Cell touchedCell) {
+	public static void set(Cell touchedCell) {
 		int tempScore = calculateScore(touchedCell.toString());
 		
 		//If the cell is a bonus cell, multiply the tempScore by 2.

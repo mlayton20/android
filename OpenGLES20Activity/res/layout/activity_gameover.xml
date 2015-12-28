@@ -41,6 +41,7 @@
 		        android:text="@string/gameover_score" />
             
             <TextView
+                android:id="@+id/gameover_score"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -66,6 +67,7 @@
 		        android:text="@string/gameover_level" />
             
             <TextView
+                android:id="@+id/gameover_level"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -91,6 +93,7 @@
 		        android:text="@string/gameover_time" />
             
             <TextView
+                android:id="@+id/gameover_time"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
