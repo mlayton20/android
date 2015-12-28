@@ -96,7 +96,7 @@ public class Hexagon extends Shape {
 		
 		//Grey out the cell if it's not enabled.
 		if (!cell.isEnabled()) {
-			color[3] = 0.5f;
+			color = Color.GREY.clone();
 		}
 		
 		return color;
