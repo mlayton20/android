@@ -114,8 +114,8 @@
 	    
         <Button 
 	        android:id="@+id/gameover_restart"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        android:layout_width="56dp"
+	        android:layout_height="56dp"
 	        android:layout_marginRight="16dp"
 	        android:background="@color/turquoise"
 	        android:textColor="@color/white"
@@ -123,8 +123,8 @@
         
         <Button 
 	        android:id="@+id/gameover_mainmenu"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        android:layout_width="56dp"
+	        android:layout_height="56dp"
 	        android:layout_marginRight="16dp"
 	        android:background="@color/grey"
 	        android:textColor="@color/white"
@@ -132,8 +132,8 @@
         
         <Button 
 	        android:id="@+id/gameover_share"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        android:layout_width="56dp"
+	        android:layout_height="56dp"
 	        android:background="@color/light_blue"
 	        android:textColor="@color/white"
 	        android:text="@string/gameover_button_share" />

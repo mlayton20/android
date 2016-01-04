@@ -22,6 +22,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.laytonlabs.android.levelup.game.GameStat;
+import com.laytonlabs.android.levelup.game.GameStats;
 import com.laytonlabs.android.levelup.game.Level;
 import com.laytonlabs.android.levelup.game.Score;
 
@@ -63,6 +65,7 @@ public class GameActivity extends Activity implements GameEventListener {
 	@Override
 	public void onGameOver() {
 		Intent i = new Intent(GameActivity.this, GameOverActivity.class);
+		GameStats.get(this).addGameStat(new GameStat());
     	startActivity(i);
     	mGLView = null;
 	}

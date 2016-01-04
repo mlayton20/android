@@ -1,5 +1,7 @@
 package com.laytonlabs.android.levelup;
 
+import com.laytonlabs.android.levelup.game.GameStat;
+import com.laytonlabs.android.levelup.game.GameStats;
 import com.laytonlabs.android.levelup.game.Level;
 import com.laytonlabs.android.levelup.game.Score;
 import com.laytonlabs.android.levelup.game.Time;
@@ -23,11 +25,12 @@ public class GameOverActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gameover);
 		
+		GameStat latestGameStat = GameStats.get(this).getLatestGameStat();
 		mScoreTextView = (TextView)findViewById(R.id.gameover_score);
-		mScoreTextView.setText(Score.getLabel());
+		mScoreTextView.setText(Score.getLabel() + getLeaderboardStat(latestGameStat.getmScoreRank()));		
 		
 		mLevelTextView = (TextView)findViewById(R.id.gameover_level);
-		mLevelTextView.setText(Level.getLabel());
+		mLevelTextView.setText(Level.getLabel() + getLeaderboardStat(latestGameStat.getmLevelRank()));
 		
 		mTimeTextView = (TextView)findViewById(R.id.gameover_time);
 		mTimeTextView.setText(Time.getTimeElapsedLabel());
@@ -40,5 +43,23 @@ public class GameOverActivity extends Activity {
             	startActivity(i);
             }
         });
+	}
+
+	private String getLeaderboardStat(int stat) {
+		String output = "";
+		//if there's been more than 1 game played, show best stat if possible
+		if (GameStats.get(this).getGameStats().size() > 2) {
+			//If its the best then show it
+			if (stat == 1) {
+				output += "(PB!)";
+			//If its top 10 effort
+			} else if (stat <= 10) {
+				output += "(" + stat + ")";
+			//Otherwise just show its above top 10.
+			} else {
+				output += "(10+)";
+			}
+		}
+		return output;
 	}
 }
