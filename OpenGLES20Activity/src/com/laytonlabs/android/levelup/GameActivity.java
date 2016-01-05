@@ -35,6 +35,9 @@ public class GameActivity extends Activity implements GameEventListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        //Call the GameStats to get the latest stats initialised.
+        GameStats.get(this);
 
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity
