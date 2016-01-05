@@ -5,7 +5,6 @@ import com.laytonlabs.android.levelup.game.GameStats;
 import com.laytonlabs.android.levelup.game.Level;
 import com.laytonlabs.android.levelup.game.Score;
 import com.laytonlabs.android.levelup.game.Time;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +20,7 @@ public class GameOverActivity extends Activity {
 	private TextView mLevelRankTextView;
 	private TextView mTimeTextView;
 	private Button mRestartButton;
+	private Button mShareButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,22 @@ public class GameOverActivity extends Activity {
             public void onClick(View v) {
                 Intent i = new Intent(GameOverActivity.this, GameActivity.class);
             	startActivity(i);
+            }
+        });
+		
+		mShareButton = (Button)findViewById(R.id.gameover_share);
+		mShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	Intent i = new Intent(Intent.ACTION_SEND);
+				i.setType("text/plain");
+				i.putExtra(Intent.EXTRA_SUBJECT, 
+						getString(R.string.share_gameover_subject, 
+								Score.getLabel(), 
+								Level.getLabel()));
+				//TODO change the below to point to my play store app when its created
+				i.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_game_url));
+				startActivity(i);
             }
         });
 	}

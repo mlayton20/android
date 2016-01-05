@@ -28,5 +28,7 @@
     <string name="gameover_button_restart">Restart</string>
     <string name="gameover_button_mainmenu">Menu</string>
     <string name="gameover_button_share">Share</string>
+    <string name="share_game_url">https://goo.gl/aUXIM4</string>
+	<string name="share_gameover_subject">%1$s points in %2$s levels. Can you beat that?</string>
 
 </resources>
