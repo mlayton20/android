@@ -40,16 +40,32 @@
 		        android:textColor="@color/purple"
 		        android:text="@string/gameover_score" />
             
-            <TextView
-                android:id="@+id/gameover_score"
+            <LinearLayout 
                 android:layout_width="0dip"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:paddingLeft="8dp"
-                android:gravity="center_vertical|start"
-                android:text="@string/gameover_default_value"
-                android:textColor="@color/white"
-                android:textSize="48sp" />
+			    android:layout_height="fill_parent"
+			    android:orientation="horizontal"
+			    android:layout_weight="1" >
+			    
+	            <TextView
+	                android:id="@+id/gameover_score"
+	                android:layout_width="wrap_content"
+	                android:layout_height="fill_parent"
+	                android:paddingLeft="8dp"
+	                android:gravity="center_vertical|end"
+	                android:text="@string/gameover_default_value"
+	                android:textColor="@color/white"
+	                android:textSize="48sp" />
+	            
+	            <TextView
+	                android:id="@+id/gameover_score_rank"
+	                android:layout_width="wrap_content"
+	                android:layout_height="fill_parent"
+	                android:paddingLeft="8dp"
+	                android:gravity="center_vertical|start"
+	                android:text="@string/gameover_default_value"
+	                android:textColor="@color/white"
+	                android:textSize="24sp" />
+            </LinearLayout>
         </TableRow>
         
         <TableRow 
@@ -66,16 +82,33 @@
 		        android:textColor="@color/light_blue"
 		        android:text="@string/gameover_level" />
             
-            <TextView
-                android:id="@+id/gameover_level"
+            <LinearLayout 
                 android:layout_width="0dip"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:paddingLeft="8dp"
-                android:gravity="center_vertical|start"
-                android:text="@string/gameover_default_value"
-                android:textColor="@color/white"
-                android:textSize="48sp" />
+			    android:layout_height="fill_parent"
+			    android:orientation="horizontal"
+			    android:layout_weight="1" >
+            
+	            <TextView
+	                android:id="@+id/gameover_level"
+	                android:layout_width="wrap_content"
+	                android:layout_height="fill_parent"
+	                android:paddingLeft="8dp"
+	                android:gravity="center_vertical|end"
+	                android:text="@string/gameover_default_value"
+	                android:textColor="@color/white"
+	                android:textSize="48sp" />
+	            
+	            <TextView
+	                android:id="@+id/gameover_level_rank"
+	                android:layout_width="wrap_content"
+	                android:layout_height="fill_parent"
+	                android:paddingLeft="8dp"
+	                android:gravity="center_vertical|start"
+	                android:text="@string/gameover_default_value"
+	                android:textColor="@color/white"
+	                android:textSize="24sp" />
+            
+            </LinearLayout>
         </TableRow>
         
         <TableRow 
@@ -123,6 +156,7 @@
         
         <Button 
 	        android:id="@+id/gameover_mainmenu"
+	        android:visibility="gone"
 	        android:layout_width="56dp"
 	        android:layout_height="56dp"
 	        android:layout_marginRight="16dp"

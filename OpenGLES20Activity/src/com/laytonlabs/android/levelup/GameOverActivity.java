@@ -16,7 +16,9 @@ import android.widget.TextView;
 public class GameOverActivity extends Activity {
 
 	private TextView mScoreTextView;
+	private TextView mScoreRankTextView;
 	private TextView mLevelTextView;
+	private TextView mLevelRankTextView;
 	private TextView mTimeTextView;
 	private Button mRestartButton;
 
@@ -27,10 +29,16 @@ public class GameOverActivity extends Activity {
 		
 		GameStat latestGameStat = GameStats.get(this).getLatestGameStat();
 		mScoreTextView = (TextView)findViewById(R.id.gameover_score);
-		mScoreTextView.setText(Score.getLabel() + getLeaderboardStat(latestGameStat.getmScoreRank()));		
+		mScoreTextView.setText(Score.getLabel());
+		
+		mScoreRankTextView = (TextView)findViewById(R.id.gameover_score_rank);
+		mScoreRankTextView.setText(getLeaderboardStat(latestGameStat.getmScoreRank()));
 		
 		mLevelTextView = (TextView)findViewById(R.id.gameover_level);
-		mLevelTextView.setText(Level.getLabel() + getLeaderboardStat(latestGameStat.getmLevelRank()));
+		mLevelTextView.setText(Level.getLabel());
+		
+		mLevelRankTextView = (TextView)findViewById(R.id.gameover_level_rank);
+		mLevelRankTextView.setText(getLeaderboardStat(latestGameStat.getmLevelRank()));
 		
 		mTimeTextView = (TextView)findViewById(R.id.gameover_time);
 		mTimeTextView.setText(Time.getTimeElapsedLabel());
@@ -51,15 +59,30 @@ public class GameOverActivity extends Activity {
 		if (GameStats.get(this).getGameStats().size() > 2) {
 			//If its the best then show it
 			if (stat == 1) {
-				output += "(PB!)";
+				output += getOrdinalSuffix(stat) + "!";
 			//If its top 10 effort
 			} else if (stat <= 10) {
-				output += "(" + stat + ")";
+				output += getOrdinalSuffix(stat);
 			//Otherwise just show its above top 10.
 			} else {
-				output += "(10+)";
+				output += "10+";
 			}
 		}
 		return output;
+	}
+	
+	private String getOrdinalSuffix(int position) {
+	    int j = position % 10;
+	    int k = position % 100;
+	    if (j == 1 && k != 11) {
+	        return position + "st";
+	    }
+	    if (j == 2 && k != 12) {
+	        return position + "nd";
+	    }
+	    if (j == 3 && k != 13) {
+	        return position + "rd";
+	    }
+	    return position + "th";
 	}
 }
