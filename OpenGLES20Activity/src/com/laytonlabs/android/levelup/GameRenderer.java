@@ -79,7 +79,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private boolean renderCorrectGuess = false;
     private boolean isWrongGuess = false;
     private boolean renderOutput = false;
-    private boolean isGameOver = false;
     
     //To limit the number of renders per second
     private long startTime;
@@ -164,6 +163,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onDrawFrame(GL10 unused) {
     	
+    	//Game has ended so don't draw anything
+    	if (Game.isGameOver()) {
+    		return;
+    	}
+    	
     	//We dont need continuous rendering, only needed for animation and time switching
     	endTime = System.currentTimeMillis();
     	timeElapsed = endTime - startTime;
@@ -215,9 +219,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     }
 
 	private void checkGameOver() {
-		if (Time.isTimeUp() && !isGameOver) {
+		if (Time.isTimeUp()) {
 			eventListener.onGameOver();
-			isGameOver = true;
+			Game.setGameState(Game.State.GAME_OVER);
 		}
 	}
 

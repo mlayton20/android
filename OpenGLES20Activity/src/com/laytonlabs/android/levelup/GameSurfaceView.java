@@ -64,6 +64,10 @@ public class GameSurfaceView extends GLSurfaceView implements GameEventListener 
         // and other input controls. In this case, you are only
         // interested in events where the touch position changed.
     	
+    	if (Game.isGameOver()) {
+    		return true;
+    	}
+    	
         Vec2 touchCoords = new Vec2(e.getX(),e.getY());
 
         switch (e.getAction()) {

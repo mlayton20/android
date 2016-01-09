@@ -9,12 +9,19 @@ import com.laytonlabs.android.levelup.shapes.Shape;
 
 public class Game {
 	
+	public enum State {
+		RUNNING, GAME_OVER
+	}
+	
+	private static State gameState = State.RUNNING;
+	
 	private static final Grid GRID = Grid.getInstance();
 	
 	public static void initialise() {
 		//This is also used to instantiate GRID.
         
 		//Initialise the Time for the Game to start
+		setGameState(State.RUNNING);
 		Time.initialise();
         CurrentAnswer.reset();
         Equation.reset();
@@ -34,6 +41,18 @@ public class Game {
 	
 	public static ArrayList<Stage> getGrid() {
 		return GRID.getCurrentStages();
+	}
+
+	public static State getGameState() {
+		return gameState;
+	}
+
+	public static void setGameState(State gameState) {
+		Game.gameState = gameState;
+	}
+	
+	public static boolean isGameOver() {
+		return Game.gameState == State.GAME_OVER;
 	}
 	
 	
