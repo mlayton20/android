@@ -22,6 +22,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.laytonlabs.android.levelup.game.GameStat;
 import com.laytonlabs.android.levelup.game.GameStats;
 import com.laytonlabs.android.levelup.game.Level;
@@ -29,13 +31,20 @@ import com.laytonlabs.android.levelup.game.Score;
 
 public class GameActivity extends Activity implements GameEventListener {
 
+	private static final String TAG = "GameActivity";
     private GLSurfaceView mGLView;
+    private Tracker mTracker;
     private Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        // Obtain the shared Tracker instance.
+        mTracker = ((LevelUpApp)getApplication()).getDefaultTracker();
+        mTracker.setScreenName(TAG);
+        mTracker.send(new HitBuilders.AppViewBuilder().build());
+
         //Call the GameStats to get the latest stats initialised.
         GameStats.get(this);
 
@@ -73,7 +82,42 @@ public class GameActivity extends Activity implements GameEventListener {
 	public void onGameOver() {
 		Intent i = new Intent(GameActivity.this, GameOverActivity.class);
 		GameStats.get(this).addGameStat(new GameStat());
+		sendGameStats();
     	startActivity(i);
     	mGLView = null;
+	}
+	
+	private void sendGameStats() {
+		GameStat latestGameStat = GameStats.get(this).getLatestGameStat();
+		String label = "Score";
+		if (latestGameStat.getmScoreRank() == 1) {
+			label += " - New Best";
+		}
+		
+		mTracker.send(new HitBuilders.EventBuilder()
+				.setCategory("Achievement")
+				.setAction("Game Over")
+				.setLabel(label)
+				.setValue(Score.get())
+				.build());
+		
+		label = "Level";
+		if (latestGameStat.getmLevelRank() == 1) {
+			label += " - New Best";
+		}
+		
+		mTracker.send(new HitBuilders.EventBuilder()
+				.setCategory("Achievement")
+				.setAction("Game Over")
+				.setLabel(label)
+				.setValue(Level.get())
+				.build());
+		
+		mTracker.send(new HitBuilders.EventBuilder()
+			.setCategory("Achievement")
+			.setAction("Game Over")
+			.setLabel("Games Played")
+			.setValue(GameStats.get(this).getGameStats().size())
+			.build());
 	}
 }

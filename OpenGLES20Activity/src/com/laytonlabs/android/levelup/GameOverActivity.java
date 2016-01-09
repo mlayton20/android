@@ -1,5 +1,7 @@
 package com.laytonlabs.android.levelup;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.laytonlabs.android.levelup.game.GameStat;
 import com.laytonlabs.android.levelup.game.GameStats;
 import com.laytonlabs.android.levelup.game.Level;
@@ -14,6 +16,9 @@ import android.widget.TextView;
 
 public class GameOverActivity extends Activity {
 
+	private static final String TAG = "GameOverActivity";
+    private Tracker mTracker;
+    
 	private TextView mScoreTextView;
 	private TextView mScoreRankTextView;
 	private TextView mLevelTextView;
@@ -26,6 +31,11 @@ public class GameOverActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gameover);
+		
+		// Obtain the shared Tracker instance.
+        mTracker = ((LevelUpApp)getApplication()).getDefaultTracker();
+        mTracker.setScreenName(TAG);
+        mTracker.send(new HitBuilders.AppViewBuilder().build());
 		
 		GameStat latestGameStat = GameStats.get(this).getLatestGameStat();
 		mScoreTextView = (TextView)findViewById(R.id.gameover_score);
@@ -47,7 +57,8 @@ public class GameOverActivity extends Activity {
 		mRestartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                restartGame();
+            	sendActionEvent("Restart");
+            	restartGame();
             }
         });
 		
@@ -55,21 +66,29 @@ public class GameOverActivity extends Activity {
 		mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            	sendActionEvent("Share");
             	Intent i = new Intent(Intent.ACTION_SEND);
 				i.setType("text/plain");
 				i.putExtra(Intent.EXTRA_SUBJECT, 
 						getString(R.string.share_gameover_subject, 
 								Score.getLabel(), 
 								Level.getLabel()));
-				//TODO change the below to point to my play store app when its created
 				i.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_game_url));
 				startActivity(i);
             }
         });
 	}
 	
+	private void sendActionEvent(String action) {
+		mTracker.send(new HitBuilders.EventBuilder()
+		    .setCategory("Action")
+		    .setAction(action)
+		    .build());
+	}
+	
 	@Override
 	public void onBackPressed() {
+		sendActionEvent("Restart - Back Button");
 		restartGame();
 	}
 
