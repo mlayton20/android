@@ -53,7 +53,9 @@ public class GameActivity extends Activity implements GameEventListener {
         // If your OpenGL application is memory intensive,
         // you should consider de-allocating objects that
         // consume significant memory here.
-        mGLView.onPause();
+        if (mGLView != null) {
+        	mGLView.onPause();
+        }
     }
 
     @Override
@@ -62,7 +64,9 @@ public class GameActivity extends Activity implements GameEventListener {
         // The following call resumes a paused rendering thread.
         // If you de-allocated graphic objects for onPause()
         // this is a good place to re-allocate them.
-        mGLView.onResume();
+        if (mGLView != null) {
+        	mGLView.onResume();
+        }
     }
 
 	@Override
