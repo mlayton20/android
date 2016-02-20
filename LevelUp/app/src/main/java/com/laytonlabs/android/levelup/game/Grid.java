@@ -2,8 +2,6 @@ package com.laytonlabs.android.levelup.game;
 
 import java.util.ArrayList;
 
-import android.util.Log;
-
 public class Grid {
 	
 	private static Grid instance = null;
@@ -109,14 +107,18 @@ public class Grid {
 		this.enableConnectedCells();
 		this.updatePotentialAnswers();
 		this.getActiveStage().disableCells();
-		this.getStage(this.getActiveStageIndex()+1).activate();
+		this.getStage(this.getActiveStageIndex() + 1).activate();
 		this.getActiveStage().deactivate();
-		this.addStage();
+        this.addStage();
 		this.removeOldStages();
 		//Log.d("Grid", "moveToNextStage" + this.toString());
 	}
 
-	private void removeOldStages() {
+    public void activateAvailableCells() {
+        this.getActiveStage().activateAvailableCells();
+    }
+
+    private void removeOldStages() {
 		System.out.println("Active Stage is: " + this.getActiveStageIndex());
 		System.out.println("Before Removal: " + this.stages.size());
 		//Start from active stage-2 as the last active cell needs to be kept for rendering to work.
@@ -134,4 +136,8 @@ public class Grid {
 		}
 		return currentStages;
 	}
+
+    public void deactivateOtherAvailableCells(int cellIndex) {
+        this.getActiveStage().deactivateOtherAvailableCells(cellIndex);
+    }
 }

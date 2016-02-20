@@ -2,8 +2,6 @@ package com.laytonlabs.android.levelup.game;
 
 import java.util.ArrayList;
 
-import android.util.Log;
-
 public class Cell {
 	
 	private final int ADD_OPERATOR = 1;
@@ -22,6 +20,7 @@ public class Cell {
 	private ArrayList<Integer> potentialAnswers = new ArrayList<Integer>();
 	private boolean bonusCell;
 	private int cellIndex;
+    private boolean active;
 	
 	public Cell(Stage parent, int previousAnswer, int cellIndex) {
 		this.parent = parent;
@@ -169,11 +168,11 @@ public class Cell {
 
 	public void disable() {
 		this.enabled = false;
-		
+        setActive(false);
 	}
 	
 	public void enable() {
-		this.enabled = true;
+        this.enabled = true;
 	}
 	
 	public boolean isEnabled() {
@@ -233,4 +232,11 @@ public class Cell {
 		this.cellIndex = cellIndex;
 	}
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

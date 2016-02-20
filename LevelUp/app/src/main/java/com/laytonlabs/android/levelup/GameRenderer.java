@@ -16,14 +16,10 @@
 package com.laytonlabs.android.levelup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import com.laytonlabs.android.levelup.game.Cell;
 import com.laytonlabs.android.levelup.game.CurrentAnswer;
 import com.laytonlabs.android.levelup.game.Equation;
 import com.laytonlabs.android.levelup.game.Game;
@@ -87,6 +83,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private int currentFrame = 0;              // active frame
     private int outputCurrentFrame = 0;              // active frame
     private final int FPS = 33;			   	   // Frames per second
+    private final int FPS_ANIMATION_5 = 5;
     private final int FPS_ANIMATION_10 = 10;
     private final int FPS_ANIMATION_20 = 20;
     
@@ -100,6 +97,16 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     //Constants for grid presentation 
     private final float CELL_SCALE = 0.3f;
     private final float CELL_OFFSET_Y = 0.7f;
+
+    //These are for making flashing text
+    private float mFPSTextFlash;
+    private final float TEXT_MIN_SCALE = Hexagon.CELL_SCALE_NORMAL;
+    private final float TEXT_MAX_SCALE = Hexagon.CELL_SCALE_LARGE;
+    private float currentTextScale = TEXT_MAX_SCALE;
+    private boolean makeTextFlash = true;
+
+    private boolean cellSelected;
+    private boolean renderCellText = true;
     
     private GameEventListener eventListener;
 
@@ -142,6 +149,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         setBottomRowScale(1.0f);
         setFPSBottomRowScale(getBottomRowScale() / FPS_ANIMATION_20);
         setFPSMovementY((CELL_OFFSET_Y*CELL_SCALE) / FPS_ANIMATION_20);
+        setmFPSTextFlash((TEXT_MAX_SCALE - TEXT_MIN_SCALE) / FPS_ANIMATION_5);
     }
     
     private void buildInputGrid() {
@@ -252,7 +260,22 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         		setCorrectGuess(false);			//Mark as false so animation stops and user can make new guess
         	}
         }
-    	
+
+        if (isCellSelected()) {
+            //Make the text large to show that the cell is selected
+            changeActiveCellTextScale(Hexagon.CELL_SCALE_LARGE);
+            renderCellText = false;
+        } else {
+            //Change the text size to show the cells which can be selected.
+            if (isMakeTextFlash()) {
+                changeActiveCellTextScale(getCurrentTextScale() - getmFPSTextFlash());
+            } else {
+                //Change the text to normal
+                changeActiveCellTextScale(Hexagon.CELL_SCALE_NORMAL);
+                renderCellText = false;
+            }
+        }
+
         //Draw all grid shapes
         if (isCorrectGuess()) {
         	drawAllShapesAndShrinkBottomRow(mMVPMatrix);
@@ -260,8 +283,24 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         	drawAllShapes(getGridShapes(), mMVPMatrix);
         }
 	}
-	
-	private void drawAllShapes(ArrayList<Shape> shapes, float[] mMVPMatrix) {
+
+    public void changeActiveCellTextScale(float textScale) {
+        //If the value is the same, no point redoing the shapes.
+        if (!renderCellText) {
+            return;
+        }
+
+        setCurrentTextScale(textScale);
+        for (int i = 0; i <= getBottomRowLastCellIndex(); i++) {
+            if (getGridShapes().get(i).getCell().isActive()) {
+                getGridShapes().get(i).setShapes(getCurrentTextScale(), null);
+            } else {
+                getGridShapes().get(i).setShapes(Hexagon.CELL_SCALE_NORMAL, null);
+            }
+        }
+    }
+
+    private void drawAllShapes(ArrayList<Shape> shapes, float[] mMVPMatrix) {
 		for (Shape shape : shapes) {
         	//Log.d(TAG, "Scale Hexagon ("+shape.toString()+") Aft ("+shape.getCentreX()+", "+shape.getCentreY()+")");
         	drawShapes(shape, mMVPMatrix);
@@ -602,4 +641,42 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 	public void setRenderOutput(boolean renderOutput) {
 		this.renderOutput = renderOutput;
 	}
+
+    public float getmFPSTextFlash() {
+        return mFPSTextFlash;
+    }
+
+    public void setmFPSTextFlash(float mFPSTextFlash) {
+        this.mFPSTextFlash = mFPSTextFlash;
+    }
+
+    public float getCurrentTextScale() {
+        return currentTextScale;
+    }
+
+    public void setCurrentTextScale(float currentTextScale) {
+        //If the opacity is below the threshold, start moving the opacity back to 1. The last bit is in case it goes over 1.
+        if (currentTextScale < TEXT_MIN_SCALE || currentTextScale > TEXT_MAX_SCALE) {
+            setmFPSTextFlash(getmFPSTextFlash() * -1);
+            return;
+        }
+        this.currentTextScale = currentTextScale;
+    }
+
+    public boolean isMakeTextFlash() {
+        return makeTextFlash;
+    }
+
+    public void setMakeTextFlash(boolean makeTextFlash) {
+        this.makeTextFlash = makeTextFlash;
+    }
+
+    public boolean isCellSelected() {
+        return cellSelected;
+    }
+
+    public void setCellSelected(boolean cellSelected) {
+        renderCellText = true;
+        this.cellSelected = cellSelected;
+    }
 }

@@ -8,8 +8,8 @@ import com.laytonlabs.android.levelup.shapes.Hexagon;
 import com.laytonlabs.android.levelup.shapes.Shape;
 
 public class Game {
-	
-	public enum State {
+
+    public enum State {
 		RUNNING, GAME_OVER
 	}
 	
@@ -54,6 +54,12 @@ public class Game {
 	public static boolean isGameOver() {
 		return Game.gameState == State.GAME_OVER;
 	}
-	
-	
+
+    public static void activateAvailableCells() {
+        GRID.activateAvailableCells();
+    }
+
+    public static void deactivateOtherAvailableCells(int cellIndex) {
+        GRID.deactivateOtherAvailableCells(cellIndex);
+    }
 }

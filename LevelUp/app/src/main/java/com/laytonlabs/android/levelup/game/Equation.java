@@ -18,7 +18,7 @@ public class Equation {
 	
 	public static void set(String equation) {
 		Equation.equation = equation;
-		if (!equation.equals("")) {
+		if (!Equation.isEmpty()) {
 			Equation.setExpectedAnswer(equation);
 		}
 	}
@@ -67,5 +67,9 @@ public class Equation {
 		
 		Equation.expectedAnswer = -1;
 	}
+
+    public static boolean isEmpty() {
+        return Equation.equation.equals("");
+    }
 
 }

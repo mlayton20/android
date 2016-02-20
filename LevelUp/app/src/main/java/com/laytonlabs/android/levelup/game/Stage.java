@@ -118,6 +118,7 @@ public class Stage {
 	
 	public void activate() {
 		this.active = true;
+        this.activateAvailableCells();
 	}
 
 	public boolean isActive() {
@@ -162,4 +163,19 @@ public class Stage {
 		}
 	}
 
+    public void activateAvailableCells() {
+        for (Cell cell : cells) {
+            if (cell.isEnabled()) {
+                cell.setActive(true);
+            }
+        }
+    }
+
+    public void deactivateOtherAvailableCells(int cellIndex) {
+        for (Cell cell : cells) {
+            if (cell.getCellIndex() != cellIndex && cell.isEnabled()) {
+                cell.setActive(false);
+            }
+        }
+    }
 }

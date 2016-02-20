@@ -10,7 +10,9 @@ import android.util.Log;
 public class Hexagon extends Shape {
 	
 	private static final String TAG = "Hexagon";
-	
+
+    public static final float CELL_SCALE_NORMAL = 0.3f;
+    public static final float CELL_SCALE_LARGE = 0.33f;
 	private static final float SCALE_BORDER = 0.92f;
 	private static final float SCALE_NESTED_TEXT = 0.35f;
 
@@ -29,6 +31,8 @@ public class Hexagon extends Shape {
     private String nestedText;
     private float scale;
     private Cell cell;
+
+	private float[] nestedTextColor = Color.NAVY_BLUE;
 
     //This will be the parent cell.
 	public Hexagon(float scale, float centreX, float centreY, Cell cell) {
@@ -77,11 +81,11 @@ public class Hexagon extends Shape {
 
 	//This is for when we want to add a border to the hexagon.
 	private Hexagon(Hexagon parent) {
-    	super(originalCoords, drawOrder, 
-    			getFillColor(parent.cell), 
-    			parent.scale*SCALE_BORDER, 
-    			0 + parent.getCentreX(), 
-    			0 + parent.getCentreY());
+    	super(originalCoords, drawOrder,
+                getFillColor(parent.cell),
+                parent.scale * SCALE_BORDER,
+                0 + parent.getCentreX(),
+                0 + parent.getCentreY());
     }
 	
 	private static float[] getFillColor(Cell cell) {
@@ -102,7 +106,7 @@ public class Hexagon extends Shape {
 		return color;
 	}
 
-	public void generateNestedShapes(float parentScale, String nestedText) {
+	private void generateNestedShapes(float parentScale, String nestedText) {
 		//Need to remove current text in the shape, if there is any text already.
     	removeNestedTextShapes();
     	
@@ -112,6 +116,23 @@ public class Hexagon extends Shape {
     		shapes.add(shape);
     	}
 	}
+
+    @Override
+    public float[] getNestedTextColor() {
+        return nestedTextColor;
+    }
+
+    @Override
+    public void setShapes(float scale, String nestedText) {
+        nestedTextColor = Color.NAVY_BLUE;
+        generateNestedShapes(scale, this.nestedText);
+    }
+
+    @Override
+    public void setShapes(float scale, String nestedText, float[] color) {
+        nestedTextColor = color;
+        generateNestedShapes(scale, this.nestedText);
+    }
 	
 	private void removeNestedTextShapes() {
 		if (shapes.size() <= 1) {

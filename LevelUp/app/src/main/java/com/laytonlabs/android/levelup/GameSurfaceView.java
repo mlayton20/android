@@ -28,6 +28,7 @@ import com.laytonlabs.android.levelup.game.CurrentAnswer;
 import com.laytonlabs.android.levelup.game.Equation;
 import com.laytonlabs.android.levelup.game.Game;
 import com.laytonlabs.android.levelup.game.Time;
+import com.laytonlabs.android.levelup.shapes.Hexagon;
 import com.laytonlabs.android.levelup.shapes.Shape;
 
 /**
@@ -98,6 +99,10 @@ public class GameSurfaceView extends GLSurfaceView implements GameEventListener 
                 if (touchedShape != null) {
                 	Equation.set(CurrentAnswer.getLabel() + touchedShape.toString());
                 	mRenderer.setAnswerText("");
+                    Game.activateAvailableCells();
+                    Game.deactivateOtherAvailableCells(touchedShape.getCell().getCellIndex());
+                    mRenderer.setMakeTextFlash(false);
+                    mRenderer.setCellSelected(true);
                 	mPreviousTouchedCell = touchedShape;
                 //If nothing has been pressed, reset the output shapes.
         		} else {
@@ -113,6 +118,9 @@ public class GameSurfaceView extends GLSurfaceView implements GameEventListener 
 		Equation.reset();
 		mRenderer.resetAnswerText();
 		mPreviousTouchedCell = null;
+        Game.activateAvailableCells();
+        mRenderer.setMakeTextFlash(true);
+        mRenderer.setCellSelected(false);
 	}
 	
 	public void processGuess(Shape touchedShape) {

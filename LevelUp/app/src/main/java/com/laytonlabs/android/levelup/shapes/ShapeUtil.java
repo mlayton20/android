@@ -1,5 +1,7 @@
 package com.laytonlabs.android.levelup.shapes;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class ShapeUtil {
@@ -35,11 +37,15 @@ public class ShapeUtil {
 		//0.3f is the width from centre of a text shape. It's always 0.3f
 		float adjustedScale = scale;
 		float leftTextMinX = ((adjustedScale*adjustValue) + parentShape.getCentreX()) + (TEXT_MIN_X*adjustedScale);
-		
-		while (leftTextMinX <= parentMinX) {
-			adjustedScale -= 0.01f;
-			leftTextMinX = ((adjustedScale*adjustValue) + parentShape.getCentreX()) + (TEXT_MIN_X*adjustedScale);
-		};
+
+        //We dont want to do this if it's a Hexagon because it makes
+        //the leftmost cell text smaller if there's 3 characters.
+        if (!(parentShape instanceof Hexagon)) {
+            while (leftTextMinX <= parentMinX) {
+                adjustedScale -= 0.01f;
+                leftTextMinX = ((adjustedScale * adjustValue) + parentShape.getCentreX()) + (TEXT_MIN_X * adjustedScale);
+            }
+        }
 		
 		return adjustedScale;
 	}
