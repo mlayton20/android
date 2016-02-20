@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="google_app_id">663114046675</string>
     <string name="hello">Level Up!</string>
     <string name="app_name">Level Up</string>
     <string name="game_over">Game Over</string>
