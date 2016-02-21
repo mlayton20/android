@@ -101,7 +101,6 @@ public class GameSurfaceView extends GLSurfaceView implements GameEventListener 
                 	mRenderer.setAnswerText("");
                     Game.activateAvailableCells();
                     Game.deactivateOtherAvailableCells(touchedShape.getCell().getCellIndex());
-                    mRenderer.setMakeTextFlash(false);
                     mRenderer.setCellSelected(true);
                 	mPreviousTouchedCell = touchedShape;
                 //If nothing has been pressed, reset the output shapes.
@@ -119,7 +118,6 @@ public class GameSurfaceView extends GLSurfaceView implements GameEventListener 
 		mRenderer.resetAnswerText();
 		mPreviousTouchedCell = null;
         Game.activateAvailableCells();
-        mRenderer.setMakeTextFlash(true);
         mRenderer.setCellSelected(false);
 	}
 	

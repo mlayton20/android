@@ -103,10 +103,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private final float TEXT_MIN_SCALE = Hexagon.CELL_SCALE_NORMAL;
     private final float TEXT_MAX_SCALE = Hexagon.CELL_SCALE_LARGE;
     private float currentTextScale = TEXT_MAX_SCALE;
-    private boolean makeTextFlash = true;
-
     private boolean cellSelected;
     private boolean renderCellText = true;
+    private int CELL_HINT_THRESH = 2000; //Show flashing text after 2 seconds
+    private long hintStartTime;
+    private long hintEndTime;
     
     private GameEventListener eventListener;
 
@@ -120,7 +121,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(Color.DARK_GREY[0], Color.DARK_GREY[1], Color.DARK_GREY[2], Color.DARK_GREY[3]);
         
-        startTime = System.currentTimeMillis();        
+        startTime = System.currentTimeMillis();
+        hintStartTime = startTime;
         
         //Sets current answer to whatever the current answer is.
         mAnswerText = CurrentAnswer.getLabel();
@@ -266,9 +268,13 @@ public class GameRenderer implements GLSurfaceView.Renderer {
             changeActiveCellTextScale(Hexagon.CELL_SCALE_LARGE);
             renderCellText = false;
         } else {
-            //Change the text size to show the cells which can be selected.
-            if (isMakeTextFlash()) {
+            //Start flashing the text if the user hasn't selected a value after a while.
+            hintEndTime = System.currentTimeMillis();
+            timeElapsed = hintEndTime - hintStartTime;
+            if (timeElapsed > CELL_HINT_THRESH) {
+                //Change the text size to show the cells which can be selected.
                 changeActiveCellTextScale(getCurrentTextScale() - getmFPSTextFlash());
+                renderCellText = true;
             } else {
                 //Change the text to normal
                 changeActiveCellTextScale(Hexagon.CELL_SCALE_NORMAL);
@@ -663,20 +669,16 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         this.currentTextScale = currentTextScale;
     }
 
-    public boolean isMakeTextFlash() {
-        return makeTextFlash;
-    }
-
-    public void setMakeTextFlash(boolean makeTextFlash) {
-        this.makeTextFlash = makeTextFlash;
-    }
-
     public boolean isCellSelected() {
         return cellSelected;
     }
 
     public void setCellSelected(boolean cellSelected) {
         renderCellText = true;
+        //If a cell is not selected we want to flash the text after a while.
+        if (!cellSelected && this.cellSelected != cellSelected) {
+            hintStartTime = System.currentTimeMillis();
+        }
         this.cellSelected = cellSelected;
     }
 }
