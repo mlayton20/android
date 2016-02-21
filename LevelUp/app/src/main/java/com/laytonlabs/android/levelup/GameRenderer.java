@@ -100,14 +100,16 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     //These are for making flashing text
     private float mFPSTextFlash;
-    private final float TEXT_MIN_SCALE = Hexagon.CELL_SCALE_NORMAL;
-    private final float TEXT_MAX_SCALE = Hexagon.CELL_SCALE_LARGE;
-    private float currentTextScale = TEXT_MAX_SCALE;
+    private float textMinScale = Hexagon.SCALE_NORMAL;
+    private float textMaxScale = Hexagon.SCALE_LARGE;
+    private float currentTextScale = textMaxScale;
     private boolean cellSelected;
     private boolean renderCellText = true;
-    private int CELL_HINT_THRESH = 2000; //Show flashing text after 2 seconds
+    private final int HINT_THRESH = 2000; //Show flashing text after 2 seconds
     private long hintStartTime;
     private long hintEndTime;
+    private boolean renderInputText = false;
+    private boolean inputSelected = false;
     
     private GameEventListener eventListener;
 
@@ -151,7 +153,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         setBottomRowScale(1.0f);
         setFPSBottomRowScale(getBottomRowScale() / FPS_ANIMATION_20);
         setFPSMovementY((CELL_OFFSET_Y*CELL_SCALE) / FPS_ANIMATION_20);
-        setmFPSTextFlash((TEXT_MAX_SCALE - TEXT_MIN_SCALE) / FPS_ANIMATION_5);
+        setmFPSTextFlash((textMaxScale - textMinScale) / FPS_ANIMATION_5);
     }
     
     private void buildInputGrid() {
@@ -265,19 +267,37 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         if (isCellSelected()) {
             //Make the text large to show that the cell is selected
-            changeActiveCellTextScale(Hexagon.CELL_SCALE_LARGE);
+            changeActiveCellTextScale(Hexagon.SCALE_LARGE, true);
             renderCellText = false;
+
+            //Now we need to see if the input text needs to flash
+            if (!isInputSelected()) {
+                hintEndTime = System.currentTimeMillis();
+                timeElapsed = hintEndTime - hintStartTime;
+                if (timeElapsed > HINT_THRESH) {
+                    //Change the text size to show the cells which can be selected.
+                    changeInputTextScale(getCurrentTextScale() - getmFPSTextFlash(), false);
+                    renderInputText = true;
+                } else {
+                    //Change the text to normal
+                    changeInputTextScale(InputSquare.SCALE_NORMAL, true);
+                    renderInputText = false;
+                }
+            } else {
+                changeInputTextScale(InputSquare.SCALE_NORMAL, true);
+                renderInputText = false;
+            }
         } else {
             //Start flashing the text if the user hasn't selected a value after a while.
             hintEndTime = System.currentTimeMillis();
             timeElapsed = hintEndTime - hintStartTime;
-            if (timeElapsed > CELL_HINT_THRESH) {
+            if (timeElapsed > HINT_THRESH) {
                 //Change the text size to show the cells which can be selected.
-                changeActiveCellTextScale(getCurrentTextScale() - getmFPSTextFlash());
+                changeActiveCellTextScale(getCurrentTextScale() - getmFPSTextFlash(), false);
                 renderCellText = true;
             } else {
                 //Change the text to normal
-                changeActiveCellTextScale(Hexagon.CELL_SCALE_NORMAL);
+                changeActiveCellTextScale(Hexagon.SCALE_NORMAL, true);
                 renderCellText = false;
             }
         }
@@ -290,19 +310,31 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         }
 	}
 
-    public void changeActiveCellTextScale(float textScale) {
+    private void changeActiveCellTextScale(float textScale, boolean skipScaleCheck) {
         //If the value is the same, no point redoing the shapes.
         if (!renderCellText) {
             return;
         }
 
-        setCurrentTextScale(textScale);
+        setCurrentTextScale(textScale, skipScaleCheck);
         for (int i = 0; i <= getBottomRowLastCellIndex(); i++) {
             if (getGridShapes().get(i).getCell().isActive()) {
                 getGridShapes().get(i).setShapes(getCurrentTextScale(), null);
             } else {
-                getGridShapes().get(i).setShapes(Hexagon.CELL_SCALE_NORMAL, null);
+                getGridShapes().get(i).setShapes(Hexagon.SCALE_NORMAL, null);
             }
+        }
+    }
+
+    private void changeInputTextScale(float textScale, boolean skipScaleCheck) {
+        //If the value is the same, no point redoing the shapes.
+        if (!renderInputText) {
+            return;
+        }
+
+        setCurrentTextScale(textScale, skipScaleCheck);
+        for (Shape shape : inputShapes) {
+            shape.setShapes(getCurrentTextScale(), null);
         }
     }
 
@@ -660,9 +692,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         return currentTextScale;
     }
 
-    public void setCurrentTextScale(float currentTextScale) {
+    public void setCurrentTextScale(float currentTextScale, boolean skipCheck) {
         //If the opacity is below the threshold, start moving the opacity back to 1. The last bit is in case it goes over 1.
-        if (currentTextScale < TEXT_MIN_SCALE || currentTextScale > TEXT_MAX_SCALE) {
+        if (!skipCheck && (currentTextScale < textMinScale || currentTextScale > textMaxScale)) {
             setmFPSTextFlash(getmFPSTextFlash() * -1);
             return;
         }
@@ -679,6 +711,29 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         if (!cellSelected && this.cellSelected != cellSelected) {
             hintStartTime = System.currentTimeMillis();
         }
+
+        //Want these to happen everytime a change is made.
+        if (cellSelected) {
+            textMinScale = InputSquare.SCALE_NORMAL;
+            textMaxScale = InputSquare.SCALE_LARGE;
+            setmFPSTextFlash((textMaxScale - textMinScale) / FPS_ANIMATION_5);
+            setInputSelected(false);
+            hintStartTime = System.currentTimeMillis();
+        } else {
+            textMinScale = Hexagon.SCALE_NORMAL;
+            textMaxScale = Hexagon.SCALE_LARGE;
+            setmFPSTextFlash((textMaxScale - textMinScale) / FPS_ANIMATION_5);
+        }
+
         this.cellSelected = cellSelected;
+    }
+
+    public boolean isInputSelected() {
+        return inputSelected;
+    }
+
+    public void setInputSelected(boolean inputSelected) {
+        renderInputText = true;
+        this.inputSelected = inputSelected;
     }
 }

@@ -40,7 +40,7 @@ public class ShapeUtil {
 
         //We dont want to do this if it's a Hexagon because it makes
         //the leftmost cell text smaller if there's 3 characters.
-        if (!(parentShape instanceof Hexagon)) {
+        if (!(parentShape instanceof Hexagon || parentShape instanceof InputSquare)) {
             while (leftTextMinX <= parentMinX) {
                 adjustedScale -= 0.01f;
                 leftTextMinX = ((adjustedScale * adjustValue) + parentShape.getCentreX()) + (TEXT_MIN_X * adjustedScale);

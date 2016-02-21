@@ -84,6 +84,7 @@ public class GameSurfaceView extends GLSurfaceView implements GameEventListener 
             		
             		//Only show the input if a cell has been selected previously
             		if (mPreviousTouchedCell != null) {
+                        mRenderer.setInputSelected(true);
             			processGuess(touchedShape);
             		}
             		mRenderer.setRenderOutput(true);

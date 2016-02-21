@@ -9,8 +9,10 @@ import android.util.Log;
 public class InputSquare extends Shape {
 	
 	private static final String TAG = "InputSquare";
-	
-	private static final float FIXED_OFFSET_Y = 0.9f;
+
+    public static final float SCALE_NORMAL = 0.16f;
+    public static final float SCALE_LARGE = 0.19f;
+    private static final float FIXED_OFFSET_Y = 0.9f;
 	private static final float SCALE_BORDER = 0.92f;
 	private static final float SCALE_NESTED_TEXT = 0.6f;
 
@@ -28,30 +30,54 @@ public class InputSquare extends Shape {
     private ArrayList<Shape> shapes;
     
     private String nestedText;
+    private float scale;
 
     //This will be the parent cell.
 	public InputSquare(float scale, float centreX, float centreY, String nestedText) {
     	super(originalCoords, drawOrder, borderColor, scale, scale*centreX, (scale*centreY)-FIXED_OFFSET_Y);
     	
     	this.nestedText = nestedText;
-    	
-    	shapes = generateNestedShapes(scale, nestedText);
-    	Log.d("GLPosition", "InputSquare: (" + nestedText + ")" + getCentreX() + ", " + getCentreY());
+        this.scale = scale;
+
+        shapes = new ArrayList<Shape>();
+        shapes.add(0, new InputSquare(this));
+        generateNestedShapes(scale, nestedText);
     }
 	
 	//This is for when we want to add a border.
-	private InputSquare(float scale, float centreX, float centreY) {
-    	super(originalCoords, drawOrder, fillColor, scale, centreX, centreY);
+	private InputSquare(InputSquare parent) {
+    	super(originalCoords, drawOrder,
+                fillColor,
+                parent.scale * SCALE_BORDER,
+                0 + parent.getCentreX(),
+                0 + parent.getCentreY());
     }
 
-	public ArrayList<Shape> generateNestedShapes(float parentScale, String nestedText) {
-		ArrayList<Shape> nestedShapes = ShapeUtil.generateNestedShapes(this, parentScale*SCALE_NESTED_TEXT, nestedText);
-		
-		//Add the border
-		nestedShapes.add(0, new InputSquare(parentScale*SCALE_BORDER, 0 + getCentreX(), 0 + getCentreY()));
-		
-		return nestedShapes;
-	}
+    private void generateNestedShapes(float parentScale, String nestedText) {
+        //Need to remove current text in the shape, if there is any text already.
+        removeNestedTextShapes();
+
+        ArrayList<Shape> nestedShapes = ShapeUtil.generateNestedShapes(this, parentScale*SCALE_NESTED_TEXT, nestedText);
+
+        for (Shape shape : nestedShapes) {
+            shapes.add(shape);
+        }
+    }
+
+    private void removeNestedTextShapes() {
+        if (shapes.size() <= 1) {
+            return;
+        }
+
+        for (int i = shapes.size()-1; i > 0; i--) {
+            shapes.remove(i);
+        }
+    }
+
+    @Override
+    public void setShapes(float scale, String nestedText) {
+        generateNestedShapes(scale, this.nestedText);
+    }
 	
 	@Override
     public ArrayList<Shape> getShapes() {

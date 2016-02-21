@@ -11,8 +11,8 @@ public class Hexagon extends Shape {
 	
 	private static final String TAG = "Hexagon";
 
-    public static final float CELL_SCALE_NORMAL = 0.3f;
-    public static final float CELL_SCALE_LARGE = 0.33f;
+    public static final float SCALE_NORMAL = 0.3f;
+    public static final float SCALE_LARGE = 0.33f;
 	private static final float SCALE_BORDER = 0.92f;
 	private static final float SCALE_NESTED_TEXT = 0.35f;
 
