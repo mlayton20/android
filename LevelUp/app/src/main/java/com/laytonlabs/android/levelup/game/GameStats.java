@@ -54,7 +54,6 @@ public class GameStats {
 	private void updateRankings() {
 		updateScoreRank();
 		updateLevelRank();
-		saveGameStats();
 	}
 	
 	private void updateScoreRank() {

@@ -129,4 +129,11 @@ public class GameOverActivity extends Activity {
 		Intent i = new Intent(GameOverActivity.this, GameActivity.class);
 		startActivity(i);
 	}
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //Save game stats before the activity ends
+        GameStats.get(this).saveGameStats();
+    }
 }
