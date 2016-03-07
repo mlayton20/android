@@ -4,5 +4,4 @@
 */.gradle/
 */.idea/
 */app/build/
-*/build/intermediates/
-LevelUp/build/intermediates/dex-cache/cache.xml
+*/build/
