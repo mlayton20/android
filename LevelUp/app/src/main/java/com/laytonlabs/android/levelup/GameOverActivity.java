@@ -58,7 +58,7 @@ public class GameOverActivity extends Activity {
             @Override
             public void onClick(View v) {
             	sendActionEvent("Restart");
-            	restartGame();
+            	restartGame(Constants.INTENT_RESART_VIA_RESART_BTN);
             }
         });
 		
@@ -89,7 +89,7 @@ public class GameOverActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		sendActionEvent("Restart - Back Button");
-		restartGame();
+		restartGame(Constants.INTENT_RESART_VIA_BACK_BTN);
 	}
 
 	private String getLeaderboardStat(int stat) {
@@ -125,8 +125,9 @@ public class GameOverActivity extends Activity {
 	    return position + "th";
 	}
 
-	private void restartGame() {
+	private void restartGame(String input) {
 		Intent i = new Intent(GameOverActivity.this, GameActivity.class);
+        i.putExtra(Constants.INTENT_RESART_VIA, input);
 		startActivity(i);
 	}
 

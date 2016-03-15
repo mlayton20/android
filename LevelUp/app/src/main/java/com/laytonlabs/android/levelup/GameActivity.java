@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -35,10 +36,19 @@ public class GameActivity extends Activity implements GameEventListener {
     private GLSurfaceView mGLView;
     private Tracker mTracker;
     private Handler handler;
+    private String iRestartVia;
+    private boolean isGameComplete;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //This is for when the user plays multiple sessions in one go.
+        if (getIntent().getExtras() != null) {
+            iRestartVia = getIntent().getExtras().getString(Constants.INTENT_RESART_VIA);
+        }
+
+        isGameComplete = false;
         
         // Obtain the shared Tracker instance.
         mTracker = ((LevelUpApp)getApplication()).getDefaultTracker();
@@ -80,16 +90,57 @@ public class GameActivity extends Activity implements GameEventListener {
 
 	@Override
 	public void onGameOver() {
+        isGameComplete = true;
 		Intent i = new Intent(GameActivity.this, GameOverActivity.class);
 		GameStats.get(this).addGameStat(new GameStat());
 		sendGameStats();
     	startActivity(i);
     	mGLView = null;
 	}
+
+
+
+    @Override
+    public void onStop() {
+        //Only send report when the game is stopped before game completes.
+        if (!isGameComplete) {
+            sendStateReport("Stopped");
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onRestart() {
+        sendStateReport("Resumed");
+        super.onRestart();
+    }
+
+    private void sendStateReport(String state) {
+        //Check if its the first ever game
+        if (GameStats.get(this).getGameStats().size() == 0) {
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Usage")
+                    .setAction("Abort")
+                    .setLabel(state + " first ever game - " + (Score.get() > 0 ? "With Score" : "No Score"))
+                    .setValue(Score.get())
+                    .build());
+        }
+
+        //Check if its a consecutive game in same session
+        if (iRestartVia != null && !iRestartVia.equals("")) {
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Usage")
+                    .setAction("Abort")
+                    .setLabel(state + " game after restart - " + (Score.get() > 0 ? "With Score" : "No Score") + " (Via " + iRestartVia + ")")
+                    .setValue(Score.get())
+                    .build());
+        }
+    }
 	
 	private void sendGameStats() {
 		GameStat latestGameStat = GameStats.get(this).getLatestGameStat();
 		String label = "Score";
+        int gamesPlayed = GameStats.get(this).getGameStats().size();
 		if (latestGameStat.getmScoreRank() == 1) {
 			label += " - New Best";
 		}
@@ -114,10 +165,37 @@ public class GameActivity extends Activity implements GameEventListener {
 				.build());
 		
 		mTracker.send(new HitBuilders.EventBuilder()
-			.setCategory("Achievement")
-			.setAction("Game Over")
-			.setLabel("Games Played")
-			.setValue(GameStats.get(this).getGameStats().size())
-			.build());
+                .setCategory("Achievement")
+                .setAction("Game Over")
+                .setLabel("Games Played")
+                .setValue(gamesPlayed)
+                .build());
+
+        //Complete Game for First Time
+        if (gamesPlayed == 1) {
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Usage")
+                    .setAction("Games Complete")
+                    .setLabel("Completed First Game - " + (Score.get() > 0 ? "With Score" : "No Score"))
+                    .setValue(Score.get())
+                    .build());
+        //Played 5/10/15/... games
+        } else if (gamesPlayed % 5 == 0) {
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Usage")
+                    .setAction("Games Complete")
+                    .setLabel("Completed " + gamesPlayed + " games")
+                    .build());
+        }
+
+        //Complete game after restart
+        if (iRestartVia != null && !iRestartVia.equals("")) {
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Usage")
+                    .setAction("Games Complete")
+                    .setLabel("Completed game after restart - " + (Score.get() > 0 ? "With Score" : "No Score") + " (Via " + iRestartVia + ")")
+                    .setValue(Score.get())
+                    .build());
+        }
 	}
 }
