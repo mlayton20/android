@@ -57,15 +57,9 @@ public class GameStats {
 	}
 	
 	private void updateScoreRank() {
-		Collections.sort(mGameStats, new Comparator<GameStat>(){
-		     public int compare(GameStat gs1, GameStat gs2){
-		         if(gs1.getmScore() == gs2.getmScore())
-		             return 0;
-		         return gs1.getmScore() > gs2.getmScore() ? -1 : 1;
-		     }
-		});
-		
-		//Update the ranks now that its sorted.
+        mGameStats = sortByScore(mGameStats);
+
+        //Update the ranks now that its sorted.
 		int newRank = 0;
 		for (int i = 0; i < mGameStats.size(); i++) {
 			newRank = i+1;
@@ -74,8 +68,19 @@ public class GameStats {
 			}
 		}
 	}
-	
-	private void updateLevelRank() {
+
+    private ArrayList<GameStat> sortByScore(ArrayList<GameStat> stats) {
+        Collections.sort(stats, new Comparator<GameStat>() {
+            public int compare(GameStat gs1, GameStat gs2) {
+                if (gs1.getmScore() == gs2.getmScore())
+                    return 0;
+                return gs1.getmScore() > gs2.getmScore() ? -1 : 1;
+            }
+        });
+        return stats;
+    }
+
+    private void updateLevelRank() {
 		Collections.sort(mGameStats, new Comparator<GameStat>(){
 		     public int compare(GameStat gs1, GameStat gs2){
 		         if(gs1.getmLevel() == gs2.getmLevel())
@@ -131,4 +136,16 @@ public class GameStats {
 			Log.d(TAG,mGameStats.get(i).toString());
 		}
 	}
+
+    public ArrayList<GameStat> getTopXStatsByScore(int topX) {
+        ArrayList<GameStat> topXStats = sortByScore(mGameStats);
+        if (topXStats.size() < topX) {
+            return topXStats;
+        }
+
+        for (int i = topXStats.size()-1; i >= topX; i--) {
+            topXStats.remove(i);
+        }
+        return topXStats;
+    }
 }

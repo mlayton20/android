@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="gameover_highscore_width">72dp</dimen>
+    <dimen name="gameover_highscore_height">96dp</dimen>
+    <dimen name="splash_button_width">72sp</dimen>
+    <dimen name="splash_button_height">72sp</dimen>
+    <dimen name="splash_play_triangle_height">56sp</dimen>
+    <dimen name="splash_play_triangle_width">56sp</dimen>
+    <!--The below is to centre the triangle in the button:
+        - margin left is half the size of the width e.g. 56/2 = 28
+        - margin top is half the difference between button width and this width e.g. (72-56)/2 = 8
+        -->
+    <dimen name="splash_play_triangle_margin_top">8sp</dimen>
+    <dimen name="splash_play_triangle_margin_left">28sp</dimen>
+</resources>

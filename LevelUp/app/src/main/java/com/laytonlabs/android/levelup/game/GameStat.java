@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.format.DateUtils;
 import android.util.Log;
 
 public class GameStat {
@@ -94,6 +95,10 @@ public class GameStat {
 	public void setmLevelRank(int mLevelRank) {
 		this.mLevelRank = mLevelRank;
 	}
+
+    public String getmDateFriendly() {
+        return "" + DateUtils.getRelativeTimeSpanString(mDate.getTime(), System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS);
+    }
 	
 	@Override
 	public String toString() {

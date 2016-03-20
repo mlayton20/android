@@ -16,5 +16,13 @@
     <string name="gameover_button_share">Share</string>
     <string name="share_game_url">https://goo.gl/7s8tYz</string>
 	<string name="share_gameover_subject">%1$s points in %2$s levels. Can you beat that?</string>
+    <string name="highscore_label">High Scores</string>
+    <string name="highscore_label_first">1st</string>
+    <string name="highscore_label_second">2nd</string>
+    <string name="highscore_label_third">3rd</string>
+    <string name="highscore_default_value">0</string>
+    <string name="splash_leaderboard_button">Stats</string>
+    <string name="splash_shop_button">Shop</string>
+    <string name="splash_share_button">Share</string>
 
 </resources>
