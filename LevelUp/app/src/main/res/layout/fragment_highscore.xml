@@ -6,13 +6,29 @@
     android:orientation="vertical"
     android:background="@color/dark_grey" >
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Stats"
-        android:textSize="56sp"
-        android:textColor="@color/white" />
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/highscore_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:background="@android:color/transparent"
+            android:text="@string/highscore_back_button"
+            android:textColor="@color/white"
+            android:textSize="36sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/highscore_title"
+            android:textSize="36sp"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
 
     <ListView
         android:id="@android:id/list"

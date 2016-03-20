@@ -24,5 +24,8 @@
     <string name="splash_leaderboard_button">Stats</string>
     <string name="splash_shop_button">Shop</string>
     <string name="splash_share_button">Share</string>
+    <string name="highscore_back_button">&lt;</string>
+    <string name="highscore_title">Stats</string>
+
 
 </resources>

@@ -1,5 +1,6 @@
 package com.laytonlabs.android.levelup;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.laytonlabs.android.levelup.game.GameStat;
@@ -20,11 +22,20 @@ import java.util.ArrayList;
  */
 public class HighscoreFragment extends ListFragment {
 
-
+    private Button mBackButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_highscore, container, false);
+
+        mBackButton = (Button)view.findViewById(R.id.highscore_back_button);
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), SplashScreenActivity.class);
+                startActivity(i);
+            }
+        });
         return view;
     }
 
