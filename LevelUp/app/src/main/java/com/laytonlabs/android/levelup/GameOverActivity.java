@@ -10,9 +10,13 @@ import com.laytonlabs.android.levelup.game.Time;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class GameOverActivity extends Activity {
 
@@ -26,6 +30,11 @@ public class GameOverActivity extends Activity {
 	private TextView mTimeTextView;
 	private Button mRestartButton;
 	private Button mShareButton;
+    private Button mMenuButton;
+    private RelativeLayout mHighscoreWidget;
+    private TextView mHighscoreFirst;
+    private TextView mHighscoreSecond;
+    private TextView mHighscoreThird;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +61,45 @@ public class GameOverActivity extends Activity {
 		
 		mTimeTextView = (TextView)findViewById(R.id.gameover_time);
 		mTimeTextView.setText(Time.getTimeElapsedLabel());
+
+        //Highscore Widget
+        mHighscoreWidget = (RelativeLayout)findViewById(R.id.gameover_highscore_widget);
+        mHighscoreFirst = (TextView)findViewById(R.id.gameover_hs_first_value);
+        mHighscoreSecond = (TextView)findViewById(R.id.gameover_hs_second_value);
+        mHighscoreThird = (TextView)findViewById(R.id.gameover_hs_third_value);
+
+        //Show top 3 stats if 3 games have been played by now. Otherwise hide widget.
+        ArrayList<GameStat> top3Stats = GameStats.get(this).getTopXStatsByScore(3);
+        if (top3Stats.size() == 3) {
+            mHighscoreFirst.setText(top3Stats.get(0).getmScoreText());
+            mHighscoreSecond.setText(top3Stats.get(1).getmScoreText());
+            mHighscoreThird.setText(top3Stats.get(2).getmScoreText());
+
+            //Change the colour of the text if they just got a top 3 score.
+            mHighscoreFirst.setTextColor(getHighscoreTextColor(1, latestGameStat));
+            mHighscoreSecond.setTextColor(getHighscoreTextColor(2,latestGameStat));
+            mHighscoreThird.setTextColor(getHighscoreTextColor(3,latestGameStat));
+
+            mHighscoreWidget.setVisibility(View.VISIBLE);
+        } else {
+            mHighscoreWidget.setVisibility(View.GONE);
+        }
 		
 		mRestartButton = (Button)findViewById(R.id.gameover_restart);
 		mRestartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            	sendActionEvent("Restart");
-            	restartGame(Constants.INTENT_RESART_VIA_RESART_BTN);
+                sendActionEvent("Restart");
+                restartGame(Constants.INTENT_RESART_VIA_RESART_BTN);
+            }
+        });
+
+        mMenuButton = (Button)findViewById(R.id.gameover_mainmenu);
+        mMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(GameOverActivity.this, SplashScreenActivity.class);
+                startActivity(i);
             }
         });
 		
@@ -78,6 +119,14 @@ public class GameOverActivity extends Activity {
             }
         });
 	}
+
+    private int getHighscoreTextColor(int podiumNumber, GameStat latestGameStat) {
+        if (podiumNumber == latestGameStat.getmScoreRank()) {
+            return ContextCompat.getColor(this, R.color.yellow);
+        } else {
+            return ContextCompat.getColor(this, R.color.white);
+        }
+    }
 	
 	private void sendActionEvent(String action) {
 		mTracker.send(new HitBuilders.EventBuilder()

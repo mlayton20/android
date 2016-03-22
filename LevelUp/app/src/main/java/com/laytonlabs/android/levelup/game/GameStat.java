@@ -76,11 +76,19 @@ public class GameStat {
 		return mScore;
 	}
 
+    public String getmScoreText() {
+		return Integer.toString(mScore);
+	}
+
 	public int getmLevel() {
 		return mLevel;
 	}
 
-	public int getmScoreRank() {
+    public String getmLevelText() {
+        return Integer.toString(mLevel);
+    }
+
+    public int getmScoreRank() {
 		return mScoreRank;
 	}
 

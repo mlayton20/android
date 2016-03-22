@@ -20,7 +20,7 @@
     <string name="highscore_label_first">1st</string>
     <string name="highscore_label_second">2nd</string>
     <string name="highscore_label_third">3rd</string>
-    <string name="highscore_default_value">0</string>
+    <string name="highscore_default_value">888</string>
     <string name="splash_leaderboard_button">Stats</string>
     <string name="splash_shop_button">Shop</string>
     <string name="splash_share_button">Share</string>
