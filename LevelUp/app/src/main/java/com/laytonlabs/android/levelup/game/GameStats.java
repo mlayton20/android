@@ -138,13 +138,16 @@ public class GameStats {
 	}
 
     public ArrayList<GameStat> getTopXStatsByScore(int topX) {
-        ArrayList<GameStat> topXStats = sortByScore(mGameStats);
-        if (topXStats.size() < topX) {
-            return topXStats;
+        ArrayList<GameStat> stats = sortByScore(mGameStats);
+
+        if (stats.size() < topX) {
+            return stats;
         }
 
-        for (int i = topXStats.size()-1; i >= topX; i--) {
-            topXStats.remove(i);
+        //Make a new ArrayList thats only the size of the stats.
+        ArrayList<GameStat> topXStats = new ArrayList<GameStat>();
+        for (int i = 0; i < topX; i++) {
+            topXStats.add(stats.get(i));
         }
         return topXStats;
     }
