@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.laytonlabs.android.levelup.game.GameStat;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 public class HighscoreFragment extends ListFragment {
 
     private Button mBackButton;
+    private ImageButton mNoStatsPlayButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +35,14 @@ public class HighscoreFragment extends ListFragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), SplashScreenActivity.class);
+                startActivity(i);
+            }
+        });
+        mNoStatsPlayButton = (ImageButton)view.findViewById(R.id.highscore_empty_play_button);
+        mNoStatsPlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), GameActivity.class);
                 startActivity(i);
             }
         });

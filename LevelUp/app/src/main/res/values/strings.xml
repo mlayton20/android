@@ -26,6 +26,7 @@
     <string name="splash_share_button">Share</string>
     <string name="highscore_back_button">&lt;</string>
     <string name="highscore_title">Stats</string>
+    <string name="highscore_empty_text">Nothing to show</string>
 
 
 </resources>

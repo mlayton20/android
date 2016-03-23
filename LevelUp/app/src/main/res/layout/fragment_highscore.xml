@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/dark_grey" >
 
-    <RelativeLayout
+    <Button
+        android:id="@+id/highscore_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:background="@android:color/transparent"
+        android:text="@string/highscore_back_button"
+        android:textColor="@color/white"
+        android:textSize="36sp" />
+
+    <TextView
+        android:id="@+id/highscore_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/highscore_back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20sp"
-            android:background="@android:color/transparent"
-            android:text="@string/highscore_back_button"
-            android:textColor="@color/white"
-            android:textSize="36sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/highscore_title"
-            android:textSize="36sp"
-            android:textColor="@color/white" />
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/highscore_title"
+        android:textSize="36sp"
+        android:textColor="@color/white" />
 
     <ListView
         android:id="@android:id/list"
+        android:layout_below="@id/highscore_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@null"
@@ -39,9 +35,35 @@
         android:listSelector="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent" />
 
-    <TextView
+    <RelativeLayout
         android:id="@android:id/empty"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_below="@id/highscore_title"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/highscore_empty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/highscore_empty_text"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <ImageButton
+            android:id="@+id/highscore_empty_play_button"
+            android:layout_width="@dimen/splash_button_width"
+            android:layout_height="@dimen/splash_button_height"
+            android:layout_below="@id/highscore_empty_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10sp"
+            android:background="@color/turquoise"
+            android:textColor="@color/white"
+            android:src="@drawable/ic_play_arrow_white_48dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
