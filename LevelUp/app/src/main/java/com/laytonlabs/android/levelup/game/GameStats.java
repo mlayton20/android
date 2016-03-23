@@ -137,8 +137,19 @@ public class GameStats {
 		}
 	}
 
+    private ArrayList<GameStat> sortByScoreRank(ArrayList<GameStat> stats) {
+        Collections.sort(stats, new Comparator<GameStat>() {
+            public int compare(GameStat gs1, GameStat gs2) {
+                if (gs1.getmScoreRank() == gs2.getmScoreRank())
+                    return 0;
+                return gs1.getmScoreRank() < gs2.getmScoreRank() ? -1 : 1;
+            }
+        });
+        return stats;
+    }
+
     public ArrayList<GameStat> getTopXStatsByScore(int topX) {
-        ArrayList<GameStat> stats = sortByScore(mGameStats);
+        ArrayList<GameStat> stats = sortByScoreRank(mGameStats);
 
         if (stats.size() < topX) {
             return stats;

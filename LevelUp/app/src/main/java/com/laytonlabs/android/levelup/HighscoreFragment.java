@@ -62,14 +62,14 @@ public class HighscoreFragment extends ListFragment {
             GameStat g = getItem(position);
 
             TextView value = (TextView)convertView.findViewById(R.id.highscore_li_value);
-            value.setText("" + g.getmScore());
+            value.setText(g.getmScoreText());
             value.setTextColor(ContextCompat.getColor(getContext(), R.color.purple));
             TextView rank = (TextView)convertView.findViewById(R.id.highscore_li_rank);
             rank.setText("" + g.getmScoreRank());
             TextView date = (TextView)convertView.findViewById(R.id.highscore_li_date);
             date.setText(g.getmDateFriendly());
             TextView alt_value = (TextView)convertView.findViewById(R.id.highscore_li_alt_value);
-            alt_value.setText("" + g.getmLevel());
+            alt_value.setText(g.getmLevelText());
             alt_value.setTextColor(ContextCompat.getColor(getContext(), R.color.light_blue));
 
             return convertView;
