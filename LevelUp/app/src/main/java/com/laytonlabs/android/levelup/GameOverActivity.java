@@ -12,7 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,9 +28,9 @@ public class GameOverActivity extends Activity {
 	private TextView mLevelTextView;
 	private TextView mLevelRankTextView;
 	private TextView mTimeTextView;
-	private Button mRestartButton;
-	private Button mShareButton;
-    private Button mMenuButton;
+	private ImageButton mRestartButton;
+	private ImageButton mShareButton;
+    private ImageButton mMenuButton;
     private RelativeLayout mHighscoreWidget;
     private TextView mHighscoreFirst;
     private TextView mHighscoreSecond;
@@ -85,7 +85,7 @@ public class GameOverActivity extends Activity {
             mHighscoreWidget.setVisibility(View.GONE);
         }
 		
-		mRestartButton = (Button)findViewById(R.id.gameover_restart);
+		mRestartButton = (ImageButton)findViewById(R.id.gameover_restart);
 		mRestartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +94,7 @@ public class GameOverActivity extends Activity {
             }
         });
 
-        mMenuButton = (Button)findViewById(R.id.gameover_mainmenu);
+        mMenuButton = (ImageButton)findViewById(R.id.gameover_mainmenu);
         mMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,7 +103,7 @@ public class GameOverActivity extends Activity {
             }
         });
 		
-		mShareButton = (Button)findViewById(R.id.gameover_share);
+		mShareButton = (ImageButton)findViewById(R.id.gameover_share);
 		mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

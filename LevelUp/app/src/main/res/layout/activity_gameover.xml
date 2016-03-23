@@ -121,7 +121,7 @@
         android:textColor="@color/turquoise"
         android:text="@string/gameover_time" />
 
-    <Button
+    <ImageButton
         android:id="@+id/gameover_mainmenu"
         android:layout_width="56dp"
         android:layout_height="56dp"
@@ -129,10 +129,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16sp"
         android:background="@color/grey"
-        android:textColor="@color/white"
-        android:text="@string/gameover_button_mainmenu" />
+        android:src="@drawable/ic_menu_white_48dp"
+        />
 
-    <Button
+    <ImageButton
         android:id="@+id/gameover_restart"
         android:layout_width="56dp"
         android:layout_height="56dp"
@@ -141,9 +141,10 @@
         android:layout_marginRight="16dp"
         android:background="@color/turquoise"
         android:textColor="@color/white"
+        android:src="@drawable/ic_replay_white_48dp"
         android:text="@string/gameover_button_restart" />
 
-    <Button
+    <ImageButton
         android:id="@+id/gameover_share"
         android:layout_width="56dp"
         android:layout_height="56dp"
@@ -152,6 +153,7 @@
         android:layout_marginLeft="16dp"
         android:background="@color/light_blue"
         android:textColor="@color/white"
+        android:src="@drawable/ic_share_white_48dp"
         android:text="@string/gameover_button_share" />
 
     <RelativeLayout
