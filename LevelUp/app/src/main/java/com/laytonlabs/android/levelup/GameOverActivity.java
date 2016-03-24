@@ -89,7 +89,7 @@ public class GameOverActivity extends Activity {
 		mRestartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendActionEvent("Restart");
+                sendActionEvent("GameOver - Restart");
                 restartGame(Constants.INTENT_RESART_VIA_RESART_BTN);
             }
         });
@@ -98,6 +98,7 @@ public class GameOverActivity extends Activity {
         mMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendActionEvent("GameOver - Menu");
                 Intent i = new Intent(GameOverActivity.this, SplashScreenActivity.class);
                 startActivity(i);
             }
@@ -107,7 +108,7 @@ public class GameOverActivity extends Activity {
 		mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            	sendActionEvent("Share");
+            	sendActionEvent("GameOver - Share");
             	Intent i = new Intent(Intent.ACTION_SEND);
 				i.setType("text/plain");
 				i.putExtra(Intent.EXTRA_SUBJECT, 
@@ -137,7 +138,7 @@ public class GameOverActivity extends Activity {
 	
 	@Override
 	public void onBackPressed() {
-		sendActionEvent("Restart - Back Button");
+		sendActionEvent("GameOver - Restart - Back Button");
 		restartGame(Constants.INTENT_RESART_VIA_BACK_BTN);
 	}
 

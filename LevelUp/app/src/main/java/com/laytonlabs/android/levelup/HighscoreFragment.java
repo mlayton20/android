@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.laytonlabs.android.levelup.game.GameStat;
 import com.laytonlabs.android.levelup.game.GameStats;
 
@@ -23,6 +25,8 @@ import java.util.ArrayList;
  */
 public class HighscoreFragment extends ListFragment {
 
+    private static final String TAG = "HighscoreFragment";
+    private Tracker mTracker;
     private Button mBackButton;
     private ImageButton mNoStatsPlayButton;
 
@@ -34,6 +38,7 @@ public class HighscoreFragment extends ListFragment {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendActionEvent("Stats - Back");
                 Intent i = new Intent(getActivity(), SplashScreenActivity.class);
                 startActivity(i);
             }
@@ -42,6 +47,7 @@ public class HighscoreFragment extends ListFragment {
         mNoStatsPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendActionEvent("Stats - Play");
                 Intent i = new Intent(getActivity(), GameActivity.class);
                 startActivity(i);
             }
@@ -52,6 +58,12 @@ public class HighscoreFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // Obtain the shared Tracker instance.
+        mTracker = ((LevelUpApp)getActivity().getApplication()).getDefaultTracker();
+        mTracker.setScreenName(TAG);
+        mTracker.send(new HitBuilders.AppViewBuilder().build());
+
         HighscoreAdapter adapter = new HighscoreAdapter(GameStats.get(getActivity()).getTopXStatsByScore(99));
         setListAdapter(adapter);
     }
@@ -84,5 +96,12 @@ public class HighscoreFragment extends ListFragment {
 
             return convertView;
         }
+    }
+
+    private void sendActionEvent(String action) {
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction(action)
+                .build());
     }
 }
