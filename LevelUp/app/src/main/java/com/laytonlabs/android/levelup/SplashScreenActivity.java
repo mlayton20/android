@@ -2,13 +2,13 @@ package com.laytonlabs.android.levelup;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.kobakei.ratethisapp.RateThisApp;
 
 /**
  * Created by matthewlayton on 16/03/2016.
@@ -50,6 +50,40 @@ public class SplashScreenActivity extends Activity {
             }
         });
 
+        // Custom criteria: 3 days and 3 launches
+        RateThisApp.Config config = new RateThisApp.Config(3, 3);
+        // Custom title and message
+        config.setTitle(R.string.rate_title);
+        config.setMessage(R.string.rate_text);
+        RateThisApp.init(config);
+
+        //We want to send the events to track on analytics.
+        RateThisApp.setCallback(new RateThisApp.Callback() {
+            @Override
+            public void onYesClicked() {
+                sendActionEvent("Splash - Rate - Yes");
+            }
+
+            @Override
+            public void onNoClicked() {
+                sendActionEvent("Splash - Rate - No");
+            }
+
+            @Override
+            public void onCancelClicked() {
+                sendActionEvent("Splash - Rate - Cancel");
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Monitor launch times and interval from installation
+        RateThisApp.onStart(this);
+        // If the criteria is satisfied, "Rate this app" dialog will be shown
+        RateThisApp.showRateDialogIfNeeded(this);
     }
 
     private void sendActionEvent(String action) {

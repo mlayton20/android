@@ -2,8 +2,8 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.laytonlabs.android.levelup"
-    android:versionCode="7"
-    android:versionName="1.6" >
+    android:versionCode="8"
+    android:versionName="1.7" >
     
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -24,7 +24,7 @@
             android:allowBackup="true" >
         <activity
             android:name="com.laytonlabs.android.levelup.SplashScreenActivity"
-            android:theme="@android:style/Theme.NoTitleBar"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
