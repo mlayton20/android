@@ -1,4 +1,4 @@
-package com.laytonlabs.android.taptheblue;
+package com.laytonlabs.android.taptheblue.game;
 
 import android.graphics.Color;
 
@@ -67,5 +67,12 @@ public class Colors {
 
     public static void setMaxColorRange(int maxColorRange) {
         Colors.maxColorRange = maxColorRange > COLORS.length ? COLORS.length : maxColorRange;
+    }
+
+    public static void incrementMaxColorRange() {
+        //Only want to add a new color every 5 moves.
+        if (Move.get() % 5 == 0) {
+            Colors.setMaxColorRange(Colors.getMaxColorRange() + 1);
+        }
     }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tap The Blue</string>
+    <string name="game_score_default">0</string>
 </resources>
