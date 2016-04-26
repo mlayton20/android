@@ -25,25 +25,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/gameover_title"
-        android:layout_toRightOf="@id/gameover_ch_split"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="16sp"
         android:layout_marginLeft="8sp"
         android:text="@string/gameover_default_value"
-        android:textColor="@color/white"
-        android:textSize="48sp" />
-
-    <TextView
-        android:id="@+id/gameover_score_label"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_alignTop="@id/gameover_score"
-        android:layout_alignBottom="@id/gameover_score"
-        android:layout_toLeftOf="@id/gameover_ch_split"
-        android:layout_marginRight="8sp"
-        android:gravity="center"
-        android:textSize="32sp"
         android:textColor="@color/purple"
-        android:text="@string/gameover_score" />
+        android:textSize="72sp" />
 
     <TextView
         android:id="@+id/gameover_score_rank"
@@ -57,33 +44,6 @@
         android:text="@string/gameover_default_value"
         android:textColor="@color/white"
         android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/gameover_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/gameover_score"
-        android:layout_toRightOf="@id/gameover_ch_split"
-        android:layout_marginTop="8sp"
-        android:layout_marginLeft="8sp"
-        android:text="@string/gameover_default_value"
-        android:textColor="@color/white"
-        android:textSize="48sp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/gameover_time_label"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_alignTop="@id/gameover_time"
-        android:layout_alignBottom="@id/gameover_time"
-        android:layout_toLeftOf="@id/gameover_ch_split"
-        android:layout_marginRight="8sp"
-        android:gravity="center"
-        android:textSize="32sp"
-        android:textColor="@color/turquoise"
-        android:text="@string/gameover_time"
-        android:visibility="gone" />
 
     <ImageButton
         android:id="@+id/gameover_mainmenu"
@@ -123,7 +83,7 @@
         android:id="@+id/gameover_highscore_widget"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@id/gameover_time"
+        android:layout_below="@id/gameover_score"
         android:layout_above="@id/gameover_mainmenu"
         android:paddingBottom="8sp"
         android:gravity="center" >

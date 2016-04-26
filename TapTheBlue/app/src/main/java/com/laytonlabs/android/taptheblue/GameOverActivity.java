@@ -27,9 +27,6 @@ public class GameOverActivity extends Activity {
 
     private TextView mScoreTextView;
     private TextView mScoreRankTextView;
-    private TextView mMovesTextView;
-    private TextView mLevelRankTextView;
-    private TextView mTimeTextView;
     private ImageButton mRestartButton;
     private ImageButton mShareButton;
     private ImageButton mMenuButton;
@@ -54,9 +51,6 @@ public class GameOverActivity extends Activity {
 
         mScoreRankTextView = (TextView)findViewById(R.id.gameover_score_rank);
         mScoreRankTextView.setText(getLeaderboardStat(latestGameStat.getmScoreRank()));
-
-        mTimeTextView = (TextView)findViewById(R.id.gameover_time);
-        mTimeTextView.setText(Time.getGameTimeLabel());
 
         //Highscore Widget
         mHighscoreWidget = (RelativeLayout)findViewById(R.id.gameover_highscore_widget);
