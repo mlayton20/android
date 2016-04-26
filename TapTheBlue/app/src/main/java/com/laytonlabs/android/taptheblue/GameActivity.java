@@ -44,9 +44,8 @@ public class GameActivity extends Activity {
             Time.update();
 
             if (Time.isTimeUp()) {
-                //TODO - Need to put end of game call in this part.
-                Log.d(TAG, "Game Over time is up!");
                 onGameOver();
+                timerHandler.removeCallbacks(this);
             }
 
             if (Time.isTimeAlmostUp()) {
