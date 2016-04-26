@@ -68,7 +68,8 @@
         android:layout_marginLeft="8sp"
         android:text="@string/gameover_default_value"
         android:textColor="@color/white"
-        android:textSize="48sp" />
+        android:textSize="48sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/gameover_time_label"
@@ -81,7 +82,8 @@
         android:gravity="center"
         android:textSize="32sp"
         android:textColor="@color/turquoise"
-        android:text="@string/gameover_time" />
+        android:text="@string/gameover_time"
+        android:visibility="gone" />
 
     <ImageButton
         android:id="@+id/gameover_mainmenu"
@@ -91,8 +93,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16sp"
         android:background="@color/grey"
-        android:src="@drawable/ic_menu_white_48dp"
-        />
+        android:src="@drawable/ic_menu_white_48dp" />
 
     <ImageButton
         android:id="@+id/gameover_restart"

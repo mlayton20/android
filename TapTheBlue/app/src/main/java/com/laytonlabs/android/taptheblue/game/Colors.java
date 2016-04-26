@@ -11,37 +11,21 @@ public class Colors {
     public static final int BLUE =  Color.parseColor("#3498DB");
     private static final String[] COLORS_HEX = new String[] {
             "#ECF0F1", //light grey
+            "#F0A658",
+            "#EC0868",
+            "#2DC2BD",
             "#89D2DC",
             "#6564DB",
-            "#FFF689",
-            "#CFFFB0",
-            "#58355E",
-            "#EC7D10",
-            "#EC0868",
-            "#F0A658",
-            "#93BD6A",
-            "#E03616",
-            "#C33149",
-            "#C6D4FF",
-            "#307473",
-            "#2DC2BD",
             "#7DD181",
-            "#4D3F68",
-            "#645E9D",
-            "#6C969D",
-            "#C79EB4",
-            "#C5F2F9",
-            "#FF98A4",
-            "#573280",
-            "#574D68",
-            "#DAC4F7",
-            "#E07A5F",
-            "#81B29A",
-            "#7CFEF0",
-            "#A27E8E",
-            "#75485E",
+            "#5863F8",
             "#51A3A3",
-            "#C3E991"};
+            "#7CFEF0",
+            "#DAC4F7",
+            "#A3D5FF",
+            "#6154A1",
+            "#FE5F55",
+            "#009FB7",
+            "#6154A1"};
 
     private static final int[] COLORS = initColor(COLORS_HEX);
 

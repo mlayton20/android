@@ -227,6 +227,7 @@ public class GameActivity extends Activity {
         if (Move.get() % 10 == 0) {
             Time.decreaseCorrectAnswerTime();
         }
+
         Time.resetTimeRemaining();
         clearBoard(gameBoard);
         placeBlueCell(gameBoard, buttonId);

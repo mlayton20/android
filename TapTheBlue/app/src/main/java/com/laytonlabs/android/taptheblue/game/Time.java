@@ -16,8 +16,9 @@ public class Time {
     private static final long CENTISECOND = 10;
     public static final long MASTERSECOND = CENTISECOND;
     private static final long HOUR = 3600 * MILLISECOND; //3600 seconds in an hour
-    private static final long DEFAULT_CORRECT_ANSWER_TIME = 10 * MILLISECOND; //10 seconds
+    private static final long DEFAULT_CORRECT_ANSWER_TIME = 8 * MILLISECOND; //8 seconds
     private static final long TIME_ALMOST_UP_THRESH = 3 * MILLISECOND; //3 seconds
+    private static final long CORRECT_ANSWER_THRESH = 2 * MILLISECOND; //2 seconds
     private static long correctAnswerTime = DEFAULT_CORRECT_ANSWER_TIME;
 
     private static long previousTime = System.currentTimeMillis();
@@ -94,7 +95,7 @@ public class Time {
 
     public static void decreaseCorrectAnswerTime() {
         //Only want to change it if its still above 3 seconds.
-        if (correctAnswerTime - SECOND >= TIME_ALMOST_UP_THRESH) {
+        if (correctAnswerTime - SECOND >= CORRECT_ANSWER_THRESH) {
             correctAnswerTime = correctAnswerTime - SECOND;
         }
     }
