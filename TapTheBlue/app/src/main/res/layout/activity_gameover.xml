@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/dark_grey" >
+
+    <TextView
+        android:id="@+id/gameover_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="48sp"
+        android:text="@string/gameover_title"
+        android:textColor="@color/white" />
+
+    <View
+        android:id="@+id/gameover_ch_split"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/gameover_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gameover_title"
+        android:layout_toRightOf="@id/gameover_ch_split"
+        android:layout_marginTop="16sp"
+        android:layout_marginLeft="8sp"
+        android:text="@string/gameover_default_value"
+        android:textColor="@color/white"
+        android:textSize="48sp" />
+
+    <TextView
+        android:id="@+id/gameover_score_label"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_alignTop="@id/gameover_score"
+        android:layout_alignBottom="@id/gameover_score"
+        android:layout_toLeftOf="@id/gameover_ch_split"
+        android:layout_marginRight="8sp"
+        android:gravity="center"
+        android:textSize="32sp"
+        android:textColor="@color/purple"
+        android:text="@string/gameover_score" />
+
+    <TextView
+        android:id="@+id/gameover_score_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_alignTop="@id/gameover_score"
+        android:layout_alignBottom="@id/gameover_score"
+        android:layout_toRightOf="@id/gameover_score"
+        android:layout_marginLeft="8sp"
+        android:gravity="center"
+        android:text="@string/gameover_default_value"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/gameover_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gameover_score"
+        android:layout_toRightOf="@id/gameover_ch_split"
+        android:layout_marginTop="8sp"
+        android:layout_marginLeft="8sp"
+        android:text="@string/gameover_default_value"
+        android:textColor="@color/white"
+        android:textSize="48sp" />
+
+    <TextView
+        android:id="@+id/gameover_time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_alignTop="@id/gameover_time"
+        android:layout_alignBottom="@id/gameover_time"
+        android:layout_toLeftOf="@id/gameover_ch_split"
+        android:layout_marginRight="8sp"
+        android:gravity="center"
+        android:textSize="32sp"
+        android:textColor="@color/turquoise"
+        android:text="@string/gameover_time" />
+
+    <ImageButton
+        android:id="@+id/gameover_mainmenu"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16sp"
+        android:background="@color/grey"
+        android:src="@drawable/ic_menu_white_48dp"
+        />
+
+    <ImageButton
+        android:id="@+id/gameover_restart"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_toLeftOf="@id/gameover_mainmenu"
+        android:layout_alignTop="@id/gameover_mainmenu"
+        android:layout_marginRight="16dp"
+        android:background="@color/turquoise"
+        android:textColor="@color/white"
+        android:src="@drawable/ic_replay_white_48dp"
+        android:text="@string/gameover_button_restart" />
+
+    <ImageButton
+        android:id="@+id/gameover_share"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_toRightOf="@id/gameover_mainmenu"
+        android:layout_alignTop="@id/gameover_mainmenu"
+        android:layout_marginLeft="16dp"
+        android:background="@color/light_blue"
+        android:textColor="@color/white"
+        android:src="@drawable/ic_share_white_48dp"
+        android:text="@string/gameover_button_share" />
+
+    <RelativeLayout
+        android:id="@+id/gameover_highscore_widget"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/gameover_time"
+        android:layout_above="@id/gameover_mainmenu"
+        android:paddingBottom="8sp"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/gameover_hs_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8sp"
+            android:text="@string/highscore_label"
+            android:textColor="@color/white"
+            android:textSize="42sp" />
+
+        <View
+            android:id="@+id/gameover_hs_first"
+            android:layout_width="72sp"
+            android:layout_height="120sp"
+            android:layout_below="@id/gameover_hs_title"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/rounded_rectangle" />
+
+        <TextView
+            android:id="@+id/gameover_hs_first_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/gameover_hs_first"
+            android:layout_alignTop="@id/gameover_hs_first"
+            android:layout_alignRight="@id/gameover_hs_first"
+            android:gravity="center"
+            android:text="@string/highscore_default_value"
+            android:textColor="@color/white"
+            android:textSize="36sp" />
+
+        <View
+            android:id="@+id/gameover_hs_second"
+            android:layout_width="72sp"
+            android:layout_height="104sp"
+            android:layout_toLeftOf="@id/gameover_hs_first"
+            android:layout_alignBottom="@id/gameover_hs_first"
+            android:layout_marginRight="16sp"
+            android:background="@drawable/rounded_rectangle" />
+
+        <TextView
+            android:id="@+id/gameover_hs_second_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/gameover_hs_second"
+            android:layout_alignTop="@id/gameover_hs_second"
+            android:layout_alignRight="@id/gameover_hs_second"
+            android:gravity="center"
+            android:text="@string/highscore_default_value"
+            android:textColor="@color/white"
+            android:textSize="36sp" />
+
+        <View
+            android:id="@+id/gameover_hs_third"
+            android:layout_width="72sp"
+            android:layout_height="88sp"
+            android:layout_toRightOf="@id/gameover_hs_first"
+            android:layout_alignBottom="@id/gameover_hs_first"
+            android:layout_marginLeft="16sp"
+            android:background="@drawable/rounded_rectangle" />
+
+        <TextView
+            android:id="@+id/gameover_hs_third_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/gameover_hs_third"
+            android:layout_alignTop="@id/gameover_hs_third"
+            android:layout_alignRight="@id/gameover_hs_third"
+            android:gravity="center"
+            android:text="@string/highscore_default_value"
+            android:textColor="@color/white"
+            android:textSize="36sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

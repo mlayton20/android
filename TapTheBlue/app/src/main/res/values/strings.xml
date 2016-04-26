@@ -1,4 +1,26 @@
 <resources>
     <string name="app_name">Tap The Blue</string>
     <string name="game_score_default">0</string>
+    <string name="gameover_title">Nice Job!</string>
+    <string name="gameover_score">Score</string>
+    <string name="gameover_moves">Blues</string>
+    <string name="gameover_time">Time</string>
+    <string name="gameover_default_value">23</string>
+    <string name="gameover_button_restart">Restart</string>
+    <string name="gameover_button_mainmenu">Menu</string>
+    <string name="gameover_button_share">Share</string>
+    <string name="gameover_share_url">https://goo.gl/7s8tYz</string>
+    <string name="gameover_share_subject">I tapped %1$s blues. Can you beat that?</string>
+    <string name="splash_title_first">Tap</string>
+    <string name="splash_title_second">Blue</string>
+    <string name="splash_leaderboard_button">Stats</string>
+    <string name="splash_shop_button">Shop</string>
+    <string name="splash_share_button">Share</string>
+    <string name="highscore_label">High Scores</string>
+    <string name="highscore_default_value">888</string>
+    <string name="highscore_back_button">&lt;</string>
+    <string name="highscore_title">Stats</string>
+    <string name="highscore_empty_text">Nothing to show</string>
+    <string name="rate_title">Rate Tap The Blue</string>
+    <string name="rate_text">If you enjoy playing, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
 </resources>

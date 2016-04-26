@@ -75,4 +75,8 @@ public class Colors {
             Colors.setMaxColorRange(Colors.getMaxColorRange() + 1);
         }
     }
+
+    public static void reset() {
+        maxColorRange = 1;
+    }
 }

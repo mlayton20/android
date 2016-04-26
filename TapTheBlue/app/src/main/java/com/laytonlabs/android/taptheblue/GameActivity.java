@@ -1,6 +1,7 @@
 package com.laytonlabs.android.taptheblue;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -13,6 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.laytonlabs.android.taptheblue.game.Colors;
+import com.laytonlabs.android.taptheblue.game.GameStat;
+import com.laytonlabs.android.taptheblue.game.GameStats;
 import com.laytonlabs.android.taptheblue.game.Move;
 import com.laytonlabs.android.taptheblue.game.Score;
 import com.laytonlabs.android.taptheblue.game.Time;
@@ -43,6 +46,7 @@ public class GameActivity extends Activity {
             if (Time.isTimeUp()) {
                 //TODO - Need to put end of game call in this part.
                 Log.d(TAG, "Game Over time is up!");
+                onGameOver();
             }
 
             if (Time.isTimeAlmostUp()) {
@@ -65,6 +69,11 @@ public class GameActivity extends Activity {
         gameBoard = (RelativeLayout)findViewById(R.id.game_board);
         mScoreTextView = (TextView)findViewById(R.id.game_score);
         mTimeTextView = (TextView)findViewById(R.id.game_time);
+
+        //Reset Game
+        Score.reset();
+        Move.reset();
+        Colors.reset();
 
         //Start the timer.
         Time.initialise();
@@ -206,6 +215,7 @@ public class GameActivity extends Activity {
         if (buttonId != currentBlueLocation) {
             //TODO - This would be game over.
             Log.d(TAG, "Game Over!");
+            onGameOver();
             return;
         }
         //The blue cell was selected, so move to next level.
@@ -213,12 +223,24 @@ public class GameActivity extends Activity {
     }
 
     private void correctMove(int buttonId) {
+        //If there's been 10 moves, start lowering the time per go.
+        if (Move.get() % 10 == 0) {
+            Time.decreaseCorrectAnswerTime();
+        }
         Time.resetTimeRemaining();
         clearBoard(gameBoard);
         placeBlueCell(gameBoard, buttonId);
         updateScore();
         Move.increment();
         Colors.incrementMaxColorRange();
+    }
+
+    private void onGameOver() {
+        Time.updateGameTime();
+        Intent i = new Intent(GameActivity.this, GameOverActivity.class);
+        GameStats.get(this).addGameStat(new GameStat());
+        sendGameStats();
+        startActivity(i);
     }
 
     private void updateScore() {
@@ -229,5 +251,56 @@ public class GameActivity extends Activity {
     private int getButtonId(int id) {
         //Since the centre button is allocated id in XML, we want to change that to be 0 for the game.
         return id >= gameBoard.getChildCount() ? 0 : id;
+    }
+
+    private void sendGameStats() {
+        GameStat latestGameStat = GameStats.get(this).getLatestGameStat();
+        /*String label = "Score";
+        int gamesPlayed = GameStats.get(this).getGameStats().size();
+        if (latestGameStat.getmScoreRank() == 1) {
+            label += " - New Best";
+        }
+
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Achievement")
+                .setAction("Game Over")
+                .setLabel(label)
+                .setValue(Score.get())
+                .build());*/
+
+
+        /*mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Achievement")
+                .setAction("Game Over")
+                .setLabel("Games Played")
+                .setValue(gamesPlayed)
+                .build());
+
+        //Complete Game for First Time
+        if (gamesPlayed == 1) {
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Usage")
+                    .setAction("Games Complete")
+                    .setLabel("Completed First Game - " + (Score.get() > 0 ? "With Score" : "No Score"))
+                    .setValue(Score.get())
+                    .build());
+            //Played 5/10/15/... games
+        } else if (gamesPlayed % 5 == 0) {
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Usage")
+                    .setAction("Games Complete")
+                    .setLabel("Completed " + gamesPlayed + " games")
+                    .build());
+        }
+
+        //Complete game after restart
+        if (iRestartVia != null && !iRestartVia.equals("")) {
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Usage")
+                    .setAction("Games Complete")
+                    .setLabel("Completed game after restart - " + (Score.get() > 0 ? "With Score" : "No Score") + " (Via " + iRestartVia + ")")
+                    .setValue(Score.get())
+                    .build());
+        }*/
     }
 }

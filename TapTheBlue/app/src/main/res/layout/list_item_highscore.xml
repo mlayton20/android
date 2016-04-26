@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+    <!--TODO Change the background color -->
+    <TextView
+        android:id="@+id/highscore_li_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10sp"
+        android:text="45"
+        android:textSize="48sp"
+        android:textColor="@color/purple" />
+
+    <TextView
+        android:id="@+id/highscore_li_rank"
+        android:layout_width="56sp"
+        android:layout_height="56sp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@id/highscore_li_value"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:background="@drawable/circle"
+        android:gravity="center"
+        android:text="99"
+        android:textSize="36sp"
+        android:textColor="@color/navy_blue" />
+
+    <TextView
+        android:id="@+id/highscore_li_date"
+        android:layout_width="wrap_content"
+        android:layout_height="56sp"
+        android:layout_toRightOf="@id/highscore_li_rank"
+        android:gravity="center"
+        android:text="5 Minutes Ago"
+        android:textSize="24sp"
+        android:textColor="@color/white" />
+
+</RelativeLayout>
