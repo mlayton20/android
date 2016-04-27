@@ -60,7 +60,7 @@
             android:layout_below="@id/highscore_empty_text"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10sp"
-            android:background="@color/turquoise"
+            android:background="@color/light_blue"
             android:textColor="@color/white"
             android:src="@drawable/ic_play_arrow_white_48dp"/>
 
