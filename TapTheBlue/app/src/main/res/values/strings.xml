@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tap The Blue</string>
+    <string name="app_name">Tap Blue</string>
     <string name="game_score_default">0</string>
     <string name="gameover_title">Nice Job!</string>
     <string name="gameover_score">Score</string>

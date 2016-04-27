@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_grey">
+
+    <TextView
+        android:id="@+id/game_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/game_score_default"
+        android:textColor="@color/purple"
+        android:textSize="48sp"/>
+
+    <TextView
+        android:id="@+id/game_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/game_score"
+        android:layout_marginRight="10sp"
+        android:text="@string/game_score_default"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"/>
+
+    <RelativeLayout
+        android:id="@+id/game_board"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/game_score"
+        android:layout_alignParentBottom="true" >
+
+        <Button
+            android:id="@+id/game_cell_middle"
+            style="@style/GameCell"
+            android:layout_centerInParent="true" />
+
+        <Button
+            style="@style/GameCell"
+            android:layout_alignTop="@id/game_cell_middle"
+            android:layout_alignLeft="@id/game_cell_middle"
+            android:layout_marginTop="-60sp"
+            android:layout_marginLeft="-35sp"/>
+
+        <Button
+            style="@style/GameCell"
+            android:background="@drawable/round_button_selected"
+            android:layout_alignTop="@id/game_cell_middle"
+            android:layout_alignLeft="@id/game_cell_middle"
+            android:layout_marginTop="-60sp"
+            android:layout_marginLeft="35sp"/>
+
+        <Button
+            style="@style/GameCell"
+            android:layout_alignTop="@id/game_cell_middle"
+            android:layout_alignLeft="@id/game_cell_middle"
+            android:layout_marginTop="0sp"
+            android:layout_marginLeft="-70sp"/>
+
+        <Button
+            style="@style/GameCell"
+            android:layout_alignTop="@id/game_cell_middle"
+            android:layout_alignLeft="@id/game_cell_middle"
+            android:layout_marginTop="0sp"
+            android:layout_marginLeft="70sp"/>
+
+        <Button
+            style="@style/GameCell"
+            android:layout_alignTop="@id/game_cell_middle"
+            android:layout_alignLeft="@id/game_cell_middle"
+            android:layout_marginTop="60sp"
+            android:layout_marginLeft="-35sp"/>
+
+        <Button
+            style="@style/GameCell"
+            android:layout_alignTop="@id/game_cell_middle"
+            android:layout_alignLeft="@id/game_cell_middle"
+            android:layout_marginTop="60sp"
+            android:layout_marginLeft="35sp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
