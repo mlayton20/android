@@ -14,22 +14,22 @@
     <dimen name="splash_play_triangle_margin_left">28sp</dimen>
 
     <!--Game Board-->
-    <dimen name="game_cell_diameter">60sp</dimen>
-    <dimen name="game_cell_margtop_rowone">-180sp</dimen>
-    <dimen name="game_cell_margtop_rowtwo">-120sp</dimen>
-    <dimen name="game_cell_margtop_rowthree">-60sp</dimen>
+    <dimen name="game_cell_diameter">50sp</dimen>
+    <dimen name="game_cell_margtop_rowone">-150sp</dimen>
+    <dimen name="game_cell_margtop_rowtwo">-100sp</dimen>
+    <dimen name="game_cell_margtop_rowthree">-50sp</dimen>
     <dimen name="game_cell_margtop_middle">0sp</dimen>
-    <dimen name="game_cell_margtop_rowfive">60sp</dimen>
-    <dimen name="game_cell_margtop_rowsix">120sp</dimen>
-    <dimen name="game_cell_margtop_rowseven">180sp</dimen>
-    <dimen name="game_cell_margleft_four_colone">-105sp</dimen>
-    <dimen name="game_cell_margleft_four_coltwo">-35sp</dimen>
-    <dimen name="game_cell_margleft_four_colthree">35sp</dimen>
-    <dimen name="game_cell_margleft_four_colfour">105sp</dimen>
-    <dimen name="game_cell_margleft_five_colone">-140sp</dimen>
-    <dimen name="game_cell_margleft_five_coltwo">-70sp</dimen>
+    <dimen name="game_cell_margtop_rowfive">50sp</dimen>
+    <dimen name="game_cell_margtop_rowsix">100sp</dimen>
+    <dimen name="game_cell_margtop_rowseven">150sp</dimen>
+    <dimen name="game_cell_margleft_four_colone">-90sp</dimen>
+    <dimen name="game_cell_margleft_four_coltwo">-30sp</dimen>
+    <dimen name="game_cell_margleft_four_colthree">30sp</dimen>
+    <dimen name="game_cell_margleft_four_colfour">90sp</dimen>
+    <dimen name="game_cell_margleft_five_colone">-120sp</dimen>
+    <dimen name="game_cell_margleft_five_coltwo">-60sp</dimen>
     <dimen name="game_cell_margleft_five_colthree">0sp</dimen>
-    <dimen name="game_cell_margleft_five_colfour">70sp</dimen>
-    <dimen name="game_cell_margleft_five_colfive">140sp</dimen>
+    <dimen name="game_cell_margleft_five_colfour">60sp</dimen>
+    <dimen name="game_cell_margleft_five_colfive">120sp</dimen>
 
 </resources>
