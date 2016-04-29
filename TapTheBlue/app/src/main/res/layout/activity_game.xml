@@ -42,212 +42,212 @@
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-180sp"
-            android:layout_marginLeft="-105sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowone"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_colone"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-180sp"
-            android:layout_marginLeft="105sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowone"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_colfour"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-180sp"
-            android:layout_marginLeft="-35sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowone"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_coltwo"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-180sp"
-            android:layout_marginLeft="35sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowone"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_colthree"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-120sp"
-            android:layout_marginLeft="-140sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowtwo"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_colone"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-120sp"
-            android:layout_marginLeft="-70sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowtwo"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_coltwo"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-120sp"
-            android:layout_marginLeft="0sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowtwo"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_colthree"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-120sp"
-            android:layout_marginLeft="70sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowtwo"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_colfour"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-120sp"
-            android:layout_marginLeft="140sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowtwo"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_colfive"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-60sp"
-            android:layout_marginLeft="-105sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowthree"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_colone"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-60sp"
-            android:layout_marginLeft="105sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowthree"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_colfour"/>
 
         <Button
             style="@style/GameCell"
             android:background="@drawable/round_button_selected"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-60sp"
-            android:layout_marginLeft="-35sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowthree"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_coltwo"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="-60sp"
-            android:layout_marginLeft="35sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowthree"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_colthree"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="0sp"
-            android:layout_marginLeft="-140sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_middle"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_colone"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="0sp"
-            android:layout_marginLeft="-70sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_middle"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_coltwo"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="0sp"
-            android:layout_marginLeft="70sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_middle"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_colfour"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="0sp"
-            android:layout_marginLeft="140sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_middle"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_colfive"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="60sp"
-            android:layout_marginLeft="-105sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowfive"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_colone"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="60sp"
-            android:layout_marginLeft="105sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowfive"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_colfour"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="120sp"
-            android:layout_marginLeft="-140sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowsix"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_colone"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="120sp"
-            android:layout_marginLeft="-70sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowsix"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_coltwo"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="120sp"
-            android:layout_marginLeft="0sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowsix"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_colthree"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="120sp"
-            android:layout_marginLeft="70sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowsix"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_colfour"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="120sp"
-            android:layout_marginLeft="140sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowsix"
+            android:layout_marginLeft="@dimen/game_cell_margleft_five_colfive"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="60sp"
-            android:layout_marginLeft="-35sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowfive"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_coltwo"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="60sp"
-            android:layout_marginLeft="35sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowfive"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_colthree"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="180sp"
-            android:layout_marginLeft="-105sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowseven"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_colone"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="180sp"
-            android:layout_marginLeft="105sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowseven"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_colfour"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="180sp"
-            android:layout_marginLeft="-35sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowseven"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_coltwo"/>
 
         <Button
             style="@style/GameCell"
             android:layout_alignTop="@id/game_cell_middle"
             android:layout_alignLeft="@id/game_cell_middle"
-            android:layout_marginTop="180sp"
-            android:layout_marginLeft="35sp"/>
+            android:layout_marginTop="@dimen/game_cell_margtop_rowseven"
+            android:layout_marginLeft="@dimen/game_cell_margleft_four_colthree"/>
 
     </RelativeLayout>
 

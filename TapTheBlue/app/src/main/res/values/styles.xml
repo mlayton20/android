@@ -1,8 +1,8 @@
 <resources>
 
     <style name="GameCell">
-        <item name="android:layout_width">60sp</item>
-        <item name="android:layout_height">60sp</item>
+        <item name="android:layout_width">@dimen/game_cell_diameter</item>
+        <item name="android:layout_height">@dimen/game_cell_diameter</item>
         <item name="android:background">@drawable/round_button</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
     </style>
