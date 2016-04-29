@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.laytonlabs.android.taptheblue.game.GameStat;
 import com.laytonlabs.android.taptheblue.game.GameStats;
 
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 public class HighscoreFragment extends ListFragment {
 
     private static final String TAG = "HighscoreFragment";
-    //private Tracker mTracker;
+    private Tracker mTracker;
     private Button mBackButton;
     private ImageButton mNoStatsPlayButton;
 
@@ -57,9 +59,9 @@ public class HighscoreFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
 
         // Obtain the shared Tracker instance.
-        /*mTracker = ((LevelUpApp)getActivity().getApplication()).getDefaultTracker();
+        mTracker = ((TapBlueApp)getActivity().getApplication()).getDefaultTracker();
         mTracker.setScreenName(TAG);
-        mTracker.send(new HitBuilders.AppViewBuilder().build());*/
+        mTracker.send(new HitBuilders.AppViewBuilder().build());
 
         HighscoreAdapter adapter = new HighscoreAdapter(GameStats.get(getActivity()).getTopXStatsByScore(99));
         setListAdapter(adapter);
@@ -92,9 +94,9 @@ public class HighscoreFragment extends ListFragment {
     }
 
     private void sendActionEvent(String action) {
-        /*mTracker.send(new HitBuilders.EventBuilder()
+        mTracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Action")
                 .setAction(action)
-                .build());*/
+                .build());
     }
 }

@@ -6,13 +6,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 /**
  * Created by matthewlayton on 24/04/2016.
  */
 public class SplashScreenActivity extends Activity {
 
     private static final String TAG = "SplashScreenActivity";
-    //private Tracker mTracker;
+    private Tracker mTracker;
     private ImageButton mPlayButton;
     private ImageButton mStatsButton;
 
@@ -22,9 +25,9 @@ public class SplashScreenActivity extends Activity {
         setContentView(R.layout.activity_splash_screen);
 
         // Obtain the shared Tracker instance.
-        /*mTracker = ((LevelUpApp)getApplication()).getDefaultTracker();
+        mTracker = ((TapBlueApp)getApplication()).getDefaultTracker();
         mTracker.setScreenName(TAG);
-        mTracker.send(new HitBuilders.AppViewBuilder().build());*/
+        mTracker.send(new HitBuilders.AppViewBuilder().build());
 
         mPlayButton = (ImageButton)findViewById(R.id.splash_play_button);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
@@ -83,9 +86,9 @@ public class SplashScreenActivity extends Activity {
     }
 
     private void sendActionEvent(String action) {
-        /*mTracker.send(new HitBuilders.EventBuilder()
+        mTracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Action")
                 .setAction(action)
-                .build());*/
+                .build());
     }
 }

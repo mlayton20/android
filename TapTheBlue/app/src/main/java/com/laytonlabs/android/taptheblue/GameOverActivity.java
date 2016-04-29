@@ -9,11 +9,11 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.laytonlabs.android.taptheblue.game.GameStat;
 import com.laytonlabs.android.taptheblue.game.GameStats;
-import com.laytonlabs.android.taptheblue.game.Move;
 import com.laytonlabs.android.taptheblue.game.Score;
-import com.laytonlabs.android.taptheblue.game.Time;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class GameOverActivity extends Activity {
 
     private static final String TAG = "GameOverActivity";
-    //private Tracker mTracker;
+    private Tracker mTracker;
 
     private TextView mScoreTextView;
     private TextView mScoreRankTextView;
@@ -41,9 +41,9 @@ public class GameOverActivity extends Activity {
         setContentView(R.layout.activity_gameover);
 
         // Obtain the shared Tracker instance.
-        /*mTracker = ((LevelUpApp)getApplication()).getDefaultTracker();
+        mTracker = ((TapBlueApp)getApplication()).getDefaultTracker();
         mTracker.setScreenName(TAG);
-        mTracker.send(new HitBuilders.AppViewBuilder().build());*/
+        mTracker.send(new HitBuilders.AppViewBuilder().build());
 
         GameStat latestGameStat = GameStats.get(this).getLatestGameStat();
         mScoreTextView = (TextView)findViewById(R.id.gameover_score);
@@ -119,10 +119,10 @@ public class GameOverActivity extends Activity {
     }
 
     private void sendActionEvent(String action) {
-        /*mTracker.send(new HitBuilders.EventBuilder()
+        mTracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Action")
                 .setAction(action)
-                .build());*/
+                .build());
     }
 
     @Override

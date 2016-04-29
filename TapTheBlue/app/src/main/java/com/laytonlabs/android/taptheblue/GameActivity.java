@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.laytonlabs.android.taptheblue.game.Colors;
 import com.laytonlabs.android.taptheblue.game.GameStat;
 import com.laytonlabs.android.taptheblue.game.GameStats;
@@ -28,12 +30,16 @@ import java.util.ArrayList;
 public class GameActivity extends Activity {
 
     private static final String TAG = "GameActivity";
+    private static final String GAMEOVER_VIA_TIMEOUT = "GameOver Via Timeout";
+    private static final String GAMEOVER_VIA_MISS = "GameOver Via Miss";
+    private Tracker mTracker;
+    private String iRestartVia;
     private ArrayList<Integer> occupiedCells;
     private RelativeLayout gameBoard;
     private int currentBlueLocation = -1;
     private TextView mScoreTextView;
     private TextView mTimeTextView;
-    long startTime = 0;
+    private boolean isGameComplete;
 
     //runs without a timer by reposting this handler at the end of the runnable
     Handler timerHandler = new Handler();
@@ -44,7 +50,7 @@ public class GameActivity extends Activity {
             Time.update();
 
             if (Time.isTimeUp()) {
-                onGameOver();
+                onGameOver(GAMEOVER_VIA_TIMEOUT);
                 timerHandler.removeCallbacks(this);
             }
 
@@ -64,6 +70,18 @@ public class GameActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        // Obtain the shared Tracker instance.
+        mTracker = ((TapBlueApp)getApplication()).getDefaultTracker();
+        mTracker.setScreenName(TAG);
+        mTracker.send(new HitBuilders.AppViewBuilder().build());
+
+        //This is for when the user plays multiple sessions in one go.
+        if (getIntent().getExtras() != null) {
+            iRestartVia = getIntent().getExtras().getString(Constants.INTENT_RESART_VIA);
+        }
+
+        isGameComplete = false;
 
         gameBoard = (RelativeLayout)findViewById(R.id.game_board);
         mScoreTextView = (TextView)findViewById(R.id.game_score);
@@ -212,9 +230,8 @@ public class GameActivity extends Activity {
     private void onCellTouch(int buttonId) {
         //We only want to continue if the blue cell was selected. Otherwise it's game over.
         if (buttonId != currentBlueLocation) {
-            //TODO - This would be game over.
             Log.d(TAG, "Game Over!");
-            onGameOver();
+            onGameOver(GAMEOVER_VIA_MISS);
             return;
         }
         //The blue cell was selected, so move to next level.
@@ -235,11 +252,12 @@ public class GameActivity extends Activity {
         Colors.incrementMaxColorRange();
     }
 
-    private void onGameOver() {
+    private void onGameOver(String gameOverReason) {
+        isGameComplete = true;
         Time.updateGameTime();
         Intent i = new Intent(GameActivity.this, GameOverActivity.class);
         GameStats.get(this).addGameStat(new GameStat());
-        sendGameStats();
+        sendGameStats(gameOverReason);
         startActivity(i);
     }
 
@@ -253,9 +271,9 @@ public class GameActivity extends Activity {
         return id >= gameBoard.getChildCount() ? 0 : id;
     }
 
-    private void sendGameStats() {
+    private void sendGameStats(String gameOverReason) {
         GameStat latestGameStat = GameStats.get(this).getLatestGameStat();
-        /*String label = "Score";
+        String label = "Score";
         int gamesPlayed = GameStats.get(this).getGameStats().size();
         if (latestGameStat.getmScoreRank() == 1) {
             label += " - New Best";
@@ -266,14 +284,13 @@ public class GameActivity extends Activity {
                 .setAction("Game Over")
                 .setLabel(label)
                 .setValue(Score.get())
-                .build());*/
+                .build());
 
-
-        /*mTracker.send(new HitBuilders.EventBuilder()
+        mTracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Achievement")
                 .setAction("Game Over")
-                .setLabel("Games Played")
-                .setValue(gamesPlayed)
+                .setLabel(gameOverReason)
+                .setValue(Score.get())
                 .build());
 
         //Complete Game for First Time
@@ -301,6 +318,43 @@ public class GameActivity extends Activity {
                     .setLabel("Completed game after restart - " + (Score.get() > 0 ? "With Score" : "No Score") + " (Via " + iRestartVia + ")")
                     .setValue(Score.get())
                     .build());
-        }*/
+        }
+    }
+
+    @Override
+    public void onStop() {
+        //Only send report when the game is stopped before game completes.
+        if (!isGameComplete) {
+            sendStateReport("Stopped");
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onRestart() {
+        sendStateReport("Resumed");
+        super.onRestart();
+    }
+
+    private void sendStateReport(String state) {
+        //Check if its the first ever game
+        if (GameStats.get(this).getGameStats().size() == 0) {
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Usage")
+                    .setAction("Abort")
+                    .setLabel(state + " first ever game - " + (Score.get() > 0 ? "With Score" : "No Score"))
+                    .setValue(Score.get())
+                    .build());
+        }
+
+        //Check if its a consecutive game in same session
+        if (iRestartVia != null && !iRestartVia.equals("")) {
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Usage")
+                    .setAction("Abort")
+                    .setLabel(state + " game after restart - " + (Score.get() > 0 ? "With Score" : "No Score") + " (Via " + iRestartVia + ")")
+                    .setValue(Score.get())
+                    .build());
+        }
     }
 }
