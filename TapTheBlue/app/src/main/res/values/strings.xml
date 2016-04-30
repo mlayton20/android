@@ -21,6 +21,6 @@
     <string name="highscore_back_button">&lt;</string>
     <string name="highscore_title">Stats</string>
     <string name="highscore_empty_text">Nothing to show</string>
-    <string name="rate_title">Rate Tap The Blue</string>
+    <string name="rate_title">Rate Tap Blue</string>
     <string name="rate_text">If you enjoy playing, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
 </resources>

@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.kobakei.ratethisapp.RateThisApp;
 
 /**
  * Created by matthewlayton on 24/04/2016.
@@ -50,7 +51,7 @@ public class SplashScreenActivity extends Activity {
         });
 
         // Custom criteria: 3 days and 3 launches
-        /*RateThisApp.Config config = new RateThisApp.Config(3, 3);
+        RateThisApp.Config config = new RateThisApp.Config(3, 3);
         // Custom title and message
         config.setTitle(R.string.rate_title);
         config.setMessage(R.string.rate_text);
@@ -72,7 +73,7 @@ public class SplashScreenActivity extends Activity {
             public void onCancelClicked() {
                 sendActionEvent("Splash - Rate - Cancel");
             }
-        });*/
+        });
     }
 
     @Override
@@ -80,9 +81,9 @@ public class SplashScreenActivity extends Activity {
         super.onStart();
 
         // Monitor launch times and interval from installation
-        //RateThisApp.onStart(this);
+        RateThisApp.onStart(this);
         // If the criteria is satisfied, "Rate this app" dialog will be shown
-        //RateThisApp.showRateDialogIfNeeded(this);
+        RateThisApp.showRateDialogIfNeeded(this);
     }
 
     private void sendActionEvent(String action) {
