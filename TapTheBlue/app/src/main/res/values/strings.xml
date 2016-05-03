@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Tap Blue</string>
+    <string name="google_public_key_1">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsr5LGwk40NtyLYYMcZSkg3K02o1Hd3WayjIFAzQbVHkUtuvvQcKtQH/RLyz1zxNPfPe04GKeAqBQCcr+</string>
+    <string name="google_public_key_2">WfKZVROBdIKwJFruWzqmDMZDtmOYQWwH4FnU5OwwfaNkD0h7BEvmJVCFuUvXZr10pQEPOXVtzvxrwysJJ9HGumegY1Fqtml69CyHRFByQIXgziPDvmigR3zwF2RTIldUl32rE7BAS2GqpcENDQn+</string>
+    <string name="google_public_key_3">zgdjWt3035DX5huEU0DNi2AssX+xURHAegM+7yxzwlN0PmtHnNqkPf943kH+a8nXQQeid2qVY8cEWiSSBxbQLTlEYLSPWunv6W9ya40fX9g6gmsE8wIDAQAB</string>
     <string name="game_score_default">0</string>
     <string name="gameover_title">Nice Job!</string>
     <string name="gameover_score">Score</string>
@@ -9,18 +12,23 @@
     <string name="gameover_button_restart">Restart</string>
     <string name="gameover_button_mainmenu">Menu</string>
     <string name="gameover_button_share">Share</string>
-    <string name="gameover_share_url">https://goo.gl/GtXSXL</string>
+    <string name="share_url">https://goo.gl/GtXSXL</string>
     <string name="gameover_share_subject">I tapped %1$s blues. Can you beat that?</string>
     <string name="splash_title_first">Tap</string>
     <string name="splash_title_second">Blue</string>
     <string name="splash_leaderboard_button">Stats</string>
     <string name="splash_shop_button">Shop</string>
     <string name="splash_share_button">Share</string>
+    <string name="splash_share_subject">Beat my score if you can</string>
     <string name="highscore_label">High Scores</string>
     <string name="highscore_default_value">888</string>
-    <string name="highscore_back_button">&lt;</string>
+    <string name="back_button">&lt;</string>
     <string name="highscore_title">Stats</string>
     <string name="highscore_empty_text">Nothing to show</string>
     <string name="rate_title">Rate Tap Blue</string>
     <string name="rate_text">If you enjoy playing, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
+    <string name="shop_title">Shop</string>
+    <string name="shop_product_remove_ads">Remove Ads</string>
+    <string name="shop_product_default_price">£1.99</string>
+    <string name="shop_product_paid">Paid</string>
 </resources>

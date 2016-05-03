@@ -104,7 +104,7 @@ public class GameOverActivity extends Activity {
                 i.putExtra(Intent.EXTRA_SUBJECT,
                         getString(R.string.gameover_share_subject,
                                 Score.getLabel()));
-                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.gameover_share_url));
+                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_url));
                 startActivity(i);
             }
         });

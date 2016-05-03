@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20sp"
         android:background="@android:color/transparent"
-        android:text="@string/highscore_back_button"
+        android:text="@string/back_button"
         android:textColor="@color/white"
         android:textSize="36sp" />
 

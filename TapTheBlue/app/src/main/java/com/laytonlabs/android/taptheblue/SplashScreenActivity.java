@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.kobakei.ratethisapp.RateThisApp;
+import com.laytonlabs.android.taptheblue.game.Score;
 
 /**
  * Created by matthewlayton on 24/04/2016.
@@ -19,6 +20,8 @@ public class SplashScreenActivity extends Activity {
     private Tracker mTracker;
     private ImageButton mPlayButton;
     private ImageButton mStatsButton;
+    private ImageButton mShopButton;
+    private ImageButton mShareButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,29 @@ public class SplashScreenActivity extends Activity {
             public void onClick(View v) {
                 sendActionEvent("Splash - Stats");
                 Intent i = new Intent(SplashScreenActivity.this, HighscoreActivity.class);
+                startActivity(i);
+            }
+        });
+
+        mShopButton = (ImageButton)findViewById(R.id.splash_shop_button);
+        mShopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendActionEvent("Splash - Shop");
+                Intent i = new Intent(SplashScreenActivity.this, ShopActivity.class);
+                startActivity(i);
+            }
+        });
+
+        mShareButton = (ImageButton)findViewById(R.id.splash_share_button);
+        mShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendActionEvent("Splash - Share");
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.splash_share_subject));
+                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_url));
                 startActivity(i);
             }
         });
