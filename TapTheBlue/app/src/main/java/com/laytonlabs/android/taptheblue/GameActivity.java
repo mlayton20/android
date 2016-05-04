@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.laytonlabs.android.taptheblue.game.Colors;
@@ -33,6 +36,7 @@ public class GameActivity extends Activity {
     private static final String GAMEOVER_VIA_TIMEOUT = "GameOver Via Timeout";
     private static final String GAMEOVER_VIA_MISS = "GameOver Via Miss";
     private Tracker mTracker;
+    private InterstitialAd mInterstitialAd;
     private String iRestartVia;
     private ArrayList<Integer> occupiedCells;
     private RelativeLayout gameBoard;
@@ -76,6 +80,20 @@ public class GameActivity extends Activity {
         mTracker.setScreenName(TAG);
         mTracker.send(new HitBuilders.AppViewBuilder().build());
 
+        //Google Ads call to get a new full screen banner ad after game ends.
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+                goToGameOverScreen();
+            }
+        });
+
+        requestNewInterstitial();
+
         //This is for when the user plays multiple sessions in one go.
         if (getIntent().getExtras() != null) {
             iRestartVia = getIntent().getExtras().getString(Constants.INTENT_RESART_VIA);
@@ -99,6 +117,14 @@ public class GameActivity extends Activity {
         initBoard(gameBoard);
         clearBoard(gameBoard);
         placeBlueCell(gameBoard);
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("5E68FCB4DE8AFC4C4DE55B90D685F618")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 
     @Override
@@ -255,9 +281,24 @@ public class GameActivity extends Activity {
     private void onGameOver(String gameOverReason) {
         isGameComplete = true;
         Time.updateGameTime();
-        Intent i = new Intent(GameActivity.this, GameOverActivity.class);
         GameStats.get(this).addGameStat(new GameStat());
         sendGameStats(gameOverReason);
+
+        //TODO - Go to gameover screen or call interstital ad.
+        showInterstitial();
+    }
+
+    private void showInterstitial() {
+        // Show the ad if it's ready. Otherwise toast and restart the game.
+        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            goToGameOverScreen();
+        }
+    }
+
+    private void goToGameOverScreen() {
+        Intent i = new Intent(GameActivity.this, GameOverActivity.class);
         startActivity(i);
     }
 
