@@ -289,6 +289,12 @@ public class GameActivity extends Activity {
     }
 
     private void showInterstitial() {
+        //If the user has bought remove ads, dont show the ads.
+        if (Constants.hasPurchasedRemoveAds()) {
+            goToGameOverScreen();
+            return;
+        }
+
         // Show the ad if it's ready. Otherwise toast and restart the game.
         if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();

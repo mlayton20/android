@@ -124,7 +124,8 @@ public class ShopActivity extends Activity {
             else if (purchase.getSku().equals(Constants.SKU_REMOVE_ADS)) {
                 //Store the remove ads value in app to show that the person has bought the adfree version.
                 Constants.setPurchaseRemoveAds(true);
-                updateButtonToPaid(mButtonRemoveAds);
+                mButtonRemoveAds.setEnabled(false);
+                mButtonRemoveAds.setText(R.string.shop_product_paid);
             }
         }
     };
@@ -145,16 +146,12 @@ public class ShopActivity extends Activity {
 
             //Disable the buy button if its already bought.
             if (inventory.hasPurchase(Constants.SKU_REMOVE_ADS)) {
-                updateButtonToPaid(mButtonRemoveAds);
+                mButtonRemoveAds.setEnabled(false);
+                mButtonRemoveAds.setText(R.string.shop_product_paid);
                 //TODO - Make the app a greyed out button
             }
         }
     };
-
-    private void updateButtonToPaid(Button button) {
-        button.setEnabled(false);
-        button.setText(R.string.shop_product_paid);
-    }
 
     private void sendActionEvent(String action) {
         mTracker.send(new HitBuilders.EventBuilder()

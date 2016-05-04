@@ -10,7 +10,7 @@ public class Constants {
     public static final String SKU_REMOVE_ADS = "removeads_001";
     public static boolean purchaseRemoveAds = false;
 
-    public static boolean isPurchaseRemoveAds() {
+    public static boolean hasPurchasedRemoveAds() {
         return purchaseRemoveAds;
     }
 
