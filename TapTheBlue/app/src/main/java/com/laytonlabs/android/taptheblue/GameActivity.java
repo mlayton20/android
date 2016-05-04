@@ -121,7 +121,7 @@ public class GameActivity extends Activity {
 
     private void requestNewInterstitial() {
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("5E68FCB4DE8AFC4C4DE55B90D685F618")
+                //.addTestDevice("5E68FCB4DE8AFC4C4DE55B90D685F618")
                 .build();
 
         mInterstitialAd.loadAd(adRequest);

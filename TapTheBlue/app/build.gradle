@@ -14,7 +14,7 @@ android {
         applicationId "com.laytonlabs.android.tapblue"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 4
+        versionCode 6
         versionName "1.2"
     }
     dependencies {

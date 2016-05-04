@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Tap Blue</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-4295275881144000/3766332974</string>
     <string name="google_public_key_1">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsr5LGwk40NtyLYYMcZSkg3K02o1Hd3WayjIFAzQbVHkUtuvvQcKtQH/RLyz1zxNPfPe04GKeAqBQCcr+</string>
     <string name="google_public_key_2">WfKZVROBdIKwJFruWzqmDMZDtmOYQWwH4FnU5OwwfaNkD0h7BEvmJVCFuUvXZr10pQEPOXVtzvxrwysJJ9HGumegY1Fqtml69CyHRFByQIXgziPDvmigR3zwF2RTIldUl32rE7BAS2GqpcENDQn+</string>
     <string name="google_public_key_3">zgdjWt3035DX5huEU0DNi2AssX+xURHAegM+7yxzwlN0PmtHnNqkPf943kH+a8nXQQeid2qVY8cEWiSSBxbQLTlEYLSPWunv6W9ya40fX9g6gmsE8wIDAQAB</string>
