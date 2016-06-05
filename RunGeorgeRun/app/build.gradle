@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.kilobolt.robotgame"
+        applicationId "com.laytonslab.rungeorgerun"
         minSdkVersion 8
         targetSdkVersion 17
     }
