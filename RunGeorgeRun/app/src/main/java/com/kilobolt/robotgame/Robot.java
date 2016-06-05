@@ -67,17 +67,17 @@ public class Robot {
 		}
 
 		// Prevents going beyond X coordinate of 0
-		if (centerX + speedX <= 60) {
-			centerX = 61;
+		if (centerX + speedX <= 22) {
+			centerX = 23;
 		}
 
-		rect.set(centerX - 34, centerY - 63, centerX + 34, centerY);
-		rect2.set(rect.left, rect.top + 63, rect.left+68, rect.top + 128);
-		rect3.set(rect.left - 26, rect.top+32, rect.left, rect.top+52);
-		rect4.set(rect.left + 68, rect.top+32, rect.left+94, rect.top+52);
-		yellowRed.set(centerX - 110, centerY - 110, centerX + 70, centerY + 70);
-		footleft.set(centerX - 50, centerY + 20, centerX, centerY + 35);
-		footright.set(centerX, centerY + 20, centerX+50, centerY+35);
+		rect.set(centerX - 14, centerY - 63, centerX + 14, centerY);
+		rect2.set(rect.left, rect.top + 63, rect.left+28, rect.top + 128);
+		rect3.set(rect.left - 6, rect.top+32, rect.left, rect.top+52);
+		rect4.set(rect.left + 48, rect.top+32, rect.left+74, rect.top+52);
+		yellowRed.set(centerX - 90, centerY - 110, centerX + 50, centerY + 70);
+		footleft.set(centerX - 30, centerY + 20, centerX, centerY + 35);
+		footright.set(centerX, centerY + 20, centerX+30, centerY+35);
 
 
 	}
@@ -129,7 +129,7 @@ public class Robot {
 
 	public void shoot() {
 		if (readyToFire) {
-			Projectile p = new Projectile(centerX + 50, centerY - 25);
+			Projectile p = new Projectile(centerX + 10, centerY - 25);
 			projectiles.add(p);
 		}
 	}

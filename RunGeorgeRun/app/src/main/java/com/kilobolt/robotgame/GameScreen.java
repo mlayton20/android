@@ -326,7 +326,7 @@ public class GameScreen extends Screen {
 		}
 		// First draw the game elements.
 
-		g.drawImage(currentSprite, robot.getCenterX() - 61,
+		g.drawImage(currentSprite, robot.getCenterX() - 2,
 				robot.getCenterY() - 63);
 		g.drawImage(hanim.getImage(), hb.getCenterX() - 48,
 				hb.getCenterY() - 48);
