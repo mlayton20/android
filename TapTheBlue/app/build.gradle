@@ -2,10 +2,14 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'myandroidkey'
-            keyPassword 'scm7ml'
-            storeFile file('/Users/matthewlayton/Documents/Apps/KeyStore/android.jks')
-            storePassword 'scm7ml'
+            def propsFile = rootProject.file('keystore.properties')
+            def props = new Properties()
+            props.load(new FileInputStream(propsFile))
+
+            keyAlias props['keyAlias']
+            keyPassword props['keyPassword']
+            storeFile file(props['storeFile'])
+            storePassword props['storePassword']
         }
     }
     compileSdkVersion 23
